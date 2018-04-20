@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/drawer_item_account"
+            android:title="@string/drawer_title_account"/>
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/drawer_item_favorites"
+            android:title="@string/drawer_title_favorites"/>
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/drawer_item_setting"
+            android:title="@string/drawer_title_setting"/>
+        <item
+            android:id="@+id/nav_day_night"
+            android:icon="@drawable/drawer_item_night"
+            android:title="@string/drawer_title_night"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/drawer_item_logout"
+            android:title="@string/drawer_title_logout"/>
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/drawer_item_exit"
+            android:title="@string/drawer_title_exit"/>
+    </group>
+</menu>

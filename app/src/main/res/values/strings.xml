@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">MPT</string>
+    <string name="title_activity_main">题库</string>
+    <string name="bottom_title_home">主页</string>
+    <string name="bottom_title_add">出题</string>
+    <string name="bottom_title_account">我的</string>
+    <string name="drawer_title_account">账户编辑</string>
+    <string name="drawer_title_favorites">我的收藏</string>
+    <string name="drawer_title_setting">设置</string>
+    <string name="drawer_title_day">白天模式</string>
+    <string name="drawer_title_night">夜间模式</string>
+    <string name="drawer_title_logout">退出登陆</string>
+    <string name="drawer_title_exit">退出应用</string>
+    <string name="drawer_header_username_default">Username</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

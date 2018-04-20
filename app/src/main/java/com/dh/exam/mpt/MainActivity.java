@@ -1,0 +1,183 @@
+package com.dh.exam.mpt;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
+
+    private static final String TAG = "MainActivity";
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
+
+    private Paper[] papers = {
+            new Paper("2018计算机二级考试","计算机","教育部计算机办公室",50,false),
+            new Paper("2017全国高等招生考试","高考","教育部高考办公室",40,false),
+            new Paper("2017全国硕士生招生考试英语","考研","教育部考研办公室",78,false),
+            new Paper("2018雅思考试","英语","英语",20,false),
+            new Paper("2016-2017软件学院数理逻辑期末考试","数理","北邮理学院",60,false),};
+    private List<Paper> paperList=new ArrayList<>();
+    private PaperAdapter adapter;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        init();
+    }
+
+    public void init(){
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        toolbar=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView=(NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){//设置导航按钮，打开滑动菜单
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+
+        fab=(FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+
+        initPapers();
+        RecyclerView recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager=new  LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new PaperAdapter(paperList);
+        recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);//设置刷新进度条颜色
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {//下拉刷新
+                refreshPapers();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fab   :
+                Toast.makeText(this, "new fab", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            //BottomNavigationView
+            case R.id.navigation_home:
+                //主页
+                Toast.makeText(this,getResources().getString(R.string.bottom_title_home) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation_add:
+                //新建试卷
+                Toast.makeText(this,getResources().getString(R.string.bottom_title_add) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation_account:
+                //打开抽屉菜单
+                drawerLayout.openDrawer(GravityCompat.START);//打开抽屉菜单
+                return true;
+
+            //NavigationView
+            case R.id.nav_account:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_account) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_favorites:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_setting:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_setting) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_day_night:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_night) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_logout:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_logout) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_exit:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_exit) , Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){//HomeAsUp按钮
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);//打开抽屉菜单
+                return true;
+        }
+        return false;
+    }
+
+    private void initPapers() {//初始化试卷数据
+        paperList.clear();
+        for (int i = 0; i < 20; i++) {
+            Random random = new Random();
+            int index = random.nextInt(papers.length);
+            paperList.add(papers[index]);
+        }
+    }
+
+    private  void refreshPapers(){//刷新逻辑
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initPapers();//模拟获取新数据
+                        adapter.notifyDataSetChanged();//模拟展示新数据
+                        swipeRefreshLayout.setRefreshing(false);//隐藏刷新进度条
+                    }
+                });
+            }
+        }).start();
+    }
+}
