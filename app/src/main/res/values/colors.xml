@@ -3,7 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="deepSkyBlue">#00BFFF</color>
+    <color name="DoderBlue">#1E90FF</color>
+    <color name="bg_btn_normal_color">#00BFFF</color>
+    <color name="bg_btn_press_color">#1E90FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent_black">#10000000</color>
+    <color name="hint_font_color">#9a9a9a</color>
 </resources>

@@ -14,4 +14,27 @@
     <string name="drawer_header_username_default">Username</string>
     <string name="btn_register">注册</string>
     <string name="btn_login">登陆</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="account">账 户</string>
+    <string name="pwd">密 码</string>
+    <string name="title_login">登陆</string>
+    <string name="hint_account">用户名/手机号</string>
+    <string name="hint_pwd">请输入密码</string>
+    <string name="phone_one_key_login">手机号注册登陆</string>
+    <string name="account_login">账户登陆</string>
+    <string name="phone_one_key_register">手机号注册</string>
+    <string name="phone_num">手机号</string>
+    <string name="verify_code">验证码</string>
+    <string name="request_code">发送验证码</string>
+    <string name="hint_et_phone">请输入11位手机号</string>
+    <string name="hint_et_code">请输入6位验证码</string>
+    <string name="username">用户昵称</string>
+    <string name="set_pwd">设置密码</string>
+    <string name="set_pwd_hint">请设置密码</string>
+    <string name="username_et_hint">请输入用户名</string>
+    <string name="pwd_repeat">确认密码</string>
+    <string name="hint_pwd_repeat">请再次输入密码</string>
+
 </resources>

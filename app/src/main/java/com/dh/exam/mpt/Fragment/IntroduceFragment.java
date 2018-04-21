@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.dh.exam.mpt.LoginActivity;
 import com.dh.exam.mpt.R;
 
 /**
@@ -75,7 +76,7 @@ public class IntroduceFragment extends Fragment implements View.OnClickListener 
 //                RegisterActivity.actionStart(getContext(),"","");
                 break;
             case R.id.btn_login://注册
-//                LoginActivity.actionStart(getContext(),"","");
+                LoginActivity.actionStart(getContext(),"","");
                 break;
             default:
         }

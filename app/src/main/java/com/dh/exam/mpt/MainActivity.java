@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //NavigationView
             case R.id.nav_account:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_account) , Toast.LENGTH_SHORT).show();
+                LoginActivity.actionStart(MainActivity.this,"","");
                 return true;
             case R.id.nav_favorites:
                 Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
