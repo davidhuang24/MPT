@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 半透明，圆角 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--solid设置填充颜色-->
+    <solid android:color="#30000000" />
+    <!--stroke 描边-->
+    <stroke android:width="1dip" android:color="#aea594" />
+    <!--corners圆角设置-->
+    <corners
+        android:topLeftRadius="13dp"
+        android:topRightRadius="13dp"
+        android:bottomRightRadius="13dp"
+        android:bottomLeftRadius="13dp"/>
+
+</shape>
