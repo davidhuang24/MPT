@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.Fragment;
+package com.dh.exam.mpt.avtivity.Fragment;
 
 
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.widget.Button;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.dh.exam.mpt.LoginActivity;
+import com.dh.exam.mpt.avtivity.LoginActivity;
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.avtivity.RegisterActivity;
 
 /**
  * 介绍碎片,用于介绍APP功能特性，第一次启动APP时调用
@@ -73,7 +74,7 @@ public class IntroduceFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {//登录
             case R.id.btn_register:
-//                RegisterActivity.actionStart(getContext(),"","");
+                RegisterActivity.actionStart(getContext(),"","");
                 break;
             case R.id.btn_login://注册
                 LoginActivity.actionStart(getContext(),"","");

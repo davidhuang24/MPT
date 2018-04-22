@@ -1,4 +1,4 @@
-package com.dh.exam.mpt;
+package com.dh.exam.mpt.avtivity;
 
 
 import android.content.SharedPreferences;
@@ -9,15 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.dh.exam.mpt.Fragment.IntroduceFragment;
-import com.dh.exam.mpt.Fragment.StartFragment;
+import com.dh.exam.mpt.avtivity.Fragment.IntroduceFragment;
+import com.dh.exam.mpt.avtivity.Fragment.StartFragment;
+import com.dh.exam.mpt.R;
 
 import cn.bmob.v3.Bmob;
 
 /**
  *启动界面,不同情况调用不同Fragment:第一次启动调用IntroduceFragment()；否则调用StartFragment()
  */
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
     private static final String BMOB_APP_KEY="42ab78bb163be6fe44298812dba4d5ce";
     @Override

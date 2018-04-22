@@ -24,10 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/ImmersiveTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".avtivity.MainActivity"
             android:label="@string/title_activity_main" />
         <activity
-            android:name=".StartActivity"
+            android:name=".avtivity.StartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -36,8 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".avtivity.LoginActivity" />
+        <activity android:name=".avtivity.RegisterActivity" />
+        <activity android:name=".avtivity.ResetPasswordActivity" />
+        <activity android:name=".avtivity.BindPhoneActivity"></activity>
     </application>
 
 </manifest>

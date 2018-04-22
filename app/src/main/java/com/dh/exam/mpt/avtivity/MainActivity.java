@@ -1,4 +1,4 @@
-package com.dh.exam.mpt;
+package com.dh.exam.mpt.avtivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +18,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dh.exam.mpt.Utils.ActivityCollector;
+import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.Paper;
+import com.dh.exam.mpt.entity.PaperAdapter;
+import com.dh.exam.mpt.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+import cn.bmob.v3.BmobUser;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MainActivity";
@@ -33,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private TextView tv_drawer_header_userPic;
+
+    private MPTUser currentUser;//当前缓存用户
 
     private Paper[] papers = {
             new Paper("2018计算机二级考试","计算机","教育部计算机办公室",50,false),
@@ -54,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void init(){
+        currentUser = BmobUser.getCurrentUser(MPTUser.class);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         toolbar=(Toolbar) findViewById(R.id.toolbar);
@@ -61,6 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        tv_drawer_header_userPic =(TextView) findViewById(R.id.username);
+//        if(currentUser==null){//显示用户名
+//            tv_drawer_header_userPic.setText(getResources().getString(R.string.drawer_header_username_default));
+//        }else{
+//            tv_drawer_header_userPic.setText(currentUser.getUsername());
+//        }
+
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){//设置导航按钮，打开滑动菜单
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -119,19 +139,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 LoginActivity.actionStart(MainActivity.this,"","");
                 return true;
             case R.id.nav_favorites:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
+                if(currentUser!=null){
+                    BindPhoneActivity.actionStart(MainActivity.this,"","");
+                }else{
+                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                }
+//                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_setting:
                 Toast.makeText(this,getResources().getString(R.string.drawer_title_setting) , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_day_night:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_night) , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "该功能正在开发中，敬请期待...", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_logout:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_logout) , Toast.LENGTH_SHORT).show();
+                logout();
                 return true;
-            case R.id.nav_exit:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_exit) , Toast.LENGTH_SHORT).show();
+            case R.id.nav_exit://退出APP
+                ActivityCollector.finishAll();//finish all activities
+                android.os.Process.killProcess(android.os.Process.myPid());//kill current process
                 return true;
         }
         return false;
@@ -188,6 +214,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("param1",data1);
         intent.putExtra("param2",data2);
         context.startActivity(intent);
+    }
+
+    /**
+     * 登出
+     */
+    public void logout(){
+        if(currentUser==null){//未登陆
+            Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+        }else {//已登陆
+            BmobUser.logOut();
+            currentUser= BmobUser.getCurrentUser(MPTUser.class);//更新当前用户
+            //头像变为默认头像
+            Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
+        }
     }
 
 

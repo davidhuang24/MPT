@@ -1,4 +1,4 @@
-package com.dh.exam.mpt;
+package com.dh.exam.mpt.avtivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
 
 import cn.bmob.v3.BmobSMS;
@@ -30,7 +31,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * @author DavidHuang
  *
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private static final int ACCOUNT_LOGIN=0;
     private static final int PHONE_LOGIN=1;
@@ -57,8 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void init(){
-        loginMode=ACCOUNT_LOGIN;
-        setLoginLayout();
         et_account=(EditText) findViewById(R.id.et_account);
         et_password=(EditText) findViewById(R.id.et_password);
         et_phone=(EditText) findViewById(R.id.et_phone);
@@ -68,14 +67,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tv_login_mode_switch=(TextView ) findViewById(R.id.tv_login_mode_switch);
         tv_register=(TextView ) findViewById(R.id.tv_register);
         btn_login=(Button) findViewById(R.id.btn_login);
-        account_login_layout=(LinearLayout) getLayoutInflater().inflate(R.id.layout_account_login,null);
+        account_login_layout=(LinearLayout)findViewById(R.id.layout_account_login);
         phone_login_layout=(LinearLayout) findViewById(R.id.layout_phone_login);
         tv_forget_pwd.setOnClickListener(this);
         tv_request_code.setOnClickListener(this);
         tv_login_mode_switch.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         btn_login.setOnClickListener(this);
-
+        loginMode=ACCOUNT_LOGIN;
+        setLoginLayout();
     }
     /**
      * 设置登陆布局
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.tv_forget_pwd://忘记密码
-
+                ResetPasswordActivity.actionStart(LoginActivity.this,"","");
                 break;
             case R.id.tv_request_code://请求验证码
                 requestSMSCode();
@@ -163,12 +163,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 progress.dismiss();
                 MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
                 if(ex==null){//登陆成功
-                    if(account.equals(currentUser.getEmail())&&!currentUser.getEmailVerified()){//解决“邮箱未验证却可以登入”的问题
-                        clearEmailOfUser(currentUser.getObjectId());
-                        BmobUser.logOut();
-                        Toast.makeText(LoginActivity.this, "您的邮箱未验证，请重新绑定邮箱", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     if(account.equals(currentUser.getMobilePhoneNumber())&&!currentUser.getMobilePhoneNumberVerified()){//解决“手机号未验证却可以登入”的问题
                         clearPhoneNumberOfUser(currentUser.getObjectId());
                         BmobUser.logOut();
@@ -226,22 +220,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    /**
-     *清除指定记录的email字段
-     */
-    void clearEmailOfUser(String userId){
-        MPTUser user=new MPTUser();
-        user.setObjectId(userId);
-        user.remove("email");
-        user.update(new UpdateListener() {
-            @Override
-            public void done(BmobException ex) {
-                if(ex!=null){
-                    Toast.makeText(LoginActivity.this, "清除当前用户的email失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
     /**
      *清除指定记录的mobilePhoneNumber字段
      */

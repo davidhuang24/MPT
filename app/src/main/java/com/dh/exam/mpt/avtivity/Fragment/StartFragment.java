@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.Fragment;
+package com.dh.exam.mpt.avtivity.Fragment;
 
 
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.dh.exam.mpt.MainActivity;
+import com.dh.exam.mpt.avtivity.MainActivity;
 import com.dh.exam.mpt.R;
-import com.dh.exam.mpt.StartActivity;
+import com.dh.exam.mpt.avtivity.StartActivity;
 
 /**
  * 启动碎片，用于展示广告或者APP的LOGO,非第一次启动调用

@@ -36,5 +36,10 @@
     <string name="username_et_hint">请输入用户名</string>
     <string name="pwd_repeat">确认密码</string>
     <string name="hint_pwd_repeat">请再次输入密码</string>
+    <string name="new_password">新密码</string>
+    <string name="hint_new_pwd">请输入新密码</string>
+    <string name="hint_ass_phone">请输入您账户关联的手机号</string>
+    <string name="reset_pwd">重置密码</string>
+    <string name="bind_phone">绑定手机号</string>
 
 </resources>

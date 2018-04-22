@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/user_image"
         android:text="@string/drawer_header_username_default"
-        android:textColor="#FFF"
+        android:textColor="#000"
         android:textSize="16sp"
         android:gravity="center_horizontal"/>
 

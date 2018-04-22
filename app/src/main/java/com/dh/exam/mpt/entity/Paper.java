@@ -1,4 +1,4 @@
-package com.dh.exam.mpt;
+package com.dh.exam.mpt.entity;
 
 /**
  *试卷类

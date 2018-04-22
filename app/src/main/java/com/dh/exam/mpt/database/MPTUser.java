@@ -1,4 +1,4 @@
-package com.dh.exam.mpt;
+package com.dh.exam.mpt.database;
 
 import cn.bmob.v3.BmobUser;
 

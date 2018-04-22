@@ -168,6 +168,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_et_phone"
+                        android:inputType="phone"
                         android:textColor="#444444"
                         android:textColorHint="@color/hint_font_color"
                         android:textSize="16sp"
