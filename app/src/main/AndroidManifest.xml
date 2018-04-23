@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -39,7 +40,10 @@
         <activity android:name=".avtivity.LoginActivity" />
         <activity android:name=".avtivity.RegisterActivity" />
         <activity android:name=".avtivity.ResetPasswordActivity" />
-        <activity android:name=".avtivity.BindPhoneActivity"></activity>
+        <activity android:name=".avtivity.BindPhoneActivity" />
+        <activity
+            android:name=".avtivity.ShowUserImageActivity"
+            android:label="@string/title_activity_user_img"/>
     </application>
 
 </manifest>

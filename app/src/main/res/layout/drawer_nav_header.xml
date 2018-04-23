@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:padding="10dp"
-    android:background="@drawable/user_picture_default"
+    android:background="@color/deepSkyBlue"
     android:fitsSystemWindows="true">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/user_picture_default"
         android:layout_centerInParent="true"/>
     <TextView
@@ -19,7 +19,8 @@
         android:layout_below="@id/user_image"
         android:text="@string/drawer_header_username_default"
         android:textColor="#000"
-        android:textSize="16sp"
-        android:gravity="center_horizontal"/>
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

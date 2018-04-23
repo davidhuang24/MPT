@@ -2,6 +2,7 @@ package com.dh.exam.mpt.avtivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,9 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +49,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
     private FloatingActionButton fab;
-    private TextView tv_drawer_header_userPic;
+    private TextView tv_header_userName;
+    private ImageView iv_header_userPic;
+
+
+
+    private PopupWindow popupWindow;//弹窗，用于选择头像
 
     private MPTUser currentUser;//当前缓存用户
 
@@ -66,7 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void init(){
-        currentUser = BmobUser.getCurrentUser(MPTUser.class);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         toolbar=(Toolbar) findViewById(R.id.toolbar);
@@ -74,12 +86,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        tv_drawer_header_userPic =(TextView) findViewById(R.id.username);
-//        if(currentUser==null){//显示用户名
-//            tv_drawer_header_userPic.setText(getResources().getString(R.string.drawer_header_username_default));
-//        }else{
-//            tv_drawer_header_userPic.setText(currentUser.getUsername());
-//        }
+
+        View headerLayout = navigationView.getHeaderView(0); // 0-index header
+        tv_header_userName =(TextView) headerLayout.findViewById(R.id.username);
+        iv_header_userPic=(ImageView) headerLayout.findViewById(R.id.user_image);
+        tv_header_userName.setOnClickListener(this);
+        iv_header_userPic.setOnClickListener(this);
+
+
 
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){//设置导航按钮，打开滑动菜单
@@ -90,7 +104,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         fab=(FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        initPapers();
+
         RecyclerView recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager=new  LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -108,10 +122,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        currentUser = BmobUser.getCurrentUser(MPTUser.class);
+        if(currentUser==null){//显示用户名
+            tv_header_userName.setText(getResources().getString(R.string.drawer_header_username_default));
+        }else{
+            tv_header_userName.setText(currentUser.getUsername());
+        }
+        initPapers();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab   :
                 Toast.makeText(this, "new fab", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.username  ://登陆
+                if(currentUser==null){
+                    LoginActivity.actionStart(MainActivity.this,"","");
+                }
+                break;
+
+            case R.id.user_image   ://设置头像
+                showPopupWindow();
+                break;
+            case R.id.pop_album://
+                Toast.makeText(this, "相册", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+                break;
+            case R.id.pop_camera://
+                Toast.makeText(this, "相机", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+                break;
+            case R.id.pop_cancel://
+                Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
                 break;
             default:
         }
@@ -135,16 +182,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 return true;
 
             //NavigationView
-            case R.id.nav_account:
-                LoginActivity.actionStart(MainActivity.this,"","");
-                return true;
-            case R.id.nav_favorites:
+            case R.id.nav_account://绑定手机号
                 if(currentUser!=null){
                     BindPhoneActivity.actionStart(MainActivity.this,"","");
                 }else{
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
                 }
-//                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.nav_favorites:
+                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.nav_setting:
                 Toast.makeText(this,getResources().getString(R.string.drawer_title_setting) , Toast.LENGTH_SHORT).show();
@@ -216,6 +262,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         context.startActivity(intent);
     }
 
+
+    public void showPopupWindow(){
+        View contentView= LayoutInflater.from(MainActivity.this).inflate(R.layout.popup_window,null);
+        popupWindow=new PopupWindow(contentView);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+
+        TextView tv_album=(TextView) contentView.findViewById(R.id.pop_album);
+        TextView tv_camera=(TextView) contentView.findViewById(R.id.pop_camera);
+        TextView tv_cancel=(TextView) contentView.findViewById(R.id.pop_cancel);
+        tv_album.setOnClickListener(this);
+        tv_camera.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+
+        View rootview = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
+        popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
+    }
+
     /**
      * 登出
      */
@@ -225,6 +289,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }else {//已登陆
             BmobUser.logOut();
             currentUser= BmobUser.getCurrentUser(MPTUser.class);//更新当前用户
+            tv_header_userName.setText(getResources().getString(R.string.drawer_header_username_default));
             //头像变为默认头像
             Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
         }

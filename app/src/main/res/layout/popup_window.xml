@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/deepSkyBlue">
+
+        <TextView
+            android:id="@+id/pop_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="从相册选择"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black_overlay"/>
+
+        <TextView
+            android:id="@+id/pop_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="相机"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black_overlay"/>
+
+        <TextView
+            android:id="@+id/pop_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="取消"/>
+
+
+    </LinearLayout>
+</RelativeLayout>
