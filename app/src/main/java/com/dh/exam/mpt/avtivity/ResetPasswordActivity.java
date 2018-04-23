@@ -97,7 +97,7 @@ public class ResetPasswordActivity extends BaseActivity implements View.OnClickL
         if (InputLeagalCheck.isPhoneNum(phoneNum)) {
             timer = new MyCountTimer(60000, 1000);
             timer.start();
-            BmobSMS.requestSMSCode(phoneNum,"SignUpIn", new QueryListener<Integer>(){
+            BmobSMS.requestSMSCode(phoneNum,getResources().getString(R.string.SMS_template), new QueryListener<Integer>(){
 
                 @Override
                 public void done(Integer smsId, BmobException ex) {
