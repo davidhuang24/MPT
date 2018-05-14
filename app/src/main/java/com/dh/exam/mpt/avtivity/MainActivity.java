@@ -184,16 +184,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             //NavigationView
             case R.id.nav_account://绑定手机号
                 if(currentUser!=null){
-                    BindPhoneActivity.actionStart(MainActivity.this,"","");
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
+                    }else {
+                        BindPhoneActivity.actionStart(MainActivity.this,1,"");
+                    }
                 }else{
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.nav_favorites:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_favorites) , Toast.LENGTH_SHORT).show();
+            case R.id.nav_favorites://解绑手机号
+                if(currentUser!=null){
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        UnbindChangePhoneActivity.actionStart(MainActivity.this,1,"");
+                    }else {
+                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.nav_setting:
-                Toast.makeText(this,getResources().getString(R.string.drawer_title_setting) , Toast.LENGTH_SHORT).show();
+                if(currentUser!=null){//修改手机号
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        UnbindChangePhoneActivity.actionStart(MainActivity.this,2,"");
+                    }else {
+                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.nav_day_night:
                 Toast.makeText(this, "该功能正在开发中，敬请期待...", Toast.LENGTH_SHORT).show();

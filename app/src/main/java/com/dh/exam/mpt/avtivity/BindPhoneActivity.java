@@ -32,6 +32,8 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
     private TextView tv_request_code;
     private Button btn_bind;
 
+    private int handleType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,13 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         btn_bind=(Button) findViewById(R.id.btn_bind_phone);
         tv_request_code.setOnClickListener(this);
         btn_bind.setOnClickListener(this);
+        Intent intent=getIntent();
+        handleType=intent.getIntExtra("type",1);
+        if(handleType==1){
+            btn_bind.setText(getResources().getText(R.string.bind_phone));
+        }else if(handleType==2){
+            btn_bind.setText(getResources().getText(R.string.change_phone_num));
+        }
     }
 
 
@@ -64,9 +73,17 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    public static void actionStart(Context context, String data1, String data2){
+
+    /**
+    *@Author: DavidHuang
+    *@Time: 18-5-14 下午7:42
+    *@return:
+    *@params: [context, type, data2] type表示操作类型，1绑定新手机号，2修改手机号
+    *@Descrption:
+    */
+    public static void actionStart(Context context, int type, String data2){
         Intent intent=new Intent(context,BindPhoneActivity.class);
-        intent.putExtra("param1",data1);
+        intent.putExtra("type",type);
         intent.putExtra("param2",data2);
         context.startActivity(intent);
     }

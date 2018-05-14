@@ -9,54 +9,7 @@
         android:layout_marginTop="130dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone_num"
-                android:textColor="#444444"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="#d2d2d2" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="5dp">
-                    <EditText
-                        android:id="@+id/et_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_ass_phone"
-                        android:textColor="#444444"
-                        android:inputType="phone"
-                        android:textColorHint="@color/hint_font_color"
-                        android:textSize="16sp"
-                        android:background="@null"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/deepSkyBlue" />
-            </LinearLayout>
-        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,16 +76,31 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_bind_phone"
+        android:id="@+id/btn_unbind_phone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/bg_btn_press_selector"
+        android:text="@string/unbind_phone"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:visibility="gone">
+    </Button>
+
+    <Button
+        android:id="@+id/btn_next_change_phone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/bg_btn_press_selector"
-        android:text="@string/bind_phone"
+        android:text="@string/next"
         android:textColor="#ffffff"
-        android:textSize="16sp">
+        android:textSize="16sp"
+        android:visibility="gone">
     </Button>
 </LinearLayout>
 

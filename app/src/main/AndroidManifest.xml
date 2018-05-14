@@ -43,7 +43,8 @@
         <activity android:name=".avtivity.BindPhoneActivity" />
         <activity
             android:name=".avtivity.ShowUserImageActivity"
-            android:label="@string/title_activity_user_img"/>
+            android:label="@string/title_activity_user_img" />
+        <activity android:name=".avtivity.UnbindChangePhoneActivity"></activity>
     </application>
 
 </manifest>

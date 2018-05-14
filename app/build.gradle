@@ -43,13 +43,3 @@ dependencies {
     compile 'cn.bmob.android:bmob-im:2.0.5@aar'
     compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
 }
-
-
-
-
-
-
-
-
-
-
