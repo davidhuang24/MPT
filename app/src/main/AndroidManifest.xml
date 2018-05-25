@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:allowBackup="true"
@@ -24,6 +24,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ImmersiveTheme">
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name=".avtivity.MainActivity"
             android:label="@string/title_activity_main" />
@@ -42,9 +48,20 @@
         <activity android:name=".avtivity.ResetPasswordActivity" />
         <activity android:name=".avtivity.BindPhoneActivity" />
         <activity
-            android:name=".avtivity.ShowUserImageActivity"
+            android:name=".avtivity.UserImageActivity"
             android:label="@string/title_activity_user_img" />
-        <activity android:name=".avtivity.UnbindChangePhoneActivity"></activity>
+        <activity android:name=".avtivity.UnbindChangePhoneActivity"/>
+        <activity android:name=".avtivity.CropResultActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="@string/file_provider_authorities"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
     </application>
 
 </manifest>

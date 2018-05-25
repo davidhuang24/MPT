@@ -46,5 +46,23 @@
     <string name="SMS_template">SignIn</string>
     <string name="next">下一步</string>
     <string name="change_phone_num">修改手机号</string>
+    <string name="file_provider_authorities">com.dh.exam.mpt.provider</string>
+    <string name="sheet_dialog_item">从相册选择</string>
+    <string name="sheet_dialog_title">选择头像</string>
+    <string name="permission_title_rationale">需要权限</string>
+    <string name="label_ok">确定</string>
+    <string name="label_cancel">取消</string>
+    <string name="permission_read_storage_rationale">选择图片需要读外部存储权限</string>
+    <string name="permission_write_storage_rationale">保存图片需要写外部存储权限</string>
+    <string name="label_select_picture">选择图片</string>
+    <string name="toast_cannot_retrieve_selected_image">选择图片失败</string>
+    <string name="toast_cannot_retrieve_cropped_image">裁剪图片失败</string>
+    <string name="toast_unexpected_error">异常</string>
+    <string name="channel_name">UCrop通道</string>
+    <string name="channel_description">ucrop结果</string>
+    <string name="format_crop_result_d_d">裁剪结果 (%1$dx%2$d)</string>
+    <string name="menu_download">保存图片</string>
+    <string name="notification_image_saved">图片已保存</string>
+    <string name="notification_image_saved_click_to_preview">图片已保存，点击查看</string>
 
 </resources>

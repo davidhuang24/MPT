@@ -2,7 +2,6 @@ package com.dh.exam.mpt.avtivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,19 +11,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = "MainActivity";
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
@@ -54,7 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
 
-    private PopupWindow popupWindow;//弹窗，用于选择头像
+
 
     private MPTUser currentUser;//当前缓存用户
 
@@ -146,21 +140,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.user_image   ://设置头像
-                showPopupWindow();
+                UserImageActivity.actionStart(MainActivity.this,"","");
                 break;
-            case R.id.pop_album://
-                Toast.makeText(this, "相册", Toast.LENGTH_SHORT).show();
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_camera://
-                Toast.makeText(this, "相机", Toast.LENGTH_SHORT).show();
-                popupWindow.dismiss();
-                break;
-            case R.id.pop_cancel://
-                Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
-                popupWindow.dismiss();
-                break;
-            default:
+                default:
         }
     }
 
@@ -231,7 +213,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar,menu);
+        getMenuInflater().inflate(R.menu.user_img_activity_toolbar,menu);
         return true;
     }
     @Override
@@ -243,6 +225,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }
         return false;
     }
+
 
     private void initPapers() {//初始化试卷数据
         paperList.clear();
@@ -283,22 +266,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    public void showPopupWindow(){
-        View contentView= LayoutInflater.from(MainActivity.this).inflate(R.layout.popup_window,null);
-        popupWindow=new PopupWindow(contentView);
-        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
 
-        TextView tv_album=(TextView) contentView.findViewById(R.id.pop_album);
-        TextView tv_camera=(TextView) contentView.findViewById(R.id.pop_camera);
-        TextView tv_cancel=(TextView) contentView.findViewById(R.id.pop_cancel);
-        tv_album.setOnClickListener(this);
-        tv_camera.setOnClickListener(this);
-        tv_cancel.setOnClickListener(this);
-
-        View rootview = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
-        popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
-    }
 
     /**
      * 登出

@@ -11,8 +11,11 @@ import android.text.TextUtils;
  */
 
 public class InputLeagalCheck {
+
     /**
-     *密码检测：6-16位字母或者数字，但不能是纯数字或纯密码
+     * 密码检测：6-16位字母或者数字，但不能是纯数字或纯密码
+     * @param input 待检测字符串
+     * @return 检测结果
      */
     public static boolean isPassword(String input){
         String regex="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";//密码正则表达式
@@ -22,9 +25,8 @@ public class InputLeagalCheck {
             return input.matches(regex);
         }
     }
-    /**
-     *手机号检测：第一位为1，后面10位0-9数字
-     */
+
+    /*手机号检测：第一位为1，后面10位0-9数字*/
     public static boolean isPhoneNum(String input){
         String regex = "[1]\\d{10}";//手机号正则表达式
         if(TextUtils.isEmpty(input)){
@@ -33,9 +35,8 @@ public class InputLeagalCheck {
             return input.matches(regex);
         }
     }
-    /**
-     *Email检测
-     */
+
+    //Email检测
     public static boolean isEmail(String input){
         String regex = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";//Email正则表达式
         if(TextUtils.isEmpty(input)){

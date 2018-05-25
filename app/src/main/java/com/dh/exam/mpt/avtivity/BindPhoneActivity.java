@@ -23,6 +23,10 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
+/**
+ *
+ */
+
 public class BindPhoneActivity extends BaseActivity implements View.OnClickListener{
 
     private MyCountTimer timer;

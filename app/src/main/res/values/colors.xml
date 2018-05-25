@@ -8,6 +8,7 @@
     <color name="bg_btn_normal_color">#00BFFF</color>
     <color name="bg_btn_press_color">#1E90FF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="dark_black">#FF0A0A0A</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent_black">#10000000</color>
     <color name="hint_font_color">#9a9a9a</color>
