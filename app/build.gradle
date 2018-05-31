@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.dh.exam.mpt"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -45,7 +45,10 @@ dependencies {
     implementation 'com.daimajia.slider:library:1.1.5@aar'
 
     implementation ('cn.bmob.android:bmob-sdk:3.5.5')
-            { exclude group: 'com.squareup.okhttp3' }
 
-    implementation 'com.github.yalantis:ucrop:2.2.2'
+
+    implementation ('com.github.yalantis:ucrop:2.2.2')
+            { exclude group: 'com.squareup.okhttp3' }//解决okhttp3依赖冲突bug
+
+
 }
