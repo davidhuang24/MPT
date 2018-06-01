@@ -2,8 +2,9 @@ package com.dh.exam.mpt.entity;
 
 /**
  *试卷类
+ *
+ *@author DavidHuang  at 下午3:37 18-5-31
  */
-
 public class Paper {
     private String paperName;
     private String paperKind;

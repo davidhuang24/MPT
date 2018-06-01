@@ -77,12 +77,8 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
     }
 
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-14 下午5:30
-    *@return:
-    *@params: []
-    *@Descrption: 请求验证码
-    */
+     * 请求验证码
+     */
     private void requestSMSCode() {
         String phoneNum = currentUser.getMobilePhoneNumber();
         if (InputLeagalCheck.isPhoneNum(phoneNum)) {
@@ -107,14 +103,11 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
             Toast.makeText(this, "请输入正确格式的手机号", Toast.LENGTH_SHORT).show();
         }
     }
-
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-14 下午5:30
-    *@return:
-    *@params: [type] 操做类型 ：1表示解绑，2表示修改手机号
-    *@Descrption: 验证验证码
-    */
+     * 验证验证码
+     *
+     * @param type 操做类型 ：1表示解绑，2表示修改手机号
+     */
     private void verifyCode(final int type){
         final String phoneNum = currentUser.getMobilePhoneNumber();
         String code = et_code.getText().toString().trim();
@@ -140,7 +133,7 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
                     if(type==1){//解绑
                         unBindPhone(phoneNum);
                     }else if(type==2){//修改手机号
-                        BindPhoneActivity.actionStart(UnbindChangePhoneActivity.this,2,"");
+                        BindPhoneActivity.activityStart(UnbindChangePhoneActivity.this,2,"");
                     }
                 }else{
                     Toast.makeText(UnbindChangePhoneActivity.this,
@@ -152,12 +145,10 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
     }
 
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-14 下午5:46
-    *@return:
-    *@params: [phoneNum]
-    *@Descrption: 解绑手机号
-    */
+     * 解绑手机号
+     *
+     * @param phoneNum 手机号
+     */
     private void unBindPhone(String phoneNum){
         //解绑手机号时需remove两个字段的值：mobilePhoneNumber、mobilePhoneNumberVerified
         MPTUser user =new MPTUser();
@@ -210,14 +201,7 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
 
     }
 
-    /**
-    *@Author: DavidHuang
-    *@Time: 18-5-14 下午7:33
-    *@return:
-    *@params: [context, type, data2] type表示操作类型，1解绑，2修改手机号
-    *@Descrption:
-    */
-    public static void actionStart(Context context, int type, String data2){
+    public static void activityStart(Context context, int type, String data2){
         Intent intent=new Intent(context,UnbindChangePhoneActivity.class);
         intent.putExtra("type",type);
         intent.putExtra("param2",data2);

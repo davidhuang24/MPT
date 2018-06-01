@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.avtivity.Fragment.IntroduceFragment;
 import com.dh.exam.mpt.avtivity.Fragment.StartFragment;
 import com.dh.exam.mpt.R;
@@ -16,17 +17,20 @@ import com.dh.exam.mpt.R;
 import cn.bmob.v3.Bmob;
 
 /**
- *启动界面,不同情况调用不同Fragment:第一次启动调用IntroduceFragment()；否则调用StartFragment()
+ *启动界面,不同情况调用不同Fragment:
+ * 第一次启动调用IntroduceFragment()；
+ * 否则调用StartFragment()
+ *
+ *@author DavidHuang  at 下午3:55 18-5-31
  */
 public class StartActivity extends BaseActivity {
 
-    private static final String BMOB_APP_KEY="42ab78bb163be6fe44298812dba4d5ce";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        //初始化Bmob sdk
-        Bmob.initialize(this, BMOB_APP_KEY);
+        Bmob.initialize(this, ConStant.BMOB_APP_KEY);
         //全屏设置
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if(isFirstStart()){//第一次启动
@@ -43,7 +47,11 @@ public class StartActivity extends BaseActivity {
         transaction.commit();
     }
 
-    //使用SharedPreferences判断APP是否是第一次启动
+    /**
+     * 使用SharedPreferences判断APP是否是第一次启动
+     *
+     * @return 是否是第一次启动
+     */
     public Boolean isFirstStart(){
         SharedPreferences preferences=
                 getSharedPreferences("MTPPreferences",MODE_PRIVATE);

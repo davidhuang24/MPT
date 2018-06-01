@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.user_image   ://设置头像
-                UserImageActivity.actionStart(MainActivity.this,"","");
+                UserImageActivity.activityStart(MainActivity.this,"","");
                 break;
                 default:
         }
@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
                         Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
                     }else {
-                        BindPhoneActivity.actionStart(MainActivity.this,1,"");
+                        BindPhoneActivity.activityStart(MainActivity.this,1,"");
                     }
                 }else{
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.nav_favorites://解绑手机号
                 if(currentUser!=null){
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.actionStart(MainActivity.this,1,"");
+                        UnbindChangePhoneActivity.activityStart(MainActivity.this,1,"");
                     }else {
                         Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
@@ -189,7 +189,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.nav_setting:
                 if(currentUser!=null){//修改手机号
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.actionStart(MainActivity.this,2,"");
+                        UnbindChangePhoneActivity.activityStart(MainActivity.this,2,"");
                     }else {
                         Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
@@ -226,7 +226,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
-
+    /**
+     * 初始化试卷数据
+     */
     private void initPapers() {//初始化试卷数据
         paperList.clear();
         for (int i = 0; i < 20; i++) {
@@ -236,6 +238,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    /**
+     * 刷新逻辑
+     */
     private  void refreshPapers(){//刷新逻辑
         new Thread(new Runnable() {
             @Override
@@ -258,16 +263,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    public static void actionStart(Context context, String data1, String data2){
+
+    public static void activityStart(Context context, String data1, String data2){
         Intent intent=new Intent(context,MainActivity.class);
         intent.putExtra("param1",data1);
         intent.putExtra("param2",data2);
         context.startActivity(intent);
     }
-
-
-
-
     /**
      * 登出
      */

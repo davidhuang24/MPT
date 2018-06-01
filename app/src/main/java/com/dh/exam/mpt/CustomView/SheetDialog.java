@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-*@Author: DavidHuang
-*@Time: 18-5-21 下午9:06
-*@Descrption: 底部弹窗
-*/
+ *底部弹窗
+ *
+ *@author DavidHuang  at 下午3:38 18-5-31
+ */
 public class SheetDialog extends Dialog {
     public SheetDialog(Context context, int themeResId) {
         super(context, themeResId);

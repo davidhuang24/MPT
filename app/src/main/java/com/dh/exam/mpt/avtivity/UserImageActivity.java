@@ -28,7 +28,13 @@ import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;
 
 import java.io.File;
-
+/**
+ *1显示头像；
+ *2调用图片选择；
+ *3选择图片后调用图片裁剪API UCrop进行图片裁剪
+ *
+ *@author DavidHuang  at 下午3:57 18-5-31
+ */
 public class UserImageActivity extends BaseActivity implements View.OnClickListener,UCropFragmentCallback {
 
     private static final String TAG = "UserImageActivity";
@@ -73,10 +79,15 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
                 .addMenu(getString(R.string.sheet_dialog_item), (dialog, which) -> {
                     dialog.dismiss();
                     pickFromGallery();
+                })
+                .addMenu(getString(R.string.sheet_dialog_save), (dialog, which) -> {
+                    Toast.makeText(this, "保存到本地", Toast.LENGTH_SHORT).show();
                 }).create().show();
     }
 
-
+    /**
+     * 从相册选择图片
+     */
     private void pickFromGallery() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -95,7 +106,14 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
             startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), requestMode);
         }
     }
-    //回调函数
+
+    /**
+     * startActivityForResult回调函数，返回数据
+     *
+     * @param requestCode 请求码
+     * @param resultCode 结果码
+     * @param data 返回数据
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -118,6 +136,10 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
 
     /**
      * Callback received when a permissions request has been completed.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -134,6 +156,7 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
 
     /**
      * 裁剪图片
+     *
      * @param uri 图片uri
      */
     private void startCrop(@NonNull Uri uri) {
@@ -151,12 +174,11 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-21 下午9:59
-    *@return: ucrop builder instance
-    *@params: [uCrop] uCrop - ucrop builder instance
-    *@Descrption: uCrop相关配置
-    */
+     * uCrop相关配置
+     *
+     * @param uCrop  uCrop builder instance
+     * @return uCrop builder instance
+     */
     private UCrop uCropConfig(@NonNull UCrop uCrop) {
         uCrop = uCrop.withAspectRatio(1, 1);
 
@@ -169,16 +191,14 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
         options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         options.setActiveWidgetColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        return uCrop;
+        return uCrop.withOptions(options);
     }
 
     /**
-    *@Author: DavidHuang
-    *@Time:  下午10:04
-    *@return:
-    *@params: [result] result-裁剪后的数据
-    *@Descrption: 跳转到显示裁剪结果照片，携带裁剪后的数据
-    */
+     * 跳转到显示裁剪结果照片，携带裁剪后的数据
+     *
+     * @param result 裁剪后的数据
+     */
     private void handleCropResult(@NonNull Intent result) {
         final Uri resultUri = UCrop.getOutput(result);
         if (resultUri != null) {
@@ -189,12 +209,10 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-21 下午10:06
-    *@return:
-    *@params: [result]
-    *@Descrption: 裁剪异常处理
-    */
+     * 裁剪异常处理
+     *
+     * @param result
+     */
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
     private void handleCropError(@NonNull Intent result) {
         final Throwable cropError = UCrop.getError(result);
@@ -205,27 +223,21 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(UserImageActivity.this, R.string.toast_unexpected_error, Toast.LENGTH_SHORT).show();
         }
     }
-
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-21 下午10:08
-    *@return: 裁剪回调函数-裁剪进度
-    *@params: [showLoader]是否显示裁剪进度条
-    *@Descrption:
-    */
+     * 是否显示裁剪进度条
+     *
+     * @param showLoader
+     */
     @Override
     public void loadingProgress(boolean showLoader) {
         mShowLoader = showLoader;
         supportInvalidateOptionsMenu();
     }
-
     /**
-    *@Author: DavidHuang
-    *@Time: 18-5-21 下午10:09
-    *@return: 裁剪回调函数-裁剪完成
-    *@params: [result]
-    *@Descrption:
-    */
+     * 裁剪回调函数-裁剪完成
+     *
+     * @param result
+     */
     @Override
     public void onCropFinish(UCropFragment.UCropResult result) {
         switch (result.mResultCode) {
@@ -271,7 +283,7 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
         return super.onKeyDown(keyCode, event);
     }
 
-    public static void actionStart(Context context, String data1, String data2){
+    public static void activityStart(Context context, String data1, String data2){
         Intent intent=new Intent(context,UserImageActivity.class);
         intent.putExtra("param1",data1);
         intent.putExtra("param2",data2);

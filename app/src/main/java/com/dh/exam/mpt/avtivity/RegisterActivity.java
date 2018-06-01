@@ -52,7 +52,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    /**注册逻辑
+    /**
+     * 注册逻辑
      */
     private void registerUser(){
         String userName = et_username.getText().toString().trim();
@@ -96,7 +97,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
-    public static void actionStart(Context context, String data1, String data2){
+    public static void activityStart(Context context, String data1, String data2){
         Intent intent=new Intent(context,RegisterActivity.class);
         intent.putExtra("param1",data1);
         intent.putExtra("param2",data2);

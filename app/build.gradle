@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
 
-    implementation ('cn.bmob.android:bmob-sdk:3.5.5')
+    implementation 'cn.bmob.android:bmob-sdk:3.6.0'
 
 
     implementation ('com.github.yalantis:ucrop:2.2.2')

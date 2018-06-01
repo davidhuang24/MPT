@@ -23,10 +23,12 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-/**
- *
- */
 
+/**
+ *绑定手机号界面
+ *
+ *@author DavidHuang  at 下午3:41 18-5-31
+ */
 public class BindPhoneActivity extends BaseActivity implements View.OnClickListener{
 
     private MyCountTimer timer;
@@ -61,7 +63,11 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
+    /**
+     *验证码计时器
+     *
+     *@author DavidHuang  at 下午3:42 18-5-31
+     */
     class MyCountTimer extends CountDownTimer {
 
         public MyCountTimer(long millisInFuture, long countDownInterval) {
@@ -85,7 +91,14 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
     *@params: [context, type, data2] type表示操作类型，1绑定新手机号，2修改手机号
     *@Descrption:
     */
-    public static void actionStart(Context context, int type, String data2){
+    /**
+     * 页面跳转
+     *
+     * @param context 上下文
+     * @param type 表示操作类型：1绑定新手机号，2修改手机号
+     * @param data2 传递参数
+     */
+    public static void activityStart(Context context, int type, String data2){
         Intent intent=new Intent(context,BindPhoneActivity.class);
         intent.putExtra("type",type);
         intent.putExtra("param2",data2);
@@ -106,7 +119,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-     *请求验证码
+     * 请求验证码
      */
     private void requestSMSCode() {
         String phoneNum = et_phone.getText().toString().trim();
@@ -166,8 +179,6 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
-
-
     /**
      *绑定手机号
      */
@@ -197,7 +208,6 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -14,7 +14,11 @@ import com.dh.exam.mpt.R;
 
 import java.util.List;
 
-
+/**
+ *PaperAdapter
+ *
+ *@author DavidHuang  at 下午3:37 18-5-31
+ */
 public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>{
 
     private static final String TAG = "PaperAdapter";
@@ -61,7 +65,7 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
                 int position=holder.getAdapterPosition();
                 Paper paper=paperList.get(position);
                 Toast.makeText(context, paper.getPaperName(), Toast.LENGTH_SHORT).show();
-//                PaperActivity.actionStart(context,paper.getPaperName(),paper.getPaperAuthor(),
+//                PaperActivity.activityStart(context,paper.getPaperName(),paper.getPaperAuthor(),
 //                        paper.getPaperKind(),paper.getQuestionCount());
             }
         });

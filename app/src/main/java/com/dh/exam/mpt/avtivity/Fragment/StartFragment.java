@@ -56,7 +56,7 @@ public class StartFragment extends Fragment implements View.OnClickListener{
     }
 
     private void jumpToMain(){
-        MainActivity.actionStart(startActivity,"","");
+        MainActivity.activityStart(startActivity,"","");
 
     }
 

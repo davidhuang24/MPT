@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -101,7 +100,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.tv_forget_pwd://忘记密码
-                ResetPasswordActivity.actionStart(LoginActivity.this,"","");
+                ResetPasswordActivity.activityStart(LoginActivity.this,"","");
                 break;
             case R.id.tv_request_code://请求验证码
                 requestSMSCode();
@@ -110,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 switchLoginMode();
                 break;
             case R.id.tv_register://注册
-                RegisterActivity.actionStart(LoginActivity.this,"","");
+                RegisterActivity.activityStart(LoginActivity.this,"","");
                 break;
             case R.id.btn_login://登陆
                 if(loginMode==ACCOUNT_LOGIN){
@@ -169,7 +168,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         Toast.makeText(LoginActivity.this, "您的手机号未验证，请重新绑定手机号", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    MainActivity.actionStart(LoginActivity.this,"","");
+                    MainActivity.activityStart(LoginActivity.this,"","");
                     finish();
                 }else{
                     Toast.makeText(LoginActivity.this,
@@ -209,7 +208,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 progress.dismiss();
                 if(ex==null){
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    MainActivity.actionStart(LoginActivity.this,"","");
+                    MainActivity.activityStart(LoginActivity.this,"","");
                     finish();
                 }else{
                     Toast.makeText(LoginActivity.this,

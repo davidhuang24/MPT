@@ -12,11 +12,10 @@ import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 
 /**
-*@Author: DavidHuang
-*@Time: 18-5-21 下午9:39
-*@Descrption: 1.权限处理；2.授权AlertDialog处理；3.完全退出app
-*/
-
+ *1.权限处理；2.授权AlertDialog处理；3.完全退出app
+ *
+ *@author DavidHuang  at 下午3:40 18-5-31
+ */
 public class BaseActivity extends AppCompatActivity {
 
     protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
