@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.List;
 
 
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DeleteBatchListener;
@@ -36,6 +37,7 @@ public class BmobFileManager extends BmobFile{
             @Override
             public void done(BmobException e) {
                 if(e==null){
+
                     Toast.makeText(MPTApplication.getContext(), bmobFile.getFileUrl(), Toast.LENGTH_SHORT).show();
 
                 }else{

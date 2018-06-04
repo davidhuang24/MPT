@@ -54,12 +54,7 @@ public class ResetPasswordActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    public static void activityStart(Context context, String data1, String data2){
-        Intent intent=new Intent(context,ResetPasswordActivity.class);
-        intent.putExtra("param1",data1);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
+
 
     @Override
     public void onClick(View v) {

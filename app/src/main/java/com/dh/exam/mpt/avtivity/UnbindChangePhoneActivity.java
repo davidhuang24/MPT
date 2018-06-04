@@ -1,10 +1,8 @@
 package com.dh.exam.mpt.avtivity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,7 +21,14 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class UnbindChangePhoneActivity extends AppCompatActivity implements View.OnClickListener{
+/**
+ *handleType
+ *1.handleType为”1“解绑手机号：先验证手机号，后解绑手机号
+ *2.handleType为”2“修改手机号：先验证手机号，后跳转到BindPhoneActivity界面绑定新手机号
+ *
+ *@author DavidHuang  at 下午7:37 18-6-4
+ */
+public class UnbindChangePhoneActivity extends BaseActivity implements View.OnClickListener{
 
     private EditText et_code;
     private Button btn_unbind_phone;
@@ -31,7 +36,7 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
     private TextView tv_request_code;
     private MPTUser currentUser;
 
-    private int handleType;
+    private String handleType;
     private MyCountTimer timer;
 
     @Override
@@ -51,15 +56,16 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
         tv_request_code.setOnClickListener(this);
         currentUser=BmobUser.getCurrentUser(MPTUser.class);
         Intent intent=getIntent();
-        handleType=intent.getIntExtra("type",1);
-        if(handleType==1){
+        handleType=intent.getStringExtra("param1");
+        if(handleType.equals("1")){
             btn_unbind_phone.setVisibility(View.VISIBLE);
             btn_change_phone_number.setVisibility(View.GONE);
-        }else if(handleType==2){
+        }else if(handleType.equals("2")){
             btn_change_phone_number.setVisibility(View.VISIBLE);
             btn_unbind_phone.setVisibility(View.GONE);
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -133,7 +139,7 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
                     if(type==1){//解绑
                         unBindPhone(phoneNum);
                     }else if(type==2){//修改手机号
-                        BindPhoneActivity.activityStart(UnbindChangePhoneActivity.this,2,"");
+                        BindPhoneActivity.activityStart(UnbindChangePhoneActivity.this,BindPhoneActivity.class,"2",null,null);
                     }
                 }else{
                     Toast.makeText(UnbindChangePhoneActivity.this,
@@ -201,11 +207,6 @@ public class UnbindChangePhoneActivity extends AppCompatActivity implements View
 
     }
 
-    public static void activityStart(Context context, int type, String data2){
-        Intent intent=new Intent(context,UnbindChangePhoneActivity.class);
-        intent.putExtra("type",type);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
+
 
 }

@@ -72,12 +72,12 @@ public class IntroduceFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {//登录
-            case R.id.btn_register:
-                RegisterActivity.activityStart(getContext(),"","");
+        switch (v.getId()) {
+            case R.id.btn_register://注册
+                RegisterActivity.activityStart(getContext(),RegisterActivity.class,null,null,null);
                 break;
-            case R.id.btn_login://注册
-                LoginActivity.actionStart(getContext(),"","");
+            case R.id.btn_login://登录
+                LoginActivity.activityStart(getContext(),LoginActivity.class,null,null,null);
                 break;
             default:
         }

@@ -32,13 +32,11 @@ import cn.bmob.v3.listener.UpdateListener;
 public class BindPhoneActivity extends BaseActivity implements View.OnClickListener{
 
     private MyCountTimer timer;
-
     private EditText et_phone;
     private EditText et_code;
     private TextView tv_request_code;
     private Button btn_bind;
-
-    private int handleType;
+    private String handleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +53,10 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         tv_request_code.setOnClickListener(this);
         btn_bind.setOnClickListener(this);
         Intent intent=getIntent();
-        handleType=intent.getIntExtra("type",1);
-        if(handleType==1){
+        handleType=intent.getStringExtra("param1");
+        if(handleType.equals("1")){
             btn_bind.setText(getResources().getText(R.string.bind_phone));
-        }else if(handleType==2){
+        }else if(handleType.equals("2")){
             btn_bind.setText(getResources().getText(R.string.change_phone_num));
         }
     }
@@ -83,7 +81,6 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
     /**
     *@Author: DavidHuang
     *@Time: 18-5-14 下午7:42
@@ -91,20 +88,6 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
     *@params: [context, type, data2] type表示操作类型，1绑定新手机号，2修改手机号
     *@Descrption:
     */
-    /**
-     * 页面跳转
-     *
-     * @param context 上下文
-     * @param type 表示操作类型：1绑定新手机号，2修改手机号
-     * @param data2 传递参数
-     */
-    public static void activityStart(Context context, int type, String data2){
-        Intent intent=new Intent(context,BindPhoneActivity.class);
-        intent.putExtra("type",type);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
-
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -145,6 +128,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(this, "请输入正确格式的手机号", Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      *验证验证码
      */
@@ -179,6 +163,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
     /**
      *绑定手机号
      */
@@ -208,6 +193,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

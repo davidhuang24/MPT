@@ -89,18 +89,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    public static void actionStart(Context context, String data1, String data2){
-        Intent intent=new Intent(context,LoginActivity.class);
-        intent.putExtra("param1",data1);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.tv_forget_pwd://忘记密码
-                ResetPasswordActivity.activityStart(LoginActivity.this,"","");
+                ResetPasswordActivity.activityStart(LoginActivity.this,ResetPasswordActivity.class,null,null,null);
                 break;
             case R.id.tv_request_code://请求验证码
                 requestSMSCode();
@@ -109,7 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 switchLoginMode();
                 break;
             case R.id.tv_register://注册
-                RegisterActivity.activityStart(LoginActivity.this,"","");
+                RegisterActivity.activityStart(LoginActivity.this,RegisterActivity.class,null,null,null);
                 break;
             case R.id.btn_login://登陆
                 if(loginMode==ACCOUNT_LOGIN){
@@ -168,7 +162,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         Toast.makeText(LoginActivity.this, "您的手机号未验证，请重新绑定手机号", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    MainActivity.activityStart(LoginActivity.this,"","");
+                    MainActivity.activityStart(LoginActivity.this,MainActivity.class,"","",null);
                     finish();
                 }else{
                     Toast.makeText(LoginActivity.this,
@@ -208,7 +202,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 progress.dismiss();
                 if(ex==null){
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    MainActivity.activityStart(LoginActivity.this,"","");
+                    MainActivity.activityStart(LoginActivity.this,MainActivity.class,"","",null);
                     finish();
                 }else{
                     Toast.makeText(LoginActivity.this,

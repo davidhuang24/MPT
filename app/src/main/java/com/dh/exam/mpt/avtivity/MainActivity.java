@@ -2,6 +2,7 @@ package com.dh.exam.mpt.avtivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.database.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 import cn.bmob.v3.BmobUser;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
         BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
@@ -44,11 +47,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private TextView tv_header_userName;
-    private ImageView iv_header_userPic;
-
-
-
-
+    private CircleImageView civ_header_userPic;
+    private Uri userImguri;
 
     private MPTUser currentUser;//当前缓存用户
 
@@ -60,9 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             new Paper("2016-2017软件学院数理逻辑期末考试","数理","北邮理学院",60,false),};
     private List<Paper> paperList=new ArrayList<>();
     private PaperAdapter adapter;
-
     private SwipeRefreshLayout swipeRefreshLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +79,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        userImguri=getIntent().getData();
         View headerLayout = navigationView.getHeaderView(0); // 0-index header
         tv_header_userName =(TextView) headerLayout.findViewById(R.id.username);
-        iv_header_userPic=(ImageView) headerLayout.findViewById(R.id.user_image);
+        civ_header_userPic =(CircleImageView) headerLayout.findViewById(R.id.user_image);
+        if(userImguri!=null){
+            Glide.with(MainActivity.this).load(userImguri)
+                    .into(civ_header_userPic);
+        }else{
+            Glide.with(MainActivity.this).load(R.drawable.user_picture_default)
+                    .into(civ_header_userPic);
+        }
         tv_header_userName.setOnClickListener(this);
-        iv_header_userPic.setOnClickListener(this);
+        civ_header_userPic.setOnClickListener(this);
 
 
 
@@ -135,12 +141,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.username  ://登陆
                 if(currentUser==null){
-                    LoginActivity.actionStart(MainActivity.this,"","");
+                    LoginActivity.activityStart(MainActivity.this,LoginActivity.class,null,null,null);
                 }
                 break;
 
             case R.id.user_image   ://设置头像
-                UserImageActivity.activityStart(MainActivity.this,"","");
+                UserImageActivity.activityStart(MainActivity.this,UserImageActivity.class,null,null,null);
                 break;
                 default:
         }
@@ -169,7 +175,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
                         Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
                     }else {
-                        BindPhoneActivity.activityStart(MainActivity.this,1,"");
+                        BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,null,null,null);
                     }
                 }else{
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
@@ -178,7 +184,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.nav_favorites://解绑手机号
                 if(currentUser!=null){
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.activityStart(MainActivity.this,1,"");
+                        UnbindChangePhoneActivity.activityStart
+                                (MainActivity.this,UnbindChangePhoneActivity.class,
+                                        "1",null,null);
                     }else {
                         Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
@@ -189,7 +197,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.nav_setting:
                 if(currentUser!=null){//修改手机号
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.activityStart(MainActivity.this,2,"");
+                        UnbindChangePhoneActivity.activityStart
+                                (MainActivity.this,UnbindChangePhoneActivity.class,
+                                        "2",null,null);
                     }else {
                         Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
@@ -263,13 +273,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-
-    public static void activityStart(Context context, String data1, String data2){
-        Intent intent=new Intent(context,MainActivity.class);
-        intent.putExtra("param1",data1);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
     /**
      * 登出
      */
@@ -284,6 +287,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }

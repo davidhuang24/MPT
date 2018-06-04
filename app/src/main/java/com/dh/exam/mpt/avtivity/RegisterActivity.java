@@ -85,7 +85,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if(ex==null){
                     Toast.makeText(RegisterActivity.this, "注册成功",
                             Toast.LENGTH_SHORT).show();
-                    LoginActivity.actionStart(RegisterActivity.this,"","");
+                    LoginActivity.activityStart(RegisterActivity.this,LoginActivity.class,null,null,null);
                     finish();
                 }else{
                     Toast.makeText(RegisterActivity.this,
@@ -96,13 +96,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
-
-    public static void activityStart(Context context, String data1, String data2){
-        Intent intent=new Intent(context,RegisterActivity.class);
-        intent.putExtra("param1",data1);
-        intent.putExtra("param2",data2);
-        context.startActivity(intent);
-    }
-
 
 }

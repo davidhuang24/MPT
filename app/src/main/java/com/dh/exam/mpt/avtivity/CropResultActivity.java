@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.BmobFileManager;
 import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;
@@ -81,14 +82,19 @@ public class CropResultActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_use_save) {//使用并且上传图片到服务器
-
+            useAndUploadImg(imgUri);
         } else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean useAndUploadImg(Uri uir){
+    public boolean useAndUploadImg(Uri uri){
+        MainActivity.activityStart(CropResultActivity.this,MainActivity.class,null,null,uri);
+
+        BmobFileManager.uploadFile(uri.getPath());
+
+
 
         return true;
     }
