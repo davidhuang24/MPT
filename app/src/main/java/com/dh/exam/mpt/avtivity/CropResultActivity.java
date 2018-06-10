@@ -90,12 +90,8 @@ public class CropResultActivity extends BaseActivity {
     }
 
     public boolean useAndUploadImg(Uri uri){
-        MainActivity.activityStart(CropResultActivity.this,MainActivity.class,null,null,uri);
-
-        BmobFileManager.uploadFile(uri.getPath());
-
-
-
+        MainActivity.activityStart(CropResultActivity.this,MainActivity.class,null,null,null);
+        BmobFileManager.updateUserHeadImg(uri.getPath());
         return true;
     }
 

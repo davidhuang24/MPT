@@ -1,10 +1,10 @@
 package com.dh.exam.mpt.avtivity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -23,11 +23,18 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.CustomView.SheetDialog;
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.CacheManager;
+import com.dh.exam.mpt.Utils.ConStant;
+import com.dh.exam.mpt.database.MPTUser;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;
+import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;
+
+import cn.bmob.v3.BmobUser;
+
 /**
  *1显示头像；
  *2调用图片选择；
@@ -39,13 +46,12 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
 
     private static final String TAG = "UserImageActivity";
     private Toolbar toolbar;
-    private ImageView iv_user_img;
     private Uri imageUri;
 
     public static final int TAKE_PHOTO=1;
     public static final int CHOOSE_PHOTO=2;
     private static final int REQUEST_SELECT_PICTURE_FOR_FRAGMENT = 0x02;
-    private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
+    private static  String croppedImgName ;
     private int requestMode = 1;
 
     private boolean mShowLoader;
@@ -66,22 +72,43 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
 
     public void init(){
         toolbar=(Toolbar) findViewById(R.id.toolbar);
-        iv_user_img =(ImageView) findViewById(R.id.iv_user_img);
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){//设置导航按钮，打开滑动菜单
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        initUserHeadImg(getIntent().getData());
+    }
+
+    /**
+     * 显示用户头像
+     *
+     * @param imgUri 图片来源
+     */
+    public void initUserHeadImg(Uri imgUri){
+        if (imgUri != null) {
+            try {
+                UCropView uCropView = findViewById(R.id.user_head_img);
+                uCropView.getCropImageView().setImageUri(imgUri, null);
+                uCropView.getOverlayView().setShowCropFrame(false);
+                uCropView.getOverlayView().setShowCropGrid(false);
+                uCropView.getOverlayView().setDimmedColor(Color.TRANSPARENT);
+            } catch (Exception e) {
+                Log.e(TAG, "setImageUri", e);
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void showSheetDialog(){
-        new SheetDialog.Builder(iv_user_img.getContext()).setTitle(getString(R.string.sheet_dialog_title))
+        new SheetDialog.Builder(UserImageActivity.this).setTitle(getString(R.string.sheet_dialog_title))
                 .addMenu(getString(R.string.sheet_dialog_item), (dialog, which) -> {
                     dialog.dismiss();
                     pickFromGallery();
                 })
                 .addMenu(getString(R.string.sheet_dialog_save), (dialog, which) -> {
-                    Toast.makeText(this, "保存到本地", Toast.LENGTH_SHORT).show();
+                    //模拟保存，图片裁剪后（startCrop中）就已保存
+                    Toast.makeText(this, "图片已保存", Toast.LENGTH_SHORT).show();
                 }).create().show();
     }
 
@@ -160,9 +187,20 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
      * @param uri 图片uri
      */
     private void startCrop(@NonNull Uri uri) {
-        String destinationFileName = SAMPLE_CROPPED_IMAGE_NAME;
+        MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
+        if(currentUser!=null){
+            croppedImgName="MPTHeadImg-"+currentUser.getObjectId();
+        }else{
+            croppedImgName="CropCache";
+        }
+        String destinationFileName = croppedImgName;
         destinationFileName += ".png";
-        UCrop uCrop = UCrop.of(uri, Uri.fromFile(new File(getCacheDir(), destinationFileName)));
+        File file=new File(CacheManager.DirsExistedOrCreat
+                (ConStant.APP_Public_Dir_ROOT+"/HeadImages"), destinationFileName);
+        if(file.exists()){//保证缓存中只有一张裁剪结果(用户头像)
+            file.delete();
+        }
+        UCrop uCrop = UCrop.of(uri, Uri.fromFile(file));
         uCrop = uCropConfig(uCrop);
 
         if (requestMode == REQUEST_SELECT_PICTURE_FOR_FRAGMENT) {       //if build variant = fragment

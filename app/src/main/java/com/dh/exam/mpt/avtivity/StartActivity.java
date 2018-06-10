@@ -2,6 +2,7 @@ package com.dh.exam.mpt.avtivity;
 
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
+import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.avtivity.Fragment.IntroduceFragment;
 import com.dh.exam.mpt.avtivity.Fragment.StartFragment;
 import com.dh.exam.mpt.R;
@@ -30,9 +33,14 @@ public class StartActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
         //全屏设置
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){//android 6.0及以上动态申请危险权限
+            requestPermissions();
+        }
+
         if(isFirstStart()){//第一次启动
             replaceFragment(new IntroduceFragment());
         }else {
@@ -64,4 +72,6 @@ public class StartActivity extends BaseActivity {
         }
 
     }
+
+
 }

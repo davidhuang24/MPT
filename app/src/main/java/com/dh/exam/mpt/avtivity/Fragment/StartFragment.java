@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.dh.exam.mpt.Utils.CacheManager;
+import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.avtivity.MainActivity;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.avtivity.StartActivity;
@@ -36,7 +38,6 @@ public class StartFragment extends Fragment implements View.OnClickListener{
         skipADButton=(Button) linearLayout.findViewById(R.id.ad_skip_btn);
         skipADButton.setOnClickListener(this);
         startActivity=(StartActivity)getActivity();
-
         Message msg = Message.obtain();
         msg.what = UPDATE_REMAIN_TIME;
         handler.sendMessage(msg);
@@ -78,6 +79,8 @@ public class StartFragment extends Fragment implements View.OnClickListener{
             }
         };
     };
+
+
 
     @Override
     public void onDestroy() {

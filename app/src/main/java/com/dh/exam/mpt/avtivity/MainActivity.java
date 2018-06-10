@@ -1,7 +1,5 @@
 package com.dh.exam.mpt.avtivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,17 +16,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.dh.exam.mpt.Utils.ActivityCollector;
+import com.dh.exam.mpt.Utils.CacheManager;
+import com.dh.exam.mpt.Utils.ConStant;
+import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.database.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.PaperAdapter;
 import com.dh.exam.mpt.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,9 +50,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private FloatingActionButton fab;
     private TextView tv_header_userName;
     private CircleImageView civ_header_userPic;
-    private Uri userImguri;
+
 
     private MPTUser currentUser;//当前缓存用户
+    private Uri userHeadImgUri;
 
     private Paper[] papers = {
             new Paper("2018计算机二级考试","计算机","教育部计算机办公室",50,false),
@@ -79,17 +82,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        userImguri=getIntent().getData();
+
         View headerLayout = navigationView.getHeaderView(0); // 0-index header
         tv_header_userName =(TextView) headerLayout.findViewById(R.id.username);
         civ_header_userPic =(CircleImageView) headerLayout.findViewById(R.id.user_image);
-        if(userImguri!=null){
-            Glide.with(MainActivity.this).load(userImguri)
-                    .into(civ_header_userPic);
-        }else{
-            Glide.with(MainActivity.this).load(R.drawable.user_picture_default)
-                    .into(civ_header_userPic);
-        }
+
         tv_header_userName.setOnClickListener(this);
         civ_header_userPic.setOnClickListener(this);
 
@@ -130,8 +127,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }else{
             tv_header_userName.setText(currentUser.getUsername());
         }
+        setUserHeadImg();
         initPapers();
+
     }
+
+    public void setUserHeadImg(){
+        File file;
+        int headImgType=0;
+        if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户头像不为空，用户头像
+            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+                    currentUser.getHeadImg().getFilename());
+            headImgType=1;
+        }else{//未登陆或者用户头像为空，默认头像
+            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+                    ConStant.DEFAULT_HEAD_IMG_NAME);
+            headImgType=0;
+        }
+
+        if(!file.exists()){//文件不存在，写缓存-读缓存-显示头像
+            CacheManager.writeHeadImgToCache(headImgType,new WriteCacheListener() {
+                @Override
+                public void done() {
+                    showHeadImgFromCache();
+                }
+                @Override
+                public void onError(Exception e) {
+                    Toast.makeText(MainActivity.this, "缓存异常", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{//文件存在，读缓存-显示头像
+            showHeadImgFromCache();
+        }
+    }
+
+    /**
+     * 读缓存-加载头像
+     */
+    public void showHeadImgFromCache(){
+        File imgFile=CacheManager.getHeadImgFromCache();
+        String updateTime = String.valueOf(System.currentTimeMillis());
+        Glide.with(civ_header_userPic.getContext())
+                .load(imgFile)
+                //解决了问题-加载同一源但源内容改变后显示图片却不改变
+                .signature(new StringSignature(updateTime))
+                .into(civ_header_userPic);
+        userHeadImgUri=Uri.fromFile(imgFile);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -141,12 +184,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.username  ://登陆
                 if(currentUser==null){
-                    LoginActivity.activityStart(MainActivity.this,LoginActivity.class,null,null,null);
+                    LoginActivity.activityStart(MainActivity.this,LoginActivity.class,
+                            null,null,null);
                 }
                 break;
 
             case R.id.user_image   ://设置头像
-                UserImageActivity.activityStart(MainActivity.this,UserImageActivity.class,null,null,null);
+                if(currentUser!=null){
+                    UserImageActivity.activityStart(MainActivity.this,
+                            UserImageActivity.class,null,null,userHeadImgUri);
+                }else{//未登陆
+                    LoginActivity.activityStart(MainActivity.this,LoginActivity.class,
+                            null,null,null);
+                }
+
                 break;
                 default:
         }
@@ -270,7 +321,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 });
             }
         }).start();
-
     }
 
     /**
@@ -283,9 +333,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             BmobUser.logOut();
             currentUser= BmobUser.getCurrentUser(MPTUser.class);//更新当前用户
             tv_header_userName.setText(getResources().getString(R.string.drawer_header_username_default));
-            //头像变为默认头像
+            setUserHeadImg();
             Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

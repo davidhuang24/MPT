@@ -24,10 +24,10 @@
             android:layout_weight="1"
             android:background="@color/dark_black"
             android:gravity="center">
-            <ImageView
-                android:id="@+id/iv_user_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <com.yalantis.ucrop.view.UCropView
+                android:id="@+id/user_head_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>
 

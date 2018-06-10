@@ -102,7 +102,6 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
                                 Toast.LENGTH_SHORT).show();
                         timer.cancel();
                     }
-
                 }
             });
         } else {
