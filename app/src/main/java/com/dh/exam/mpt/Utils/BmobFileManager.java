@@ -2,7 +2,6 @@ package com.dh.exam.mpt.Utils;
 
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.database.MPTUser;
 
@@ -33,56 +32,36 @@ public class BmobFileManager extends BmobFile{
     /**
      * 上传头像并更新数据库
      * <p>
-     * 流程：删除-(上传-更新)数据库
+     * 流程：上传新头像-删除旧头像-更新数据库
      * <p>
-     * 存在一个问题：如果上传头像失败，之前头像又被删除了，
-     * 导致currentUser.getHeadImg()为空；但是又不能
-     * 不删除旧头像，因为头像文件在服务器会累积。
-     * 不知道如何解决？？？
      *
      * @param filePath 待上传文件路径
      */
     public static void updateUserHeadImg(String filePath){
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null){
-            if(currentUser.getHeadImg()==null){//第一次更新头像
-                uploadFileAndUpdateDB(filePath);
-            }else{
-                deleteFile(currentUser.getHeadImg().getFileUrl());
-                uploadFileAndUpdateDB(filePath);
-            }
+            uploadAndDeleteFile(filePath);
         }else{
             Toast.makeText(MPTApplication.getContext(), "请登陆", Toast.LENGTH_SHORT).show();
         }
-
     }
     /**
      * 单一文件上传并更新数据库
      *
      * @param filePath 待上传文件路径
      */
-    public static void uploadFileAndUpdateDB(String filePath){
+    public static void uploadAndDeleteFile(String filePath){
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         BmobFile bmobFile=new BmobFile(new File(filePath));
         bmobFile.uploadblock(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    Toast.makeText(MPTApplication.getContext(), "文件上传成功", Toast.LENGTH_SHORT).show();
-                    currentUser.setHeadImg(bmobFile);
-                    currentUser.update(new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (e == null) {
-                                Toast.makeText(MPTApplication.getContext(),
-                                        "更新头像成功！", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(MPTApplication.getContext(),
-                                        "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
-                                                + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    //删除旧头像
+                    if(currentUser.getHeadImg()!=null){
+                        //非第一次更新头像，上传成功后，先删除旧头像再更新数据库
+                        deleteFileAndUpdateDb(currentUser.getHeadImg().getFileUrl(),bmobFile);
+                    }
                 }else{
                     Toast.makeText(MPTApplication.getContext(),"文件上传失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -145,7 +124,6 @@ public class BmobFileManager extends BmobFile{
                     if(listener!=null){
                         listener.done();
                     }
-                    Toast.makeText(MPTApplication.getContext(), "下载成功，文件保存到路径："+s, Toast.LENGTH_SHORT).show();
                 }else {
                     if(listener!=null){
                         listener.onError(e);
@@ -163,18 +141,33 @@ public class BmobFileManager extends BmobFile{
     }
 
     /**
-     * 删除文件
+     *删除文件然后更新数据库
      *
      * @param url 待删除文件的url,通过bmobFile.getFileUrl()获取
+     * @param uploadedSuccessFile 上传成功的文件
      */
-    public static void deleteFile(String url){
+    public static void deleteFileAndUpdateDb(String url, BmobFile uploadedSuccessFile){
+        MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         BmobFile bmobFile=new BmobFile();
         bmobFile.setUrl(url);
         bmobFile.delete(new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    Toast.makeText(MPTApplication.getContext(), "文件删除成功", Toast.LENGTH_SHORT).show();
+                    //更新数据库
+                    currentUser.setHeadImg(uploadedSuccessFile);
+                    currentUser.update(new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+
+                            } else {
+                                Toast.makeText(MPTApplication.getContext(),
+                                        "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
+                                                + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }else {
                     Toast.makeText(MPTApplication.getContext(),
                             "删除失败，错误码："+e.getErrorCode()+";错误描述： "+e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
 import com.dh.exam.mpt.database.MPTUser;
@@ -173,25 +174,28 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         user.setMobilePhoneNumber(phoneNum);
         user.setMobilePhoneNumberVerified(true);
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
-
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setMessage("手机号绑定中...");
-        progress.show();
-        user.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException ex) {
-                progress.dismiss();
-                if(ex==null){
-                    Toast.makeText(BindPhoneActivity.this,
-                            "手机号绑定成功", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(BindPhoneActivity.this,
-                            "手机号绑定失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
-                            Toast.LENGTH_SHORT).show();
+        if(currentUser!=null){
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setMessage("手机号绑定中...");
+            progress.show();
+            user.update(currentUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException ex) {
+                    progress.dismiss();
+                    if(ex==null){
+                        Toast.makeText(BindPhoneActivity.this,
+                                "手机号绑定成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(BindPhoneActivity.this,
+                                "手机号绑定失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(MPTApplication.getContext(), "请登陆", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

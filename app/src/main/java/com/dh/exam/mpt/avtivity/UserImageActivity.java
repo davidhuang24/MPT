@@ -42,26 +42,16 @@ import cn.bmob.v3.BmobUser;
  *
  *@author DavidHuang  at 下午3:57 18-5-31
  */
-public class UserImageActivity extends BaseActivity implements View.OnClickListener,UCropFragmentCallback {
+public class UserImageActivity extends BaseActivity implements UCropFragmentCallback {
 
     private static final String TAG = "UserImageActivity";
     private Toolbar toolbar;
-    private Uri imageUri;
 
-    public static final int TAKE_PHOTO=1;
-    public static final int CHOOSE_PHOTO=2;
     private static final int REQUEST_SELECT_PICTURE_FOR_FRAGMENT = 0x02;
     private static  String croppedImgName ;
     private int requestMode = 1;
 
     private boolean mShowLoader;
-
-    private int mToolbarCropDrawable;
-    //自定义裁剪界面颜色
-    private int mToolbarColor;
-    private int mStatusBarColor;
-    private int mToolbarWidgetColor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,22 +106,14 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
      * 从相册选择图片
      */
     private void pickFromGallery() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-                    getString(R.string.permission_read_storage_rationale),
-                    REQUEST_STORAGE_READ_ACCESS_PERMISSION);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
-                    .setType("image/*")
-                    .addCategory(Intent.CATEGORY_OPENABLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                String[] mimeTypes = {"image/jpeg", "image/png"};
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), requestMode);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT)
+                .setType("image/*")
+                .addCategory(Intent.CATEGORY_OPENABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String[] mimeTypes = {"image/jpeg", "image/png"};
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         }
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_picture)), requestMode);
     }
 
     /**
@@ -162,26 +144,6 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-     * Callback received when a permissions request has been completed.
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_STORAGE_READ_ACCESS_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    pickFromGallery();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    /**
      * 裁剪图片
      *
      * @param uri 图片uri
@@ -189,9 +151,9 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
     private void startCrop(@NonNull Uri uri) {
         MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null){
-            croppedImgName="MPTHeadImg-"+currentUser.getObjectId();
+            croppedImgName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId();
         }else{
-            croppedImgName="CropCache";
+            croppedImgName= ConStant.CROP_CACHE_NAME;
         }
         String destinationFileName = croppedImgName;
         destinationFileName += ".png";
@@ -233,14 +195,15 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-     * 跳转到显示裁剪结果照片，携带裁剪后的数据
+     * 跳转到显示裁剪结果照片，携带裁剪结果Uri
      *
      * @param result 裁剪后的数据
      */
     private void handleCropResult(@NonNull Intent result) {
         final Uri resultUri = UCrop.getOutput(result);
         if (resultUri != null) {
-            CropResultActivity.startWithUri(UserImageActivity.this, resultUri);
+            CropResultActivity.activityStart(UserImageActivity.this,CropResultActivity.class,
+                    null,null,resultUri);
         } else {
             Toast.makeText(UserImageActivity.this, R.string.toast_cannot_retrieve_cropped_image, Toast.LENGTH_SHORT).show();
         }
@@ -309,8 +272,6 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
         return true;
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
@@ -321,8 +282,5 @@ public class UserImageActivity extends BaseActivity implements View.OnClickListe
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 }

@@ -10,7 +10,7 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 public class MPTUser extends BmobUser {
 	private static final long serialVersionUID = 1L;
-	private BmobFile headImg;
+	private BmobFile headImg;//用户头像
 
 	public MPTUser() {
 	}

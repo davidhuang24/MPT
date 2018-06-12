@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
 import com.dh.exam.mpt.database.MPTUser;
@@ -157,29 +158,33 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
     private void unBindPhone(String phoneNum){
         //解绑手机号时需remove两个字段的值：mobilePhoneNumber、mobilePhoneNumberVerified
         MPTUser user =new MPTUser();
-        user.setObjectId(currentUser.getObjectId());
-        user.remove("mobilePhoneNumber");
-        user.remove("mobilePhoneNumberVerified");
+        if(currentUser!=null){
+            user.setObjectId(currentUser.getObjectId());
+            user.remove("mobilePhoneNumber");
+            user.remove("mobilePhoneNumberVerified");
 
 
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setMessage("手机号解绑中...");
-        progress.show();
-        user.update(new UpdateListener() {
-            @Override
-            public void done(BmobException ex) {
-                progress.dismiss();
-                if(ex==null){
-                    Toast.makeText(UnbindChangePhoneActivity.this,
-                            "手机号解绑成功", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(UnbindChangePhoneActivity.this,
-                            "手机号解绑失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
-                            Toast.LENGTH_SHORT).show();
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setMessage("手机号解绑中...");
+            progress.show();
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException ex) {
+                    progress.dismiss();
+                    if(ex==null){
+                        Toast.makeText(UnbindChangePhoneActivity.this,
+                                "手机号解绑成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(UnbindChangePhoneActivity.this,
+                                "手机号解绑失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
+            });
+        }else{
+            Toast.makeText(MPTApplication.getContext(), "请登陆", Toast.LENGTH_SHORT).show();
             }
-        });
     }
 
     class MyCountTimer extends CountDownTimer {
