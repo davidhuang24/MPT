@@ -71,7 +71,7 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         });
         holder.iv_love.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//是否会冲突???
+            public void onClick(View v) {
                 int position=holder.getAdapterPosition();
                 Paper paper=paperList.get(position);
                 if(paper.getLove()){

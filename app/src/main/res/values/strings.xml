@@ -66,5 +66,11 @@
     <string name="menu_item_use_save">使用</string>
     <string name="notification_image_saved">图片已保存</string>
     <string name="notification_image_saved_click_to_preview">图片已保存，点击查看</string>
+    <string name="et_hint_paper_name">请输入试卷名</string>
+    <string name="et_hint_paper_author">请输入作者</string>
+    <string name="btn_new_paper">开始出题</string>
+    <string name="fragment_title_paper_library">题库</string>
+    <string name="fragment_title_new_paper">新建试卷</string>
+
 
 </resources>

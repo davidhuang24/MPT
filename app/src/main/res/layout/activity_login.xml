@@ -29,18 +29,21 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:background="#d2d2d2" />
+                android:background="#d2d2d2"
+                android:layout_marginLeft="10dp" />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
                     <EditText
                         android:id="@+id/et_account"
                         android:layout_width="match_parent"
@@ -78,19 +81,22 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:background="#d2d2d2" />
+                android:background="#d2d2d2"
+                android:layout_marginLeft="10dp" />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
 
                     <EditText
                         android:id="@+id/et_password"
@@ -151,18 +157,21 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:background="#d2d2d2" />
+                android:background="#d2d2d2"
+                android:layout_marginLeft="10dp" />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
                     <EditText
                         android:id="@+id/et_phone"
                         android:layout_width="match_parent"
@@ -201,19 +210,22 @@
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
-                android:background="#d2d2d2" />
+                android:background="#d2d2d2"
+                android:layout_marginLeft="10dp" />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp">
 
                     <EditText
                         android:id="@+id/et_code"
@@ -274,7 +286,8 @@
             android:text="@string/phone_one_key_login"
             android:textSize="16sp"
             android:textColor="@color/deepSkyBlue"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
         <TextView
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
@@ -282,7 +295,8 @@
             android:text="@string/register"
             android:textSize="16sp"
             android:textColor="@color/deepSkyBlue"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
 
 

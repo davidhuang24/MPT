@@ -6,18 +6,12 @@ import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.dh.exam.mpt.Utils.CacheManager;
-import com.dh.exam.mpt.Utils.ConStant;
-import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.avtivity.Fragment.IntroduceFragment;
 import com.dh.exam.mpt.avtivity.Fragment.StartFragment;
 import com.dh.exam.mpt.R;
-
-import cn.bmob.v3.Bmob;
 
 /**
  *启动界面,不同情况调用不同Fragment:
@@ -51,7 +45,7 @@ public class StartActivity extends BaseActivity {
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_layout,fragment);
+        transaction.replace(R.id.fragment_in_start_layout,fragment);
         transaction.commit();
     }
 

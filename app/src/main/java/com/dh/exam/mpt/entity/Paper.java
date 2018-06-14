@@ -1,11 +1,13 @@
 package com.dh.exam.mpt.entity;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  *试卷类
  *
  *@author DavidHuang  at 下午3:37 18-5-31
  */
-public class Paper {
+public class Paper extends BmobObject{
     private String paperName;
     private String paperKind;
     private String paperAuthor;

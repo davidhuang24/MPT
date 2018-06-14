@@ -6,12 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,15 +25,14 @@ import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.Utils.WriteCacheListener;
+import com.dh.exam.mpt.avtivity.Fragment.NewPaperFragment;
+import com.dh.exam.mpt.avtivity.Fragment.PaperLibraryFragment;
 import com.dh.exam.mpt.database.MPTUser;
-import com.dh.exam.mpt.entity.Paper;
-import com.dh.exam.mpt.entity.PaperAdapter;
+
 import com.dh.exam.mpt.R;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 
 import cn.bmob.v3.BmobUser;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,15 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private MPTUser currentUser;//当前缓存用户
     private Uri userHeadImgUri;
 
-    private Paper[] papers = {
-            new Paper("2018计算机二级考试","计算机","教育部计算机办公室",50,false),
-            new Paper("2017全国高等招生考试","高考","教育部高考办公室",40,false),
-            new Paper("2017全国硕士生招生考试英语","考研","教育部考研办公室",78,false),
-            new Paper("2018雅思考试","英语","英语",20,false),
-            new Paper("2016-2017软件学院数理逻辑期末考试","数理","北邮理学院",60,false),};
-    private List<Paper> paperList=new ArrayList<>();
-    private PaperAdapter adapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +65,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public void init(){
 
+        replaceFragment(new PaperLibraryFragment());
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle(getString(R.string.fragment_title_paper_library));
         drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -102,20 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         fab.setOnClickListener(this);
 
 
-        RecyclerView recyclerView=(RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager=new  LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter=new PaperAdapter(paperList);
-        recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);//设置刷新进度条颜色
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {//下拉刷新
-                refreshPapers();
-            }
-        });
     }
 
     @Override
@@ -128,7 +109,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             tv_header_userName.setText(currentUser.getUsername());
         }
         setUserHeadImg();
-        initPapers();
+
 
     }
 
@@ -215,12 +196,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         switch (item.getItemId()) {
             //BottomNavigationView
             case R.id.navigation_home:
-                //主页
-                Toast.makeText(this,getResources().getString(R.string.bottom_title_home) , Toast.LENGTH_SHORT).show();
+                //题库主页
+                toolbar.setTitle(getString(R.string.fragment_title_paper_library));
+                replaceFragment(new PaperLibraryFragment());
                 return true;
             case R.id.navigation_add:
                 //新建试卷
-                Toast.makeText(this,getResources().getString(R.string.bottom_title_add) , Toast.LENGTH_SHORT).show();
+                toolbar.setTitle(getString(R.string.fragment_title_new_paper));
+                replaceFragment(new NewPaperFragment());
                 return true;
             case R.id.navigation_account:
                 //打开抽屉菜单
@@ -279,6 +262,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_in_main_layout,fragment);
+        transaction.commit();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_img_activity_toolbar,menu);
@@ -294,41 +284,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
-    /**
-     * 初始化试卷数据
-     */
-    private void initPapers() {//初始化试卷数据
-        paperList.clear();
-        for (int i = 0; i < 20; i++) {
-            Random random = new Random();
-            int index = random.nextInt(papers.length);
-            paperList.add(papers[index]);
-        }
-    }
 
-    /**
-     * 刷新逻辑
-     */
-    private  void refreshPapers(){//刷新逻辑
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        initPapers();//模拟获取新数据
-                        adapter.notifyDataSetChanged();//模拟展示新数据
-                        swipeRefreshLayout.setRefreshing(false);//隐藏刷新进度条
-                    }
-                });
-            }
-        }).start();
-    }
+
+
 
     /**
      * 登出

@@ -47,7 +47,7 @@ dependencies {
     implementation 'cn.bmob.android:bmob-sdk:3.6.0'
 
 
-    implementation ('com.github.yalantis:ucrop:2.2.2')
+    implementation('com.github.yalantis:ucrop:2.2.2')
             { exclude group: 'com.squareup.okhttp3' }//解决okhttp3依赖冲突bug
 
 
