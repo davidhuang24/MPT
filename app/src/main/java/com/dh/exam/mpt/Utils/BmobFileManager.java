@@ -1,8 +1,10 @@
 package com.dh.exam.mpt.Utils;
 
+import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.MPTApplication;
+import com.dh.exam.mpt.avtivity.MainActivity;
 import com.dh.exam.mpt.database.MPTUser;
 
 import java.io.File;
@@ -32,17 +34,28 @@ public class BmobFileManager extends BmobFile{
     /**
      * 上传头像并更新数据库
      * <p>
-     * 流程：上传新头像-删除旧头像-更新数据库
+     * 流程：上传新头像（from app目录）-删除旧头像-更新数据库
      * <p>
-     *
-     * @param filePath 待上传文件路径
      */
-    public static void updateUserHeadImg(String filePath){
+    public static void updateUserHeadImg(final ProgressDialog progressDialog){
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null){
-            uploadAndDeleteFile(filePath);
+            String fileName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId()+".png";
+            File file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+                    fileName);
+            if(file.exists()){
+                uploadDeleteUpdateFile(file.getPath(),progressDialog);
+            }else {
+                Toast.makeText(MPTApplication.getContext(), "裁剪结果复制失败，请重新更换头像", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                        null,null,null);
+            }
         }else{
             Toast.makeText(MPTApplication.getContext(), "请登陆", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+            MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                    null,null,null);
         }
     }
     /**
@@ -50,20 +63,46 @@ public class BmobFileManager extends BmobFile{
      *
      * @param filePath 待上传文件路径
      */
-    public static void uploadAndDeleteFile(String filePath){
+    public static void uploadDeleteUpdateFile(String filePath, final ProgressDialog progressDialog){
+
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         BmobFile bmobFile=new BmobFile(new File(filePath));
         bmobFile.uploadblock(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
                 if(e==null){
+
                     //删除旧头像
                     if(currentUser.getHeadImg()!=null){
                         //非第一次更新头像，上传成功后，先删除旧头像再更新数据库
-                        deleteFileAndUpdateDb(currentUser.getHeadImg().getFileUrl(),bmobFile);
+                        deleteFileAndUpdateDb(currentUser.getHeadImg().getFileUrl(),bmobFile,progressDialog);
+                    }else{
+                        //更新数据库
+                        currentUser.setHeadImg(bmobFile);
+                        currentUser.update(new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                progressDialog.dismiss();
+                                MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                                        null,null,null);
+                                if (e == null) {
+
+                                } else {
+                                    Toast.makeText(MPTApplication.getContext(),
+                                            "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
+                                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                    MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                                            null,null,null);
+                                }
+                            }
+                        });
                     }
                 }else{
                     Toast.makeText(MPTApplication.getContext(),"文件上传失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                            null,null,null);
                 }
             }
             @Override
@@ -117,6 +156,7 @@ public class BmobFileManager extends BmobFile{
         File saveFile=new File(
                 CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                 bmobFile.getFilename());
+
         bmobFile.download(saveFile, new DownloadFileListener() {
             @Override
             public void done(String s, BmobException e) {
@@ -146,7 +186,8 @@ public class BmobFileManager extends BmobFile{
      * @param url 待删除文件的url,通过bmobFile.getFileUrl()获取
      * @param uploadedSuccessFile 上传成功的文件
      */
-    public static void deleteFileAndUpdateDb(String url, BmobFile uploadedSuccessFile){
+    public static void deleteFileAndUpdateDb(String url, BmobFile uploadedSuccessFile,
+                                             final ProgressDialog progressDialog){
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         BmobFile bmobFile=new BmobFile();
         bmobFile.setUrl(url);
@@ -156,12 +197,19 @@ public class BmobFileManager extends BmobFile{
                 if(e==null){
                     //更新数据库
                     currentUser.setHeadImg(uploadedSuccessFile);
+
                     currentUser.update(new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
+                            progressDialog.dismiss();
+                            MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                                    null,null,null);
                             if (e == null) {
 
                             } else {
+                                progressDialog.dismiss();
+                                MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                                        null,null,null);
                                 Toast.makeText(MPTApplication.getContext(),
                                         "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
                                                 + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -169,6 +217,9 @@ public class BmobFileManager extends BmobFile{
                         }
                     });
                 }else {
+                    progressDialog.dismiss();
+                    MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                            null,null,null);
                     Toast.makeText(MPTApplication.getContext(),
                             "删除失败，错误码："+e.getErrorCode()+";错误描述： "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }

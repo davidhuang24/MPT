@@ -24,11 +24,11 @@ import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 
+
 /**
- * 帐号密码登录
- * @class  LoginActivity
- * @author DavidHuang
+ *帐号密码登录
  *
+ *@author DavidHuang  at 下午5:12 18-6-14
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener{
 

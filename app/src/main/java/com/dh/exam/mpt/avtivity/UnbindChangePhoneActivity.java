@@ -87,6 +87,7 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
      * 请求验证码
      */
     private void requestSMSCode() {
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         String phoneNum = currentUser.getMobilePhoneNumber();
         if (InputLeagalCheck.isPhoneNum(phoneNum)) {
             timer = new MyCountTimer(60000, 1000);
@@ -115,6 +116,7 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
      * @param type 操做类型 ：1表示解绑，2表示修改手机号
      */
     private void verifyCode(final int type){
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         final String phoneNum = currentUser.getMobilePhoneNumber();
         String code = et_code.getText().toString().trim();
         if (!InputLeagalCheck.isPhoneNum(phoneNum )) {
@@ -157,6 +159,7 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
      */
     private void unBindPhone(String phoneNum){
         //解绑手机号时需remove两个字段的值：mobilePhoneNumber、mobilePhoneNumberVerified
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         MPTUser user =new MPTUser();
         if(currentUser!=null){
             user.setObjectId(currentUser.getObjectId());

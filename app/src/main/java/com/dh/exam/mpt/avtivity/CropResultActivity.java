@@ -1,12 +1,10 @@
 package com.dh.exam.mpt.avtivity;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,9 +14,15 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.BmobFileManager;
+import com.dh.exam.mpt.Utils.CacheManager;
+import com.dh.exam.mpt.Utils.ConStant;
+import com.dh.exam.mpt.database.MPTUser;
 import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;
+import java.io.IOException;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  *裁剪结果展示界面,并且保存图片
@@ -72,7 +76,7 @@ public class CropResultActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_use_save) {
-            useAndUploadImg(imgUri);
+            SaveUploadUseImg(imgUri);
         } else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
@@ -80,13 +84,45 @@ public class CropResultActivity extends BaseActivity {
     }
 
     /**
-     * 使用并且上传图片到服务器
+     * 保存、上传、使用用户头像
      *
      * @param uri 裁剪结果Uri
      */
-    public void useAndUploadImg(Uri uri){
-        MainActivity.activityStart(CropResultActivity.this,MainActivity.class,null,null,null);
-        BmobFileManager.updateUserHeadImg(uri.getPath());
+    public void SaveUploadUseImg(Uri uri){
+        //上传ProgressDialog
+        final ProgressDialog progress = new ProgressDialog(CropResultActivity.this);
+        progress.setMessage("头像上传中...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.show();
+
+        saveCropResult(uri);
+        BmobFileManager.updateUserHeadImg(progress);
+    }
+
+    /**
+     * 将裁剪结果从应用cache目录重命名后复制到公共应用目录
+     *
+     * @param uri 裁剪结果Uri
+     */
+    public void saveCropResult(Uri uri){
+        MPTUser currentUser= BmobUser.getCurrentUser(MPTUser.class);
+        String fileName;
+        if(currentUser!=null){
+            fileName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId()+".png";
+        }else{//未登陆时的文件名
+            fileName=ConStant.CROP_CACHE_NAME+".png";
+        }
+        File file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+                fileName);
+        if(file.exists()){
+            file.delete();
+        }
+        try {
+            //将裁剪结果从cache复制到APP公共目录
+            CacheManager.copyFile(new File(uri.getPath()),file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

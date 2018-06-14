@@ -15,6 +15,6 @@ public class ConStant {
     public static final String HEAD_IMG_NAME_Header="MPTHeadImg-";
     public static final String DEFAULT_HEAD_IMG_URL
             ="http://bmob-cdn-19653.b0.upaiyun.com/2018/06/08/7e1624844034744f80aa061bd5354fc7.png";
-    public static final String CROP_CACHE_NAME="CropCache";
+    public static final String CROP_CACHE_NAME="MPTCropCache";
 
 }

@@ -141,11 +141,6 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
     /**
      * Hide alert dialog if any.
      */

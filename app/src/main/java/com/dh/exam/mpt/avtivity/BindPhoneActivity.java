@@ -82,13 +82,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    /**
-    *@Author: DavidHuang
-    *@Time: 18-5-14 下午7:42
-    *@return:
-    *@params: [context, type, data2] type表示操作类型，1绑定新手机号，2修改手机号
-    *@Descrption:
-    */
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){

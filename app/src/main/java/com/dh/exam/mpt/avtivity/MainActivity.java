@@ -132,9 +132,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    /**
+     * 更新用户头像
+     */
     public void setUserHeadImg(){
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         File file;
-        int headImgType=0;
+        int headImgType;
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户头像不为空，用户头像
             file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     currentUser.getHeadImg().getFilename());
@@ -178,6 +182,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         switch (v.getId()){
             case R.id.fab   :
                 Toast.makeText(this, "new fab", Toast.LENGTH_SHORT).show();
@@ -190,6 +195,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
 
             case R.id.user_image   ://设置头像
+
                 if(currentUser!=null){
                     UserImageActivity.activityStart(MainActivity.this,
                             UserImageActivity.class,null,null,userHeadImgUri);
@@ -205,6 +211,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         switch (item.getItemId()) {
             //BottomNavigationView
             case R.id.navigation_home:
@@ -327,6 +334,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
      * 登出
      */
     public void logout(){
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser==null){//未登陆
             Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
         }else {//已登陆

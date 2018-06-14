@@ -149,16 +149,10 @@ public class UserImageActivity extends BaseActivity implements UCropFragmentCall
      * @param uri 图片uri
      */
     private void startCrop(@NonNull Uri uri) {
-        MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
-        if(currentUser!=null){
-            croppedImgName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId();
-        }else{
-            croppedImgName= ConStant.CROP_CACHE_NAME;
-        }
+        croppedImgName= ConStant.CROP_CACHE_NAME;
         String destinationFileName = croppedImgName;
         destinationFileName += ".png";
-        File file=new File(CacheManager.DirsExistedOrCreat
-                (ConStant.APP_Public_Dir_ROOT+"/HeadImages"), destinationFileName);
+        File file=new File(getCacheDir(), destinationFileName);
         if(file.exists()){//保证缓存中只有一张裁剪结果(用户头像)
             file.delete();
         }
