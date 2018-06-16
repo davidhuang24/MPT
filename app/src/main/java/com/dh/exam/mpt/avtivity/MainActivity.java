@@ -84,8 +84,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         tv_header_userName.setOnClickListener(this);
         civ_header_userPic.setOnClickListener(this);
 
-
-
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){//设置导航按钮，打开滑动菜单
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -109,8 +107,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             tv_header_userName.setText(currentUser.getUsername());
         }
         setUserHeadImg();
-
-
     }
 
     /**

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="paper_kind">
+        <item >数学</item>
+        <item >外语</item>
+        <item >物化生</item>
+        <item >政史地</item>
+        <item >法律</item>
+        <item >经济</item>
+        <item >材料</item>
+        <item >设计</item>
+        <item >土木</item>
+        <item >医学</item>
+        <item >会计</item>
+        <item >其他</item>
+    </string-array>
+</resources>

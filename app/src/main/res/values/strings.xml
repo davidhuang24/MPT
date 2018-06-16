@@ -71,6 +71,7 @@
     <string name="btn_new_paper">开始出题</string>
     <string name="fragment_title_paper_library">题库</string>
     <string name="fragment_title_new_paper">新建试卷</string>
+    <string name="spinner_title">试卷类型</string>
 
 
 </resources>

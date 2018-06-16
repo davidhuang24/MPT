@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:layout_marginTop="50dp">
         <EditText
             android:id="@+id/et_paper_name"
             android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:layout_marginTop="20dp">
         <EditText
             android:id="@+id/et_paper_author"
             android:layout_width="match_parent"
@@ -41,11 +43,15 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:layout_marginTop="20dp">
         <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner"
+            android:id="@+id/kind_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:entries="@array/paper_kind"
+            android:spinnerMode="dialog"
+            android:prompt="@string/spinner_title"/>
     </LinearLayout>
     <Button
         android:id="@+id/btn_new_paper"
@@ -53,7 +59,7 @@
         android:layout_height="45dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/bg_btn_press_selector"
         android:text="@string/btn_new_paper"
         android:textColor="#ffffff"

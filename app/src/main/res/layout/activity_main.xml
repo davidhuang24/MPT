@@ -29,12 +29,13 @@
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:layout_scrollFlags="scroll|enterAlways|snap" />
             </android.support.design.widget.AppBarLayout>
-
             <FrameLayout
                 android:id="@+id/fragment_in_main_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
             </FrameLayout>
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
@@ -44,6 +45,8 @@
                 android:src="@drawable/fab_new_paper"
                 android:elevation="8dp"/>
         </android.support.design.widget.CoordinatorLayout>
+
+
 
         <!--BottomNavigationView移到CoordinatorLayout（weight="1"）外面解决了RecyclerView显示数据不全问题-->
         <android.support.design.widget.BottomNavigationView
