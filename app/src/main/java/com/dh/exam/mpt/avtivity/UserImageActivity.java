@@ -1,14 +1,11 @@
 package com.dh.exam.mpt.avtivity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -17,23 +14,17 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.CustomView.SheetDialog;
 import com.dh.exam.mpt.R;
-import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
-import com.dh.exam.mpt.database.MPTUser;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropFragment;
 import com.yalantis.ucrop.UCropFragmentCallback;
 import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;
-
-import cn.bmob.v3.BmobUser;
 
 /**
  *1显示头像；

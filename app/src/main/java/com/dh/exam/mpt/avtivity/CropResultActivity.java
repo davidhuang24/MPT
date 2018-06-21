@@ -16,7 +16,7 @@ import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.BmobFileManager;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
-import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.MPTUser;
 import com.yalantis.ucrop.view.UCropView;
 
 import java.io.File;

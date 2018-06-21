@@ -72,6 +72,8 @@
     <string name="fragment_title_paper_library">题库</string>
     <string name="fragment_title_new_paper">新建试卷</string>
     <string name="spinner_title">试卷类型</string>
+    <string name="paper_title_null">试卷名不能为空</string>
+    <string name="new_paper_fail">新建试卷失败</string>
 
 
 </resources>

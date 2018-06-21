@@ -92,7 +92,7 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         holder.tv_paper_name.setText(paper.getPaperName());
         holder.tv_question_count.setText(paper.getQuestionCount().toString());
         holder.tv_kind.setText(paper.getPaperKind());
-        holder.tv_author.setText(paper.getPaperAuthor());
+        holder.tv_author.setText(paper.getPaperAuthor().getUsername());
     }
 
     @Override

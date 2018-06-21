@@ -2,7 +2,7 @@ package com.dh.exam.mpt.Utils;
 
 
 
-import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.MPTUser;
 
 import java.io.File;
 import java.io.FileInputStream;

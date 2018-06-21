@@ -12,7 +12,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="70dp">
         <EditText
             android:id="@+id/et_paper_name"
             android:layout_width="match_parent"
@@ -20,22 +20,7 @@
             android:inputType="textAutoComplete"
             android:hint="@string/et_hint_paper_name"/>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/author_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:layout_marginTop="20dp">
-        <EditText
-            android:id="@+id/et_paper_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textAutoComplete"
-            android:hint="@string/et_hint_paper_author"/>
-    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/spinner_layout"
         android:layout_width="match_parent"
@@ -44,7 +29,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="50dp">
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/kind_spinner"
             android:layout_width="match_parent"
@@ -59,7 +44,7 @@
         android:layout_height="45dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/bg_btn_press_selector"
         android:text="@string/btn_new_paper"
         android:textColor="#ffffff"

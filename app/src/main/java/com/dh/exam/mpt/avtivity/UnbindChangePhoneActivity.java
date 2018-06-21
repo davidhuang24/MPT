@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
-import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.MPTUser;
 
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.BmobUser;

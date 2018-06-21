@@ -27,7 +27,7 @@ import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.avtivity.Fragment.NewPaperFragment;
 import com.dh.exam.mpt.avtivity.Fragment.PaperLibraryFragment;
-import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.MPTUser;
 
 import com.dh.exam.mpt.R;
 

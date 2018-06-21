@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.avtivity.MainActivity;
-import com.dh.exam.mpt.database.MPTUser;
+import com.dh.exam.mpt.entity.MPTUser;
 
 import java.io.File;
 import java.util.List;

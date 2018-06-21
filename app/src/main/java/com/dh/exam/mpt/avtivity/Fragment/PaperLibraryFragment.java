@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.avtivity.MainActivity;
+import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.PaperAdapter;
 
@@ -19,15 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cn.bmob.v3.BmobUser;
+
 
 public class PaperLibraryFragment extends Fragment implements View.OnClickListener{
 
     private Paper[] papers = {
-            new Paper("2018计算机二级考试","计算机","教育部计算机办公室",50,false),
-            new Paper("2017全国高等招生考试","高考","教育部高考办公室",40,false),
-            new Paper("2017全国硕士生招生考试英语","考研","教育部考研办公室",78,false),
-            new Paper("2018雅思考试","英语","英语",20,false),
-            new Paper("2016-2017软件学院数理逻辑期末考试","数理","北邮理学院",60,false),};
+            new Paper("2018计算机二级考试","计算机", BmobUser.getCurrentUser(MPTUser.class),50,false),
+            new Paper("2017全国高等招生考试","高考",BmobUser.getCurrentUser(MPTUser.class),40,false),
+            new Paper("2017全国硕士生招生考试英语","考研",BmobUser.getCurrentUser(MPTUser.class),78,false),
+            new Paper("2018雅思考试","英语",BmobUser.getCurrentUser(MPTUser.class),20,false),
+            new Paper("2016-2017软件学院数理逻辑期末考试","数理",BmobUser.getCurrentUser(MPTUser.class),60,false),};
     private List<Paper> paperList=new ArrayList<>();
     private PaperAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;

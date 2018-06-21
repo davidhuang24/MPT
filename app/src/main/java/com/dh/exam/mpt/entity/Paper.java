@@ -10,11 +10,14 @@ import cn.bmob.v3.BmobObject;
 public class Paper extends BmobObject{
     private String paperName;
     private String paperKind;
-    private String paperAuthor;
+    private MPTUser paperAuthor;//一对多关系，一个作者多张试卷
     private Integer questionCount;
     private Boolean love;
 
-    public Paper(String paperName, String paperKind, String paperAuthor, Integer questionCount, Boolean love) {
+    public Paper() {
+    }
+
+    public Paper(String paperName, String paperKind, MPTUser paperAuthor, Integer questionCount, Boolean love) {
         this.paperName = paperName;
         this.paperKind = paperKind;
         this.paperAuthor = paperAuthor;
@@ -38,11 +41,11 @@ public class Paper extends BmobObject{
         this.paperKind = paperKind;
     }
 
-    public String getPaperAuthor() {
+    public MPTUser getPaperAuthor() {
         return paperAuthor;
     }
 
-    public void setPaperAuthor(String paperAuthor) {
+    public void setPaperAuthor(MPTUser paperAuthor) {
         this.paperAuthor = paperAuthor;
     }
 
