@@ -53,6 +53,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     private MPTUser currentUser;//当前缓存用户
     private Uri userHeadImgUri;
+    //1表示当前Fragment是PaperLibraryFragment，0表示当前Fragment是NewPaperFragment
+    private String fragmentTag;
 
 
 
@@ -64,7 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void init(){
-
+        fragmentTag="NEW_PAPER_FRAG";
         replaceFragment(new PaperLibraryFragment());
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -162,7 +164,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         currentUser=BmobUser.getCurrentUser(MPTUser.class);
         switch (v.getId()){
             case R.id.fab   :
-                Toast.makeText(this, "new fab", Toast.LENGTH_SHORT).show();
+                fabAction();
                 break;
             case R.id.username  ://登陆
                 if(currentUser==null){
@@ -183,6 +185,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
                 default:
+        }
+    }
+
+    public void fabAction(){
+        if(fragmentTag.equals("PAPER_LIB_FRAG")){
+            toolbar.setTitle(getString(R.string.fragment_title_new_paper));
+            replaceFragment(new NewPaperFragment());
+        }else{
+            NewPaperFragment newPaperFragment=(NewPaperFragment)getSupportFragmentManager()
+                    .findFragmentByTag(fragmentTag);
+            newPaperFragment.newPaper();
         }
     }
 
@@ -261,7 +274,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_in_main_layout,fragment);
+        if(fragment.equals("NEW_PAPER_FRAG")){
+            fragmentTag="PAPER_LIB_FRAG";
+        }else {
+            fragmentTag="NEW_PAPER_FRAG";
+        }
+        transaction.replace(R.id.fragment_in_main_layout,fragment,fragmentTag);
         transaction.commit();
     }
 
@@ -279,10 +297,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }
         return false;
     }
-
-
-
-
 
     /**
      * 登出
