@@ -16,5 +16,7 @@ public class ConStant {
     public static final String DEFAULT_HEAD_IMG_URL
             ="http://bmob-cdn-19653.b0.upaiyun.com/2018/06/08/7e1624844034744f80aa061bd5354fc7.png";
     public static final String CROP_CACHE_NAME="MPTCropCache";
+    public static final String PAPER_LIBRARY_FRAG_TAG="lib_frag";
+    public static final String NEW_PAPER_FRAG_TAG="new_frag";
 
 }

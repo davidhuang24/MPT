@@ -50,13 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private TextView tv_header_userName;
     private CircleImageView civ_header_userPic;
 
-
     private MPTUser currentUser;//当前缓存用户
     private Uri userHeadImgUri;
-    //1表示当前Fragment是PaperLibraryFragment，0表示当前Fragment是NewPaperFragment
-    private String fragmentTag;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +61,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void init(){
-        fragmentTag="NEW_PAPER_FRAG";
-        replaceFragment(new PaperLibraryFragment());
+        replaceFragment(new PaperLibraryFragment(),ConStant.PAPER_LIBRARY_FRAG_TAG);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -189,12 +183,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void fabAction(){
-        if(fragmentTag.equals("PAPER_LIB_FRAG")){
+        if(bottomNavigationView.getSelectedItemId()==R.id.navigation_home){
             toolbar.setTitle(getString(R.string.fragment_title_new_paper));
-            replaceFragment(new NewPaperFragment());
+            replaceFragment(new NewPaperFragment(),ConStant.NEW_PAPER_FRAG_TAG);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_add);
         }else{
             NewPaperFragment newPaperFragment=(NewPaperFragment)getSupportFragmentManager()
-                    .findFragmentByTag(fragmentTag);
+                    .findFragmentByTag(ConStant.NEW_PAPER_FRAG_TAG);
             newPaperFragment.newPaper();
         }
     }
@@ -207,12 +202,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             case R.id.navigation_home:
                 //题库主页
                 toolbar.setTitle(getString(R.string.fragment_title_paper_library));
-                replaceFragment(new PaperLibraryFragment());
+                replaceFragment(new PaperLibraryFragment(),ConStant.PAPER_LIBRARY_FRAG_TAG);
                 return true;
             case R.id.navigation_add:
                 //新建试卷
                 toolbar.setTitle(getString(R.string.fragment_title_new_paper));
-                replaceFragment(new NewPaperFragment());
+                replaceFragment(new NewPaperFragment(),ConStant.NEW_PAPER_FRAG_TAG);
                 return true;
             case R.id.navigation_account:
                 //打开抽屉菜单
@@ -271,15 +266,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
-        if(fragment.equals("NEW_PAPER_FRAG")){
-            fragmentTag="PAPER_LIB_FRAG";
-        }else {
-            fragmentTag="NEW_PAPER_FRAG";
-        }
-        transaction.replace(R.id.fragment_in_main_layout,fragment,fragmentTag);
+    private void replaceFragment(Fragment fragment,String fragmentTag){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_in_main_layout, fragment, fragmentTag);
         transaction.commit();
     }
 
