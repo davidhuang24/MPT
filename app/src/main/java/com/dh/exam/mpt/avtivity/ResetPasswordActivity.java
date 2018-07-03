@@ -93,7 +93,6 @@ public class ResetPasswordActivity extends BaseActivity implements View.OnClickL
             timer = new MyCountTimer(60000, 1000);
             timer.start();
             BmobSMS.requestSMSCode(phoneNum,getResources().getString(R.string.SMS_template), new QueryListener<Integer>(){
-
                 @Override
                 public void done(Integer smsId, BmobException ex) {
                     if(ex==null){
@@ -104,7 +103,6 @@ public class ResetPasswordActivity extends BaseActivity implements View.OnClickL
                                 Toast.LENGTH_SHORT).show();
                         timer.cancel();
                     }
-
                 }
             });
         } else {

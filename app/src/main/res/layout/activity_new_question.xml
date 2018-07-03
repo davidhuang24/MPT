@@ -22,7 +22,9 @@
             android:id="@+id/et_question_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请编写题目题干"/>
+            android:hint="请编写题目题干"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -292,9 +294,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请编写题目的解析(选填)"
-            android:lines="2"/>
+            android:lines="3"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
@@ -302,20 +306,31 @@
             android:id="@+id/btn_pre_que"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="上一题"/>
+            android:text="上一题"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/bg_btn_press_selector"
+            android:textColor="#ffffff"/>
         <Button
             android:id="@+id/btn_commit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="提交"/>
+            android:text="提交"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_btn_press_selector"
+            android:textColor="#ffffff"/>/>
         <Button
             android:id="@+id/btn_next_que"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="下一题"/>
-    </LinearLayout>
+            android:text="下一题"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/bg_btn_press_selector"
+            android:textColor="#ffffff"/>/>
+    </RelativeLayout>
 
 </LinearLayout>
