@@ -1,15 +1,14 @@
 package com.dh.exam.mpt.avtivity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.ACache;
 
 
 public class NewQuestionActivity extends BaseActivity implements View.OnClickListener{
@@ -29,10 +28,13 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     private AppCompatCheckBox cb_c;
     private AppCompatCheckBox cb_d;
 
+    private ACache mCache;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_question);
+        mCache=ACache.get(this);
         init();
     }
 
@@ -56,7 +58,21 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         btn_next.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
 
+
     }
+
+    public void readCache(){
+
+    }
+
+    public void saveToCache(){
+
+    }
+
+    public void clearCache(){
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -74,15 +90,15 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void preQuestion(){
+    public void preQuestion(){//查询修改缓存
 
     }
 
-    public void nextQuestion(){
+    public void nextQuestion(){//缓存
 
     }
 
-    public void commitQuestions(){
+    public void commitQuestions(){//上传数据库
 
     }
 }
