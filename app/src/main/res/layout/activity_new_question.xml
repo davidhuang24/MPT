@@ -246,7 +246,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
-            <android.support.v7.widget.AppCompatCheckBox
+            <CheckBox
                 android:id="@+id/cb_option_a"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -255,7 +255,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="A"/>
-            <android.support.v7.widget.AppCompatCheckBox
+            <CheckBox
                 android:id="@+id/cb_option_b"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -264,7 +264,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="B"/>
-            <android.support.v7.widget.AppCompatCheckBox
+            <CheckBox
                 android:id="@+id/cb_option_c"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -273,7 +273,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="C"/>
-            <android.support.v7.widget.AppCompatCheckBox
+            <CheckBox
                 android:id="@+id/cb_option_d"
                 android:layout_width="0dp"
                 android:layout_weight="1"

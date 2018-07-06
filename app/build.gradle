@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
@@ -46,9 +46,12 @@ dependencies {
 
     implementation 'cn.bmob.android:bmob-sdk:3.6.0'
 
-
     implementation('com.github.yalantis:ucrop:2.2.2')
             { exclude group: 'com.squareup.okhttp3' }//解决okhttp3依赖冲突bug
+
+//    implementation 'com.google.code.gson:gson:2.8.0'
+
+
 
 
 }

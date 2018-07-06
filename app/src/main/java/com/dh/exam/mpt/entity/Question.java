@@ -11,16 +11,21 @@ public class Question extends BmobObject {
     private Paper paper;//一对多关系，一张试卷多个题目
     private Integer questionNum;
     private String title;
-    private String []Option;//答案选项
-    private String answer;
+    private String [] options;//答案选项
+    private int answer;
+    private String analysis;
 
-    public Question(String tableName, Paper paper, Integer questionNum, String title, String[] option, String answer) {
+    public Question() {
+    }
+
+    public Question(String tableName, Paper paper, Integer questionNum, String title, String[] options, int answer, String analysis) {
         super(tableName);
         this.paper = paper;
         this.questionNum = questionNum;
         this.title = title;
-        Option = option;
+        this.options = options;
         this.answer = answer;
+        this.analysis=analysis;
     }
 
     public Paper getPaper() {
@@ -47,19 +52,27 @@ public class Question extends BmobObject {
         this.title = title;
     }
 
-    public String[] getOption() {
-        return Option;
+    public String[] getOptions() {
+        return options;
     }
 
-    public void setOption(String[] option) {
-        Option = option;
+    public void setOptions(String[] options) {
+        this.options = options;
     }
 
-    public String getAnswer() {
+    public int getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(int answer) {
         this.answer = answer;
+    }
+
+    public String getAnalysis() {
+        return analysis;
+    }
+
+    public void setAnalysis(String analysis) {
+        this.analysis = analysis;
     }
 }
