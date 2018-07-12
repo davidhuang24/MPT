@@ -24,7 +24,7 @@ import com.bumptech.glide.signature.StringSignature;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
-import com.dh.exam.mpt.Utils.WriteCacheListener;
+import com.dh.exam.mpt.Utils.FirstThingListener;
 import com.dh.exam.mpt.avtivity.Fragment.NewPaperFragment;
 import com.dh.exam.mpt.avtivity.Fragment.PaperLibraryFragment;
 import com.dh.exam.mpt.entity.MPTUser;
@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }
 
         if(!file.exists()){//文件不存在，写缓存-读缓存-显示头像
-            CacheManager.writeHeadImgToCache(headImgType,new WriteCacheListener() {
+            CacheManager.writeHeadImgToCache(headImgType,new FirstThingListener() {
                 @Override
                 public void done() {
                     showHeadImgFromCache();

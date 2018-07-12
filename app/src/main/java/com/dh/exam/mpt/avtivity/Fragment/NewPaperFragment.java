@@ -14,15 +14,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.avtivity.MainActivity;
 import com.dh.exam.mpt.avtivity.NewQuestionActivity;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -98,7 +94,7 @@ public class NewPaperFragment extends Fragment implements View.OnClickListener,A
                         NewQuestionActivity.activityStart(currentActivity,NewQuestionActivity.class,objectId,null,null);
                     }else{
                         Toast.makeText(currentActivity,
-                                getString(R.string.new_paper_fail), Toast.LENGTH_SHORT).show();
+                                getString(R.string.new_paper_fail)+e.getErrorCode()+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -127,6 +123,5 @@ public class NewPaperFragment extends Fragment implements View.OnClickListener,A
      */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

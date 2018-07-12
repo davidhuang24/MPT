@@ -23,7 +23,7 @@ public class CacheManager {
     /**
      * 将用户头像缓存到应用目录中
      */
-    public static void writeHeadImgToCache(int fileType,final WriteCacheListener listener){
+    public static void writeHeadImgToCache(int fileType,final FirstThingListener listener){
         if(fileType==1){//缓存用户头像
             BmobFileManager.downloadFile
                     (BmobUser.getCurrentUser(MPTUser.class).getHeadImg(),listener);

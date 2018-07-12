@@ -12,13 +12,21 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ACache;
+import com.dh.exam.mpt.Utils.FirstThingListener;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.Question;
 import com.google.gson.Gson;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListListener;
 import cn.bmob.v3.listener.QueryListener;
 
 
@@ -43,6 +51,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     private int answerInt=0;
     private int questionNum=0;//题号
 
+    private Paper currentPaper;
     private ACache mCache;
 
     @Override
@@ -54,10 +63,20 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void init(){
-
-
         paperObjectId=getIntent().getStringExtra("param1");
-        Toast.makeText(this, paperObjectId, Toast.LENGTH_SHORT).show();
+        BmobQuery<Paper> query= new BmobQuery<>();
+        query.getObject(paperObjectId, new QueryListener<Paper>() {
+                    @Override
+                    public void done(Paper paper, BmobException e) {
+                        if (e == null) {
+                            currentPaper=paper;//获取当前paper
+                        }else{
+                            Toast.makeText(NewQuestionActivity.this,
+                                    "查询Paper("+paperObjectId+")失败,错误信息： "+ e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
         et_title=(EditText) findViewById(R.id.et_question_title);
         et_option_a=(EditText) findViewById(R.id.et_option_a);
         et_option_b=(EditText) findViewById(R.id.et_option_b);
@@ -102,7 +121,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     /**
      *将question对象先存到Json里然后存储到一条Cache里
      */
-    public void questionSave2Json2Cache(){
+    public void questionSave2Json2Cache(boolean isPreQuestion,FirstThingListener listener){
         final String title=et_title.getText().toString().trim();
         final String optionA=et_option_a.getText().toString().trim();
         final String optionB=et_option_b.getText().toString().trim();
@@ -112,35 +131,31 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         String options[]={optionA,optionB,optionC,optionD};
 
         answerInt=getAnswer();
-        if (TextUtils.isEmpty(title)||TextUtils.isEmpty(optionA)||TextUtils.isEmpty(optionB)||
-                TextUtils.isEmpty(optionC)||TextUtils.isEmpty(optionD)||answerInt==0) {
-            Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        BmobQuery<Paper> query= new BmobQuery<>();
-        query.getObject(paperObjectId, new QueryListener<Paper>() {
-            @Override
-            public void done(Paper paper, BmobException e) {
-                if(e==null){
-                    Question question=new Question();
-                    question.setTitle(title);
-                    question.setOptions(options);
-                    question.setAnswer(answerInt);
-                    question.setAnalysis(analysis);
-                    question.setQuestionNum(questionNum);
-                    question.setPaper(paper);//最后提交时要更新后台paper的questionCount字段
-                    Gson gson=new Gson();
-                    String questionJsonStr=gson.toJson(question);//先存到Json里
-                    String questionJsonKey=paperObjectId+questionNum;
-                    mCache.put(questionJsonKey,questionJsonStr);//存储到Cache里
-                }else{
-                    Toast.makeText(NewQuestionActivity.this,
-                            "查询Paper("+paperObjectId+")失败,错误信息： "+
-                                    e.getMessage()+"错误码： "+e.getErrorCode(),
-                            Toast.LENGTH_SHORT).show();
-                }
+        if (TextUtils.isEmpty(title)&&TextUtils.isEmpty(optionA)&&TextUtils.isEmpty(optionB)&&
+                TextUtils.isEmpty(optionC)&&TextUtils.isEmpty(optionD)&&TextUtils.isEmpty(analysis)
+                &&answerInt==0) {
+            if(isPreQuestion){//编辑区全空时，若是点击上一题，直接跳到上一题，不保存
+                listener.done();
+                return;
+            }else{//编辑区全空时，若是点击下一题，不保存，不跳到下一题
+                Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+        }
+
+        Question question=new Question();
+        question.setTitle(title);
+        question.setOptions(options);
+        question.setAnswer(answerInt);
+        question.setAnalysis(analysis);
+        question.setQuestionNum(questionNum);
+        question.setPaper(currentPaper);//最后提交时要更新后台paper的questionCount字段
+        Gson gson=new Gson();
+        String questionJsonStr=gson.toJson(question);//先存到Json里
+        String questionJsonKey=paperObjectId+questionNum;
+        mCache.put(questionJsonKey,questionJsonStr,2*ACache.TIME_HOUR);//存储到Cache里
+        listener.done();
+
     }
 
 
@@ -166,6 +181,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     public void showQuestionFromCache(){
         String questionJsonKey=paperObjectId+questionNum;
         String jsonData=readCache(questionJsonKey);
+
         if(jsonData!=null){
             Gson gson=new Gson();
             Question question=gson.fromJson(jsonData,Question.class);
@@ -247,29 +263,97 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 缓存当前题，编辑上一题
+     * 先缓存当前题，后编辑上一题
      */
     public void preQuestion(){//查询修改缓存
-        questionSave2Json2Cache();
+        questionSave2Json2Cache(true,new FirstThingListener(){
+            @Override
+            public void done() {
+                if(questionNum>=1){
+                    questionNum--;
+                    clearEditArea();
+                    showQuestionFromCache();
+                }else {
+                    Toast.makeText(NewQuestionActivity.this, "没有上一题了", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-        questionNum--;
-        clearEditArea();
-        showQuestionFromCache();
+            @Override
+            public void onError(Exception e) {}
+
+        });
     }
 
     /**
-     * 缓存当前题，添加下一题
+     * 先缓存当前题，后添加下一题
      */
     public void nextQuestion(){
-        questionSave2Json2Cache();
-
-        questionNum++;
-        clearEditArea();
-        showQuestionFromCache();
+        questionSave2Json2Cache(false,new FirstThingListener() {
+            @Override
+            public void done() {
+                questionNum++;
+                clearEditArea();
+                showQuestionFromCache();
+            }
+            @Override
+            public void onError(Exception e) {}
+        });
     }
 
-    public void commitQuestions(){//更新paper题目数，上传数据库
+    /**
+     * 先缓存当前题，后将题目缓存上传到数据库，更新paper题目数
+     */
+    public void commitQuestions(){
+        questionSave2Json2Cache(false,new FirstThingListener() {//缓存当前题
+            @Override
+            public void done() {
+                List<BmobObject> questions = new ArrayList<>();
+                questionNum++;
+                int i=0;
+                //一条一条读缓存Cache->Json->question
+                String questionJsonKey=paperObjectId+i;
+                String jsonData=readCache(questionJsonKey);
+                while (jsonData!=null){
+                    Gson gson=new Gson();
+                    Question question=gson.fromJson(jsonData,Question.class);
+                    if(question!=null){
+                        questions.add(question);
+                    }
+                    i++;
+                    questionJsonKey=paperObjectId+i;
+                    jsonData=readCache(questionJsonKey);
+                }
+                //批量添加题目数据到数据库
+                new BmobBatch().insertBatch(questions).doBatch(new QueryListListener<BatchResult>() {
+                    @Override
+                    public void done(List<BatchResult> list, BmobException e) {
+                        if(e==null){
+                            for(int i=0;i<list.size();i++){
+                                BatchResult result = list.get(i);
+                                BmobException ex =result.getError();
+                                if(ex==null){
 
+                                }else{
+                                    Toast.makeText(NewQuestionActivity.this,
+                                            "第"+i+"个数据批量添加失败："+ex.getMessage()+","+
+                                                    ex.getErrorCode(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }else{
+                            Toast.makeText(NewQuestionActivity.this,
+                                    "批量添加题目数据失败，错误码："+e.getErrorCode()+
+                                            "，错误信息："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                int questionCount=i;
+                currentPaper.setQuestionCount(questionCount);
+
+            }
+            @Override
+            public void onError(Exception e) {}
+        });
     }
 
     public void clearEditArea(){

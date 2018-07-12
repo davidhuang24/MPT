@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.dh.exam.mpt.Utils.CacheManager;
-import com.dh.exam.mpt.Utils.WriteCacheListener;
 import com.dh.exam.mpt.avtivity.MainActivity;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.avtivity.StartActivity;

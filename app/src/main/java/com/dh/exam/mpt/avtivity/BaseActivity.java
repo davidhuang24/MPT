@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
-import com.dh.exam.mpt.Utils.WriteCacheListener;
+import com.dh.exam.mpt.Utils.FirstThingListener;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import java.io.File;
@@ -129,7 +129,7 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if(!file.exists()) {//缓存不存在，做缓存
-            CacheManager.writeHeadImgToCache(headImgType,new WriteCacheListener() {
+            CacheManager.writeHeadImgToCache(headImgType,new FirstThingListener() {
                 @Override
                 public void done() { }
                 @Override

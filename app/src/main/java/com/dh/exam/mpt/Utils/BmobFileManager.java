@@ -152,7 +152,7 @@ public class BmobFileManager extends BmobFile{
      *
      * @param bmobFile
      */
-    public static void downloadFile(BmobFile bmobFile,final WriteCacheListener listener){
+    public static void downloadFile(BmobFile bmobFile,final FirstThingListener listener){
         File saveFile=new File(
                 CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                 bmobFile.getFilename());
