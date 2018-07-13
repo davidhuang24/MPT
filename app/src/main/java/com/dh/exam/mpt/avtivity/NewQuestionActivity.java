@@ -28,6 +28,7 @@ import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListListener;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 
 public class NewQuestionActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
@@ -137,7 +138,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
             if(isPreQuestion){//编辑区全空时，若是点击上一题，直接跳到上一题，不保存
                 listener.done();
                 return;
-            }else{//编辑区全空时，若是点击下一题，不保存，不跳到下一题
+            }else{//编辑区全空时，若是点击下一题，不缓存，不跳到下一题
                 Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -149,13 +150,12 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         question.setAnswer(answerInt);
         question.setAnalysis(analysis);
         question.setQuestionNum(questionNum);
-        question.setPaper(currentPaper);//最后提交时要更新后台paper的questionCount字段
+        question.setPaper(currentPaper);//添加一对多关系，一张试卷多个题目
         Gson gson=new Gson();
         String questionJsonStr=gson.toJson(question);//先存到Json里
         String questionJsonKey=paperObjectId+questionNum;
         mCache.put(questionJsonKey,questionJsonStr,2*ACache.TIME_HOUR);//存储到Cache里
         listener.done();
-
     }
 
 
@@ -323,22 +323,44 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                     questionJsonKey=paperObjectId+i;
                     jsonData=readCache(questionJsonKey);
                 }
+
+                int questionCount=i;
                 //批量添加题目数据到数据库
                 new BmobBatch().insertBatch(questions).doBatch(new QueryListListener<BatchResult>() {
                     @Override
                     public void done(List<BatchResult> list, BmobException e) {
                         if(e==null){
+                            int count=questionCount;
                             for(int i=0;i<list.size();i++){
                                 BatchResult result = list.get(i);
                                 BmobException ex =result.getError();
                                 if(ex==null){
-
                                 }else{
                                     Toast.makeText(NewQuestionActivity.this,
                                             "第"+i+"个数据批量添加失败："+ex.getMessage()+","+
                                                     ex.getErrorCode(), Toast.LENGTH_SHORT).show();
+                                    count--;
                                 }
                             }
+                            //更新当前paper的题目数
+                            currentPaper.setQuestionCount(count);
+                            currentPaper.update(paperObjectId, new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if(e==null){
+                                        Toast.makeText(NewQuestionActivity.this,
+                                                "新增试卷成功", Toast.LENGTH_SHORT).show();
+                                        MainActivity.activityStart(NewQuestionActivity.this,
+                                                MainActivity.class,null,null,null);
+                                        finish();
+                                    }else{
+                                        Toast.makeText(NewQuestionActivity.this,
+                                                "questionCount更新失败，"+e.getErrorCode()
+                                                        +e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                         }else{
                             Toast.makeText(NewQuestionActivity.this,
                                     "批量添加题目数据失败，错误码："+e.getErrorCode()+
@@ -346,10 +368,6 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 });
-
-                int questionCount=i;
-                currentPaper.setQuestionCount(questionCount);
-
             }
             @Override
             public void onError(Exception e) {}
