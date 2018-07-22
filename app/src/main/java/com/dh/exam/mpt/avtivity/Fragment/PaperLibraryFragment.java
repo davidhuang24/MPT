@@ -122,6 +122,7 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
         // 想在查询内获取Pointer类型的关联对象,就该这么设置,体现了数据关联性
         query.include("paperAuthor");
         boolean isCacheExisted=query.hasCachedResult(Paper.class);
+        //
         if(isCacheExisted){
             query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ONLY);//只从缓存获取数据
         }else {

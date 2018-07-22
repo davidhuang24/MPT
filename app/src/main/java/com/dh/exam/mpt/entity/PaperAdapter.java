@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.avtivity.BaseActivity;
 
 import java.util.List;
 
@@ -71,30 +72,28 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
 //                        paper.getPaperKind(),paper.getQuestionCount());
             }
         });
-        holder.iv_love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position=holder.getAdapterPosition();
-                Paper paper=paperList.get(position);
-                if(paper.getLove()){
-                    holder.iv_love.setImageResource(R.drawable.love0);
-                    paper.setLove(false);
-                }else{
-                    holder.iv_love.setImageResource(R.drawable.love1);
-                    paper.setLove(true);
-                }
-                paper.update(new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if(e==null){
-                        }else{
-                            Toast.makeText(MPTApplication.getContext(),
-                                    "更新数据失败,错误码:"+e.getErrorCode()+",错误信息:"+
-                                            e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        holder.iv_love.setOnClickListener(v -> {
+            int position=holder.getAdapterPosition();
+            Paper paper=paperList.get(position);
+            if(paper.getLove()){
+                holder.iv_love.setImageResource(R.drawable.love0);
+                paper.setLove(false);
+            }else{
+                holder.iv_love.setImageResource(R.drawable.love1);
+                paper.setLove(true);
             }
+            paper.update(new UpdateListener() {//同步更新数据库
+                @Override
+                public void done(BmobException e) {
+                    if(e==null){
+                    }else{
+                        Toast.makeText(MPTApplication.getContext(),
+                                "更新数据失败,错误码:"+e.getErrorCode()+",错误信息:"+
+                                        e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            BaseActivity.cachePapers();//同步更新缓存
         });
         return holder;
     }

@@ -156,7 +156,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * 缓存Paper
      */
-    public void cachePapers(){
+    public static void cachePapers(){
         BmobQuery<Paper> query=new BmobQuery<>();
         query.include("paperAuthor");
 //        boolean isCacheExisted=query.hasCachedResult(Paper.class);
