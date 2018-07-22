@@ -10,9 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 
 import java.util.List;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  *PaperAdapter
@@ -24,8 +28,6 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
     private static final String TAG = "PaperAdapter";
     private Context context;
     private List<Paper> paperList;
-
-
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
@@ -81,6 +83,17 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
                     holder.iv_love.setImageResource(R.drawable.love1);
                     paper.setLove(true);
                 }
+                paper.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                        }else{
+                            Toast.makeText(MPTApplication.getContext(),
+                                    "更新数据失败,错误码:"+e.getErrorCode()+",错误信息:"+
+                                            e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
         return holder;
@@ -93,6 +106,11 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         holder.tv_question_count.setText(paper.getQuestionCount().toString());
         holder.tv_kind.setText(paper.getPaperKind());
         holder.tv_author.setText(paper.getPaperAuthor().getUsername());
+        if(paper.getLove()){
+            holder.iv_love.setImageResource(R.drawable.love1);
+        }else{
+            holder.iv_love.setImageResource(R.drawable.love0);
+        }
     }
 
     @Override

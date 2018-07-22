@@ -18,6 +18,7 @@ import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.Utils.FirstThingListener;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 
@@ -157,19 +158,25 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void cachePapers(){
         BmobQuery<Paper> query=new BmobQuery<>();
+        query.include("paperAuthor");
 //        boolean isCacheExisted=query.hasCachedResult(Paper.class);
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//先访问网络获取数据,后将数据存入缓存
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(MPTApplication.getContext(), "网络不可用,缓存Paper失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
         query.findObjects(new FindListener<Paper>() {
             @Override
             public void done(List<Paper> list, BmobException e) {
                 if(e==null){
                 }else{
                     Toast.makeText(MPTApplication.getContext(),
-                            "缓存Paper失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                            "缓存Paper失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
     }
 
     /**

@@ -72,11 +72,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         navigationView=(NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         View headerLayout = navigationView.getHeaderView(0); // 0-index header
         tv_header_userName =(TextView) headerLayout.findViewById(R.id.username);
         civ_header_userPic =(CircleImageView) headerLayout.findViewById(R.id.user_image);
-
         tv_header_userName.setOnClickListener(this);
         civ_header_userPic.setOnClickListener(this);
 
@@ -88,9 +86,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         fab=(FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-
-
-
     }
 
     @Override
@@ -152,7 +147,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         userHeadImgUri=Uri.fromFile(imgFile);
     }
 
-
     @Override
     public void onClick(View v) {
         currentUser=BmobUser.getCurrentUser(MPTUser.class);
@@ -166,9 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                             null,null,null);
                 }
                 break;
-
             case R.id.user_image   ://设置头像
-
                 if(currentUser!=null){
                     UserImageActivity.activityStart(MainActivity.this,
                             UserImageActivity.class,null,null,userHeadImgUri);
@@ -176,7 +168,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     LoginActivity.activityStart(MainActivity.this,LoginActivity.class,
                             null,null,null);
                 }
-
                 break;
                 default:
         }
@@ -213,7 +204,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 //打开抽屉菜单
                 drawerLayout.openDrawer(GravityCompat.START);//打开抽屉菜单
                 return true;
-
             //NavigationView
             case R.id.nav_account://绑定手机号
                 if(currentUser!=null){
@@ -303,6 +293,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
