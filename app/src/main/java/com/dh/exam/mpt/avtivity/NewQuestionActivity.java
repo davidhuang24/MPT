@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ACache;
 import com.dh.exam.mpt.Utils.FirstThingListener;
+import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.Question;
 import com.google.gson.Gson;
@@ -24,6 +25,7 @@ import java.util.List;
 import cn.bmob.v3.BmobBatch;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListListener;
@@ -52,6 +54,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     private int answerInt=0;
     private int questionNum=0;//题号
 
+    private MPTUser currentUser;
     private Paper currentPaper;
     private ACache mCache;
 
@@ -117,6 +120,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
      */
     public void clearCache(String questionCacheKey){
         mCache.remove(questionCacheKey);
+        mCache.clear();
     }
 
     /**
@@ -144,6 +148,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
             }
         }
 
+        currentUser= BmobUser.getCurrentUser(MPTUser.class);
         Question question=new Question();
         question.setTitle(title);
         question.setOptions(options);
@@ -153,8 +158,10 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         question.setPaper(currentPaper);//添加一对多关系，一张试卷多个题目
         Gson gson=new Gson();
         String questionJsonStr=gson.toJson(question);//先存到Json里
-        String questionJsonKey=paperObjectId+questionNum;
-        mCache.put(questionJsonKey,questionJsonStr,2*ACache.TIME_HOUR);//存储到Cache里
+        if(currentUser!=null) {
+            String questionJsonKey = "correct_answer" + currentUser.getObjectId() + paperObjectId + questionNum;
+            mCache.put(questionJsonKey, questionJsonStr, 2 * ACache.TIME_DAY);//存储到Cache里
+        }
         listener.done();
     }
 
@@ -179,7 +186,11 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
      * 显示当前题目的内容
      */
     public void showQuestionFromCache(){
-        String questionJsonKey=paperObjectId+questionNum;
+        String questionJsonKey = null;
+        if(currentUser!=null) {
+            questionJsonKey = "correct_answer" + currentUser.getObjectId() + paperObjectId + questionNum;
+        }
+
         String jsonData=readCache(questionJsonKey);
 
         if(jsonData!=null){
@@ -201,10 +212,10 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     /**
      * 根据answer设置四个CheckBox状态
      *
-     * @param currentAnswer answer
+     * @param answer answer
      */
-    public  void setCheckedAccordAnswer(int currentAnswer){
-        switch (currentAnswer){
+    public  void setCheckedAccordAnswer(int answer){
+        switch (answer){
             case 1:
                 setCheckBoxes(false,false,false,true);
                 break;
@@ -311,17 +322,20 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                 questionNum++;
                 int i=0;
                 //一条一条读缓存Cache->Json->question
-                String questionJsonKey=paperObjectId+i;
-                String jsonData=readCache(questionJsonKey);
-                while (jsonData!=null){
-                    Gson gson=new Gson();
-                    Question question=gson.fromJson(jsonData,Question.class);
-                    if(question!=null){
-                        questions.add(question);
+                String questionJsonKey=null;
+                if(currentUser!=null) {
+                    questionJsonKey = "correct_answer" + currentUser.getObjectId() + paperObjectId +i;
+                    String jsonData=readCache(questionJsonKey);
+                    while (jsonData!=null){
+                        Gson gson=new Gson();
+                        Question question=gson.fromJson(jsonData,Question.class);
+                        if(question!=null){
+                            questions.add(question);
+                        }
+                        i++;
+                        questionJsonKey="correct_answer" + currentUser.getObjectId() + paperObjectId +i;
+                        jsonData=readCache(questionJsonKey);
                     }
-                    i++;
-                    questionJsonKey=paperObjectId+i;
-                    jsonData=readCache(questionJsonKey);
                 }
 
                 int questionCount=i;
@@ -434,5 +448,10 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
             output+=1;
         }
         return output;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

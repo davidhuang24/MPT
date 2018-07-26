@@ -74,6 +74,12 @@
     <string name="spinner_title">试卷类型</string>
     <string name="paper_title_null">试卷名不能为空</string>
     <string name="new_paper_fail">新建试卷失败</string>
+    <string name="begin_test">开 始 考 试</string>
+    <string name="a_text">A</string>
+    <string name="b_text">B</string>
+    <string name="c_text">C</string>
+    <string name="d_text">D</string>
+    <string name="candidateTag">考生:</string>
 
 
 </resources>

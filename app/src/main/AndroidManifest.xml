@@ -51,7 +51,8 @@
             android:label="@string/title_activity_user_img" />
         <activity android:name=".avtivity.UnbindChangePhoneActivity" />
         <activity android:name=".avtivity.CropResultActivity" />
-        <activity android:name=".avtivity.NewQuestionActivity"/>
+        <activity android:name=".avtivity.NewQuestionActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="@string/file_provider_authorities"
@@ -62,6 +63,9 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
+        <activity android:name=".avtivity.PaperInfoActivity" />
+        <activity android:name=".avtivity.TestActivity" />
+        <activity android:name=".avtivity.TestResultActivity"></activity>
     </application>
 
 </manifest>

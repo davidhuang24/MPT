@@ -37,6 +37,7 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
     private MainActivity currentActivity;
     private int paperCount;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
