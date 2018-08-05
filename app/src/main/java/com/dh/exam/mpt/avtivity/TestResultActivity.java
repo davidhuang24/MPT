@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +18,9 @@ import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.Question;
+import com.dh.exam.mpt.entity.Result;
+import com.dh.exam.mpt.entity.ScoreRecord;
+import com.dh.exam.mpt.entity.TestResultAdapter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -25,6 +31,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class TestResultActivity extends BaseActivity {
 
@@ -33,10 +41,13 @@ public class TestResultActivity extends BaseActivity {
     private int questionCount=0;
     private int correctCount=0;
     private List<Question> questionList=new ArrayList<>();
-    private List<Boolean> judgeResult=new ArrayList<>();
+    private List<Result> resultList=new ArrayList<>();
+    private TestResultAdapter adapter;
     private TextView tv_candidate;
     private TextView tv_score;
     private MPTUser currentUser;
+    private Paper currentPaper;
+    private int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +61,15 @@ public class TestResultActivity extends BaseActivity {
         paperObjectId=getIntent().getStringExtra("param1");
         tv_candidate=findViewById(R.id.tv_candidate);
         tv_score=findViewById(R.id.tv_score);
+
         getQuestionData();
+
+        RecyclerView recyclerView= findViewById(R.id.grid_recycler_view);
+        GridLayoutManager layoutManager=new GridLayoutManager(TestResultActivity.this,4);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new TestResultAdapter(resultList,questionList);
+        recyclerView.setAdapter(adapter);
+
 
     }
 
@@ -103,15 +122,21 @@ public class TestResultActivity extends BaseActivity {
                         paperObjectId + question.getQuestionNum();
             }
             String userAnswerStr=readCache(answerKey);
+            Result result=new Result();
+            result.setQuestionNum(question.getQuestionNum());
+            result.setUserAnswer(Integer.valueOf(userAnswerStr));
             if(question.getAnswer()==Integer.valueOf(userAnswerStr)&&userAnswerStr!=null
                     ||question.getAnswer()==0){//判对
-                judgeResult.add(true);
+                result.setResult(true);
                 correctCount++;
             }else {//判错
-                judgeResult.add(false);
+                result.setResult(false);
             }
+            resultList.add(result);
         }
+        adapter.notifyDataSetChanged();//获取数据后更新UI，否则Adapter会无数据
         showTestResult();
+        uploadScoreRecord();
     }
 
     @SuppressLint("SetTextI18n")
@@ -121,11 +146,44 @@ public class TestResultActivity extends BaseActivity {
             tv_candidate.setText(getString(R.string.candidateTag)+currentUser.getUsername());
         }
         //百分制分数计算公式:DecimalFormat设置两位double小数,然后向上取整
-        int score=(int)Math.ceil(Double.valueOf(
+        score=(int)Math.ceil(Double.valueOf(
                 new DecimalFormat("0.00").format(
                         100*correctCount/(double)questionCount)));
         tv_score.setText("分数: "+score);
-        Toast.makeText(this, correctCount+","+(questionCount-correctCount), Toast.LENGTH_SHORT).show();
+    }
+
+    private void uploadScoreRecord(){
+        BmobQuery<Paper> query= new BmobQuery<>();
+        query.getObject(paperObjectId, new QueryListener<Paper>() {
+            @Override
+            public void done(Paper paper, BmobException e) {
+                if (e == null) {
+                    currentPaper=paper;//获取当前paper
+                    currentUser = BmobUser.getCurrentUser(MPTUser.class);
+                    ScoreRecord scoreRecord=new ScoreRecord();
+                    scoreRecord.setScore(score);
+                    scoreRecord.setPaper(currentPaper);
+                    scoreRecord.setUser(currentUser);
+                    scoreRecord.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e==null){
+                                Toast.makeText(TestResultActivity.this, "上传得分记录成功",
+                                        Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(TestResultActivity.this,
+                                        "上传得分记录失败，错误信息："+e.getMessage()+"，错误码："
+                                                +e.getErrorCode(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }else{
+                    Toast.makeText(TestResultActivity.this,
+                            "查询Paper("+paperObjectId+")失败,错误信息： "+ e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 

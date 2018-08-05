@@ -41,7 +41,7 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         TextView tv_question_count;
         TextView tv_kind;
         TextView tv_author;
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             cardView = (CardView) view;
             iv_paper = (ImageView) view.findViewById(R.id.iv_paper_icon);
@@ -68,7 +68,6 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         holder.cardView.setOnClickListener(v -> {
             int position=holder.getAdapterPosition();
             Paper paper=paperList.get(position);
-            Toast.makeText(context, paper.getPaperName(), Toast.LENGTH_SHORT).show();
             PaperInfoActivity.activityStart(context,PaperInfoActivity.class,
                     paper.getObjectId(),null,null);
 
@@ -121,5 +120,6 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
     public int getItemCount() {
         return paperList.size();
     }
+
 
 }

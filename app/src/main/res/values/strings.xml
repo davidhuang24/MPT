@@ -80,6 +80,38 @@
     <string name="c_text">C</string>
     <string name="d_text">D</string>
     <string name="candidateTag">考生:</string>
+    <string name="right_answer_d">正确答案： D</string>
+    <string name="right_answer_c">正确答案： C</string>
+    <string name="right_answer_cd">正确答案： CD</string>
+    <string name="right_answer_b">正确答案： B</string>
+    <string name="right_answer_bd">正确答案： BD</string>
+    <string name="right_answer_bc">正确答案： BC</string>
+    <string name="right_answer_bcd">正确答案： BCD</string>
+    <string name="right_answer_a">正确答案： A</string>
+    <string name="right_answer_ad">正确答案： AD</string>
+    <string name="right_answer_ac">正确答案： AC</string>
+    <string name="right_answer_acd">正确答案： ACD</string>
+    <string name="right_answer_ab">正确答案： AB</string>
+    <string name="right_answer_abd">正确答案： ABD</string>
+    <string name="right_answer_abc">正确答案： ABC</string>
+    <string name="right_answer_abcd">正确答案： ABCD</string>
+    <string name="user_answer_d">用户答案： D</string>
+    <string name="user_answer_c">用户答案： C</string>
+    <string name="user_answer_cd">用户答案： CD</string>
+    <string name="user_answer_b">用户答案： B</string>
+    <string name="user_answer_bd">用户答案： BD</string>
+    <string name="user_answer_bc">用户答案： BC</string>
+    <string name="user_answer_bcd">用户答案： BCD</string>
+    <string name="user_answer_a">用户答案： A</string>
+    <string name="user_answer_ad">用户答案： AD</string>
+    <string name="user_answer_ac">用户答案： AC</string>
+    <string name="user_answer_acd">用户答案： ACD</string>
+    <string name="user_answer_ab">用户答案： AB</string>
+    <string name="user_answer_abd">用户答案： ABD</string>
+    <string name="user_answer_abc">用户答案： ABC</string>
+    <string name="user_answer_abcd">用户答案： ABCD</string>
+    <string name="right_answer_null">未设置标准答案</string>
+    <string name="user_answer_null">用户未答此题</string>
 
 
 </resources>

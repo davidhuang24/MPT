@@ -13,7 +13,7 @@
         app:titleTextColor="@android:color/white"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="10dp">
         <TextView
@@ -27,8 +27,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="18dp"
             android:gravity="center"
             android:textSize="20sp"/>
+        <View
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="#d2d2d2"
+            android:layout_margin="3dp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/grid_recycler_view"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
 

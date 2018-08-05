@@ -69,6 +69,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         mCache=ACache.get(this);
+        mCache.clear();
         init();
     }
 
@@ -399,7 +400,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
             int userAnswer=Integer.valueOf(userAnswerStr);
             setCheckedAccordAnswer(userAnswer);
         }
-
     }
 
     /**

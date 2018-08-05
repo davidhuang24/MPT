@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="bigRed">#EE2C2C</color>
     <color name="deepSkyBlue">#00BFFF</color>
     <color name="DoderBlue">#1E90FF</color>
     <color name="bg_btn_normal_color">#00BFFF</color>
