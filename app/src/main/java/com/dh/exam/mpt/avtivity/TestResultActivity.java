@@ -77,7 +77,6 @@ public class TestResultActivity extends BaseActivity {
      * 关联查询,查询是paperObjectId的试卷的所有题目
      */
     private void getQuestionData(){
-        paperObjectId=getIntent().getStringExtra("param1");
         BmobQuery<Question> query= new BmobQuery<>();
         query.include("paper");
         Paper paper=new Paper();
