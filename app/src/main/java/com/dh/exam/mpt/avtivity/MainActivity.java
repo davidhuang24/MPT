@@ -216,7 +216,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.nav_favorites://解绑手机号
+            case R.id.test_record://解绑手机号
                 if(currentUser!=null){
                     if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
                         UnbindChangePhoneActivity.activityStart

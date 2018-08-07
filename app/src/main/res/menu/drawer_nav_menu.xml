@@ -6,9 +6,9 @@
             android:icon="@drawable/drawer_item_account"
             android:title="@string/drawer_title_account"/>
         <item
-            android:id="@+id/nav_favorites"
-            android:icon="@drawable/drawer_item_favorites"
-            android:title="@string/drawer_title_favorites"/>
+            android:id="@+id/test_record"
+            android:icon="@drawable/drawer_item_test_record"
+            android:title="@string/drawer_title_test_record"/>
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/drawer_item_setting"

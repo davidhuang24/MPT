@@ -65,7 +65,8 @@
 
         <activity android:name=".avtivity.PaperInfoActivity" />
         <activity android:name=".avtivity.TestActivity" />
-        <activity android:name=".avtivity.TestResultActivity"></activity>
+        <activity android:name=".avtivity.TestResultActivity" />
+        <activity android:name=".avtivity.TestRecordActivity"></activity>
     </application>
 
 </manifest>

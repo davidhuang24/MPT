@@ -23,7 +23,8 @@
                 android:scaleType="fitXY"
                 android:layout_margin="5dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/paper_icon"/>
+                android:src="@drawable/paper_icon"
+                android:contentDescription="@string/todo" />
             <TextView
                 android:id="@+id/tv_paper_name"
                 android:layout_width="0dp"
@@ -39,7 +40,8 @@
                 android:scaleType="fitXY"
                 android:layout_margin="5dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/love0"/>
+                android:src="@drawable/love0"
+                android:contentDescription="@string/todo" />
         </LinearLayout>
 
         <LinearLayout
