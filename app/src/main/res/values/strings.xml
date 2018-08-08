@@ -112,8 +112,4 @@
     <string name="user_answer_abcd">用户答案： ABCD</string>
     <string name="right_answer_null">未设置标准答案</string>
     <string name="user_answer_null">用户未答此题</string>
-    <string name="todo">TODO</string>
-    <string name="todo">TODO</string>
-
-
 </resources>

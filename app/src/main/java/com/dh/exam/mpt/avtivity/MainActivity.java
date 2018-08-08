@@ -216,18 +216,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.test_record://解绑手机号
-                if(currentUser!=null){
-                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.activityStart
-                                (MainActivity.this,UnbindChangePhoneActivity.class,
-                                        "1",null,null);
-                    }else {
-                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-                }
+            case R.id.test_record:
+                TestRecordActivity.activityStart(MainActivity.this,TestRecordActivity.class,
+                        null,null,null);
+//                //解绑手机号
+//                if(currentUser!=null){
+//                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+//                        UnbindChangePhoneActivity.activityStart
+//                                (MainActivity.this,UnbindChangePhoneActivity.class,
+//                                        "1",null,null);
+//                    }else {
+//                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+//                }
                 return true;
             case R.id.nav_setting:
                 if(currentUser!=null){//修改手机号
