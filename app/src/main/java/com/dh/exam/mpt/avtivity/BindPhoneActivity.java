@@ -56,7 +56,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         if(handleType.equals("1")){
             btn_bind.setText(getResources().getText(R.string.bind_phone));
         }else if(handleType.equals("2")){
-            btn_bind.setText(getResources().getText(R.string.change_phone_num));
+            btn_bind.setText(getResources().getText(R.string.update_phone_num));
         }
     }
 

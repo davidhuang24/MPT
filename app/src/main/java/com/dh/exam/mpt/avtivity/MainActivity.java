@@ -1,5 +1,6 @@
 package com.dh.exam.mpt.avtivity;
 
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,15 +13,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.dh.exam.mpt.CustomView.SheetDialog;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
@@ -34,7 +38,10 @@ import com.dh.exam.mpt.R;
 import java.io.File;
 
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
@@ -205,45 +212,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 drawerLayout.openDrawer(GravityCompat.START);//打开抽屉菜单
                 return true;
             //NavigationView
-            case R.id.nav_account://绑定手机号
-                if(currentUser!=null){
-                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
-                    }else {
-                        BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,null,null,null);
-                    }
-                }else{
-                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-                }
+            case R.id.nav_account://账户编辑
+                showSheetDialog();
                 return true;
-            case R.id.test_record:
+            case R.id.test_record://考试记录
                 TestRecordActivity.activityStart(MainActivity.this,TestRecordActivity.class,
                         null,null,null);
-//                //解绑手机号
-//                if(currentUser!=null){
-//                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-//                        UnbindChangePhoneActivity.activityStart
-//                                (MainActivity.this,UnbindChangePhoneActivity.class,
-//                                        "1",null,null);
-//                    }else {
-//                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
-//                    }
-//                }else{
-//                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-//                }
                 return true;
-            case R.id.nav_setting:
-                if(currentUser!=null){//修改手机号
-                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                        UnbindChangePhoneActivity.activityStart
-                                (MainActivity.this,UnbindChangePhoneActivity.class,
-                                        "2",null,null);
-                    }else {
-                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-                }
+            case R.id.nav_setting://设置
+
                 return true;
             case R.id.nav_day_night:
                 Toast.makeText(this, "该功能正在开发中，敬请期待...", Toast.LENGTH_SHORT).show();
@@ -279,6 +256,96 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 return true;
         }
         return false;
+    }
+
+    /**
+     * 账户编辑SheetDialog
+     */
+    public void showSheetDialog(){
+        currentUser=BmobUser.getCurrentUser(MPTUser.class);
+        new SheetDialog.Builder(MainActivity.this).setTitle(getString(R.string.drawer_title_account))
+                .addMenu(getString(R.string.update_username), (dialog, which) -> {
+                    dialog.dismiss();
+                    if(currentUser!=null){
+                        final EditText username_edit=new EditText(this);
+                        username_edit.setText(currentUser.getUsername());
+                        new AlertDialog.Builder(this)
+                                .setTitle(R.string.update_username)
+                                .setView(username_edit)
+                                .setPositiveButton(R.string.label_ok, (dialog1, which1) -> {
+                                String newUsername=username_edit.getText().toString();
+                                updateUsername(newUsername,currentUser);
+                                })
+                                .setNegativeButton(R.string.label_cancel,null)
+                                .show();
+
+                    }else{
+                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addMenu(getString(R.string.update_phone_num), (dialog, which) -> {//修改手机号
+                    dialog.dismiss();
+                    if(currentUser!=null){
+                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                            UnbindChangePhoneActivity.activityStart
+                                    (MainActivity.this,UnbindChangePhoneActivity.class,
+                                            "2",null,null);
+                        }else {
+                            Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addMenu(getString(R.string.unbind_phone), (dialog, which) -> {//解绑手机号
+                    dialog.dismiss();
+                    if(currentUser!=null){
+                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                            UnbindChangePhoneActivity.activityStart
+                                    (MainActivity.this,UnbindChangePhoneActivity.class,
+                                            "1",null,null);
+                        }else {
+                            Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addMenu(getString(R.string.bind_phone), (dialog, which) -> {//绑定手机号
+                    dialog.dismiss();
+                    if(currentUser!=null){
+                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                            Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
+                        }else {
+                            BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,null,null,null);
+                        }
+                    }else{
+                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .create().show();
+    }
+
+    /**
+     * 更新用户名
+     * @param newUsername
+     * @param currentUser
+     */
+    public void updateUsername(String newUsername,MPTUser currentUser){
+        MPTUser user=new MPTUser();
+        user.setUsername(newUsername);
+        user.update(currentUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    Toast.makeText(MainActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                    tv_header_userName.setText(newUsername);
+                }else{
+                    Toast.makeText(MainActivity.this, "修改失败:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     /**
