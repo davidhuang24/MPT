@@ -113,5 +113,9 @@
     <string name="right_answer_null">未设置标准答案</string>
     <string name="user_answer_null">用户未答此题</string>
     <string name="update_username">修改用户名</string>
+    <string name="feedback">反馈</string>
+    <string name="feedback_contact_hint">请输入您的邮箱</string>
+    <string name="feedback_content_hint">请输入您的反馈或意见</string>
+    <string name="feedback_commit">提交</string>
 
 </resources>

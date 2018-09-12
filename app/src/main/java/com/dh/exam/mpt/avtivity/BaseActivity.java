@@ -25,6 +25,7 @@ import com.dh.exam.mpt.entity.Paper;
 import java.io.File;
 import java.util.List;
 
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -49,6 +50,7 @@ public class BaseActivity extends AppCompatActivity {
         //Bmob初始化,从StartActivity移到BaseActivity
         Bmob.initialize(this, ConStant.BMOB_APP_KEY);
         ActivityCollector.addActivity(this);
+
     }
 
     /**

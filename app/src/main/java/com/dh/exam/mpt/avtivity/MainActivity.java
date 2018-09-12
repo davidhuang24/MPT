@@ -1,6 +1,5 @@
 package com.dh.exam.mpt.avtivity;
 
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,7 +37,6 @@ import com.dh.exam.mpt.R;
 import java.io.File;
 
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
@@ -213,14 +211,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 return true;
             //NavigationView
             case R.id.nav_account://账户编辑
-                showSheetDialog();
+                showAccountSheetDialog();
                 return true;
             case R.id.test_record://考试记录
                 TestRecordActivity.activityStart(MainActivity.this,TestRecordActivity.class,
                         null,null,null);
                 return true;
             case R.id.nav_setting://设置
-
+                showSettingSheetDialog();
                 return true;
             case R.id.nav_day_night:
                 Toast.makeText(this, "该功能正在开发中，敬请期待...", Toast.LENGTH_SHORT).show();
@@ -259,9 +257,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     /**
+     * 设置SheetDialog
+     */
+    public void showSettingSheetDialog(){
+        new SheetDialog.Builder(MainActivity.this).setTitle(getString(R.string.drawer_title_setting))
+                .addMenu(getString(R.string.feedback), (dialog, which) -> {
+                    dialog.dismiss();
+                    if(BmobUser.getCurrentUser(MPTUser.class)==null){
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }else {
+                        FeedbackActivity.activityStart(MainActivity.this,FeedbackActivity.class,
+                                null,null,null);
+                    }
+
+                })
+                .create().show();
+    }
+
+
+    /**
      * 账户编辑SheetDialog
      */
-    public void showSheetDialog(){
+    public void showAccountSheetDialog(){
         currentUser=BmobUser.getCurrentUser(MPTUser.class);
         new SheetDialog.Builder(MainActivity.this).setTitle(getString(R.string.drawer_title_account))
                 .addMenu(getString(R.string.update_username), (dialog, which) -> {

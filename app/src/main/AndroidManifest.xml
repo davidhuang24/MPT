@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".MPTApplication"
@@ -52,6 +54,13 @@
         <activity android:name=".avtivity.UnbindChangePhoneActivity" />
         <activity android:name=".avtivity.CropResultActivity" />
         <activity android:name=".avtivity.NewQuestionActivity" />
+        <activity android:name=".avtivity.PaperInfoActivity" />
+        <activity android:name=".avtivity.TestActivity" />
+        <activity android:name=".avtivity.TestResultActivity" />
+        <activity android:name=".avtivity.TestRecordActivity" />
+        <activity
+            android:name=".avtivity.FeedbackActivity"
+            android:label="@string/feedback" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -63,10 +72,7 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
-        <activity android:name=".avtivity.PaperInfoActivity" />
-        <activity android:name=".avtivity.TestActivity" />
-        <activity android:name=".avtivity.TestResultActivity" />
-        <activity android:name=".avtivity.TestRecordActivity"></activity>
+
     </application>
 
 </manifest>
