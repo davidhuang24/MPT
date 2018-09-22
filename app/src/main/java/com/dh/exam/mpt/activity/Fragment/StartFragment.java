@@ -1,20 +1,22 @@
-package com.dh.exam.mpt.avtivity.Fragment;
+package com.dh.exam.mpt.activity.Fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.dh.exam.mpt.avtivity.MainActivity;
+import com.dh.exam.mpt.activity.MainActivity;
 import com.dh.exam.mpt.R;
-import com.dh.exam.mpt.avtivity.StartActivity;
+import com.dh.exam.mpt.activity.StartActivity;
 
 /**
  * 启动碎片，用于展示广告或者APP的LOGO,非第一次启动调用
@@ -22,11 +24,13 @@ import com.dh.exam.mpt.avtivity.StartActivity;
 
 public class StartFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = "StartFragment";
     private Button skipADButton;
     private LinearLayout linearLayout;
     private int remainTime=3;
     private final int UPDATE_REMAIN_TIME=1;
     private StartActivity startActivity;
+    private boolean isJumpped=false;//解决两次跳转MainActivity的问题（小概率），不知道是否解决
 
     @Nullable
     @Override
@@ -39,7 +43,6 @@ public class StartFragment extends Fragment implements View.OnClickListener{
         Message msg = Message.obtain();
         msg.what = UPDATE_REMAIN_TIME;
         handler.sendMessage(msg);
-
         return view;
     }
 
@@ -47,8 +50,11 @@ public class StartFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ad_skip_btn:
-                jumpToMain();
-                startActivity.finish();
+                if(!isJumpped){
+                    jumpToMain();
+                    startActivity.onBackPressed();
+                }
+
                 break;
             default:
         }
@@ -56,9 +62,10 @@ public class StartFragment extends Fragment implements View.OnClickListener{
 
     private void jumpToMain(){
         MainActivity.activityStart(getContext(),MainActivity.class,null,null,null);
-
+        if(!isJumpped) isJumpped=true;
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
 
         public void handleMessage(Message msg) {
@@ -69,16 +76,17 @@ public class StartFragment extends Fragment implements View.OnClickListener{
                         handler.sendEmptyMessageDelayed(UPDATE_REMAIN_TIME, 1000);
                         remainTime--;
                     } else {
-                        jumpToMain();
-                        startActivity.finish();
+                        if(!isJumpped){
+                            jumpToMain();
+                            startActivity.onBackPressed();
+                        }
+
                     }
                     break;
                 default:
             }
-        };
+        }
     };
-
-
 
     @Override
     public void onDestroy() {
@@ -87,6 +95,7 @@ public class StartFragment extends Fragment implements View.OnClickListener{
             handler = null;
         }
         super.onDestroy();
+        Log.e(TAG, "onDestroy:-------------->startFragment ");
     }
 
 

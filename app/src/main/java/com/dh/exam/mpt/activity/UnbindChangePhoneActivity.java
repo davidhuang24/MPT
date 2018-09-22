@@ -1,11 +1,14 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,6 +51,14 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
     }
 
     public void init(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         et_code=(EditText) findViewById(R.id.et_code);
         btn_unbind_phone=(Button) findViewById(R.id.btn_unbind_phone);
         btn_change_phone_number =(Button) findViewById(R.id.btn_next_change_phone);

@@ -1,5 +1,6 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -52,7 +54,7 @@ public class UserImageActivity extends BaseActivity implements UCropFragmentCall
     }
 
     public void init(){
-        toolbar=(Toolbar) findViewById(R.id.toolbar);
+        toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
         if(actionBar!=null){//设置导航按钮，打开滑动菜单
@@ -242,6 +244,7 @@ public class UserImageActivity extends BaseActivity implements UCropFragmentCall
         getMenuInflater().inflate(R.menu.user_img_activity_toolbar,menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {//Toolbar上的Action按钮是菜单Item

@@ -1,8 +1,11 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,6 +39,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class NewQuestionActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
 
     private static final String TAG = "NewQuestionActivity";
+    private Toolbar toolbar;
     private String paperObjectId;
     private EditText et_title;
     private EditText et_option_a;
@@ -67,6 +71,13 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void init(){
+        toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){//设置导航按钮，打开滑动菜单
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         paperObjectId=getIntent().getStringExtra("param1");
         BmobQuery<Paper> query= new BmobQuery<>();
         query.getObject(paperObjectId, new QueryListener<Paper>() {
@@ -81,19 +92,20 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 });
-        et_title=(EditText) findViewById(R.id.et_question_title);
-        et_option_a=(EditText) findViewById(R.id.et_option_a);
-        et_option_b=(EditText) findViewById(R.id.et_option_b);
-        et_option_c=(EditText) findViewById(R.id.et_option_c);
-        et_option_d=(EditText) findViewById(R.id.et_option_d);
-        et_analysis=(EditText) findViewById(R.id.et_question_analysis);
-        btn_pre=(Button) findViewById(R.id.btn_pre_que);
-        btn_next=(Button) findViewById(R.id.btn_next_que);
-        btn_commit=(Button) findViewById(R.id.btn_commit);
-        cb_a=(CheckBox) findViewById(R.id.cb_option_a);
-        cb_b=(CheckBox) findViewById(R.id.cb_option_b);
-        cb_c=(CheckBox) findViewById(R.id.cb_option_c);
-        cb_d=(CheckBox) findViewById(R.id.cb_option_d);
+
+        et_title= findViewById(R.id.et_question_title);
+        et_option_a= findViewById(R.id.et_option_a);
+        et_option_b= findViewById(R.id.et_option_b);
+        et_option_c= findViewById(R.id.et_option_c);
+        et_option_d= findViewById(R.id.et_option_d);
+        et_analysis= findViewById(R.id.et_question_analysis);
+        btn_pre= findViewById(R.id.btn_pre_que);
+        btn_next= findViewById(R.id.btn_next_que);
+        btn_commit= findViewById(R.id.btn_commit);
+        cb_a= findViewById(R.id.cb_option_a);
+        cb_b= findViewById(R.id.cb_option_b);
+        cb_c= findViewById(R.id.cb_option_c);
+        cb_d= findViewById(R.id.cb_option_d);
         btn_pre.setOnClickListener(this);
         btn_next.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
@@ -450,8 +462,34 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
         return output;
     }
 
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {//Toolbar上的Action按钮是菜单Item
+        switch(item.getItemId()){
+            case android.R.id.home:
+                showBackAlertDialog(R.string.new_question_back_alert_content);
+                break;
+            default:
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                showBackAlertDialog(R.string.new_question_back_alert_content);
+                break;
+                default:
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
     }
+
 }

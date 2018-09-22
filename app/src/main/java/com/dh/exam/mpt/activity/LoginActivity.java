@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.app.ProgressDialog;
 import android.os.CountDownTimer;
@@ -161,7 +161,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         return;
                     }
                     MainActivity.activityStart(LoginActivity.this,MainActivity.class,"","",null);
-                    finish();
                 }else{
                     Toast.makeText(LoginActivity.this,
                             "登录失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),

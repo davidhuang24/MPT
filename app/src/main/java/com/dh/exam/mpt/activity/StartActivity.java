@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 
 import android.content.SharedPreferences;
@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.dh.exam.mpt.avtivity.Fragment.IntroduceFragment;
-import com.dh.exam.mpt.avtivity.Fragment.StartFragment;
+import com.dh.exam.mpt.activity.Fragment.IntroduceFragment;
+import com.dh.exam.mpt.activity.Fragment.StartFragment;
 import com.dh.exam.mpt.R;
 
 /**

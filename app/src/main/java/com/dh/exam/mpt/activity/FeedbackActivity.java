@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

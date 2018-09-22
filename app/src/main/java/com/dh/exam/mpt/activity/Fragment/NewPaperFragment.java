@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity.Fragment;
+package com.dh.exam.mpt.activity.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
-import com.dh.exam.mpt.avtivity.MainActivity;
-import com.dh.exam.mpt.avtivity.NewQuestionActivity;
+import com.dh.exam.mpt.activity.MainActivity;
+import com.dh.exam.mpt.activity.NewQuestionActivity;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 

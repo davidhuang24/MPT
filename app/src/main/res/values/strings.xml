@@ -117,5 +117,14 @@
     <string name="feedback_contact_hint">请输入您的邮箱</string>
     <string name="feedback_content_hint">请输入您的反馈或意见</string>
     <string name="feedback_commit">提交</string>
+    <string name="new_question">添加试题</string>
+    <string name="new_question_title">请编写题目题干</string>
+    <string name="is_back">确定返回</string>
+    <string name="new_question_back_alert_content">返回将不保存已编辑题目，您可以选择取消后提交保存，确定返回？</string>
+    <string name="test_back_alert_content">返回将不会提交试卷，您可以选择取消后交卷，确定返回？</string>
+    <string name="paper_info">试卷信息</string>
+    <string name="testing">考试中</string>
+    <string name="question_num_zero">此试卷题目数为0，无法进行考试，请反馈</string>
+    <string name="test_result">考试结果</string>
 
 </resources>

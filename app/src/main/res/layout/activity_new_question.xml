@@ -1,336 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="添加试题"
-        app:titleTextColor="@android:color/white"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-        <EditText
-            android:id="@+id/et_question_title"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请编写题目题干"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-    </LinearLayout>
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways|snap" />
+        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.CoordinatorLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/et_question_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="A"
-                android:textColor="#444444"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="@color/dark_black"
-                android:layout_marginLeft="10dp" />
+                android:hint="@string/new_question_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp">
-                    <EditText
-                        android:id="@+id/et_option_a"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="请输入选项"
-                        android:textColor="#444444"
-                        android:textColorHint="@color/hint_font_color"
-                        android:textSize="16sp"
-                        android:background="@null"/>
-                </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:textColor="#444444"
+                    android:textSize="16sp" />
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/dark_black" />
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/dark_black"
+                    android:layout_marginLeft="10dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp">
+                        <EditText
+                            android:id="@+id/et_option_a"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="请输入选项"
+                            android:textColor="#444444"
+                            android:textColorHint="@color/hint_font_color"
+                            android:textSize="16sp"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/dark_black" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B"
+                    android:textColor="#444444"
+                    android:textSize="16sp" />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/dark_black"
+                    android:layout_marginLeft="10dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp">
+                        <EditText
+                            android:id="@+id/et_option_b"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="请输入选项"
+                            android:textColor="#444444"
+                            android:textColorHint="@color/hint_font_color"
+                            android:textSize="16sp"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/dark_black" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    android:textColor="#444444"
+                    android:textSize="16sp" />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/dark_black"
+                    android:layout_marginLeft="10dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp">
+                        <EditText
+                            android:id="@+id/et_option_c"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="请输入选项"
+                            android:textColor="#444444"
+                            android:textColorHint="@color/hint_font_color"
+                            android:textSize="16sp"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/dark_black" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    android:textColor="#444444"
+                    android:textSize="16sp" />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/dark_black"
+                    android:layout_marginLeft="10dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp">
+                        <EditText
+                            android:id="@+id/et_option_d"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="请输入选项"
+                            android:textColor="#444444"
+                            android:textColorHint="@color/hint_font_color"
+                            android:textSize="16sp"
+                            android:background="@null"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/dark_black" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="B"
-                android:textColor="#444444"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="@color/dark_black"
-                android:layout_marginLeft="10dp" />
+                android:text="设置正确答案"
+                android:layout_marginLeft="10dp"/>
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp">
-                    <EditText
-                        android:id="@+id/et_option_b"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="请输入选项"
-                        android:textColor="#444444"
-                        android:textColorHint="@color/hint_font_color"
-                        android:textSize="16sp"
-                        android:background="@null"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/dark_black" />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="C"
-                android:textColor="#444444"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="@color/dark_black"
-                android:layout_marginLeft="10dp" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                android:layout_margin="5dp">
+                <CheckBox
+                    android:id="@+id/cb_option_a"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp">
-                    <EditText
-                        android:id="@+id/et_option_c"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="请输入选项"
-                        android:textColor="#444444"
-                        android:textColorHint="@color/hint_font_color"
-                        android:textSize="16sp"
-                        android:background="@null"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/dark_black" />
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="D"
-                android:textColor="#444444"
-                android:textSize="16sp" />
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:background="@color/dark_black"
-                android:layout_marginLeft="10dp" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
+                    android:enabled="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="A"/>
+                <CheckBox
+                    android:id="@+id/cb_option_b"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp">
-                    <EditText
-                        android:id="@+id/et_option_d"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="请输入选项"
-                        android:textColor="#444444"
-                        android:textColorHint="@color/hint_font_color"
-                        android:textSize="16sp"
-                        android:background="@null"/>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/dark_black" />
+                    android:layout_height="match_parent"
+                    android:enabled="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="B"/>
+                <CheckBox
+                    android:id="@+id/cb_option_c"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:enabled="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="C"/>
+                <CheckBox
+                    android:id="@+id/cb_option_d"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:enabled="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="D"/>
             </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="设置正确答案"
-            android:layout_marginLeft="10dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
-            <CheckBox
-                android:id="@+id/cb_option_a"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:enabled="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="A"/>
-            <CheckBox
-                android:id="@+id/cb_option_b"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:enabled="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="B"/>
-            <CheckBox
-                android:id="@+id/cb_option_c"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:enabled="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="C"/>
-            <CheckBox
-                android:id="@+id/cb_option_d"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:enabled="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="D"/>
-        </LinearLayout>
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-        <EditText
-            android:id="@+id/et_question_analysis"
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请编写题目的解析(选填)"
-            android:lines="3"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginTop="5dp">
+            <EditText
+                android:id="@+id/et_question_analysis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请编写题目的解析(选填)"
+                android:lines="3"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+            <Button
+                android:id="@+id/btn_pre_que"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上一题"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/bg_btn_press_selector"
+                android:textColor="#ffffff"/>
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="提交"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_btn_press_selector"
+                android:textColor="#ffffff"/>/>
+            <Button
+                android:id="@+id/btn_next_que"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下一题"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/bg_btn_press_selector"
+                android:textColor="#ffffff"/>/>
+        </RelativeLayout>
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-        <Button
-            android:id="@+id/btn_pre_que"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上一题"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/bg_btn_press_selector"
-            android:textColor="#ffffff"/>
-        <Button
-            android:id="@+id/btn_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="提交"
-            android:layout_centerInParent="true"
-            android:background="@drawable/bg_btn_press_selector"
-            android:textColor="#ffffff"/>/>
-        <Button
-            android:id="@+id/btn_next_que"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下一题"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/bg_btn_press_selector"
-            android:textColor="#ffffff"/>/>
-    </RelativeLayout>
-
 </LinearLayout>
+</android.support.v4.widget.DrawerLayout>
+

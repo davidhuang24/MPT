@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +29,8 @@ import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.Utils.FirstThingListener;
-import com.dh.exam.mpt.avtivity.Fragment.NewPaperFragment;
-import com.dh.exam.mpt.avtivity.Fragment.PaperLibraryFragment;
+import com.dh.exam.mpt.activity.Fragment.NewPaperFragment;
+import com.dh.exam.mpt.activity.Fragment.PaperLibraryFragment;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import com.dh.exam.mpt.R;
@@ -48,10 +49,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private static final String TAG = "MainActivity";
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
     private Toolbar toolbar;
-    private FloatingActionButton fab;
     private TextView tv_header_userName;
     private CircleImageView civ_header_userPic;
 
@@ -62,24 +61,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e(TAG, "onCreate: ------------------------->mainActivity");
         init();
     }
 
     public void init(){
         replaceFragment(new PaperLibraryFragment(),ConStant.PAPER_LIBRARY_FRAG_TAG);
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        toolbar=(Toolbar) findViewById(R.id.toolbar);
+        toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.fragment_title_paper_library));
-        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView=(NavigationView) findViewById(R.id.nav_view);
+        drawerLayout= findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.getHeaderView(0); // 0-index header
-        tv_header_userName =(TextView) headerLayout.findViewById(R.id.username);
-        civ_header_userPic =(CircleImageView) headerLayout.findViewById(R.id.user_image);
+        tv_header_userName = headerLayout.findViewById(R.id.username);
+        civ_header_userPic = headerLayout.findViewById(R.id.user_image);
         tv_header_userName.setOnClickListener(this);
         civ_header_userPic.setOnClickListener(this);
 
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        fab=(FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
     }
 
@@ -113,11 +113,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         File file;
         int headImgType;
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户头像不为空，用户头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     currentUser.getHeadImg().getFilename());
             headImgType=1;
         }else{//未登陆或者用户头像为空，默认头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
             headImgType=0;
         }
@@ -365,19 +365,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: --------->MainActivity");
+    }
+
     /**
      * 登出
      */
-    public void logout(){
-        currentUser=BmobUser.getCurrentUser(MPTUser.class);
-        if(currentUser==null){//未登陆
+    public void logout() {
+        currentUser = BmobUser.getCurrentUser(MPTUser.class);
+        if (currentUser == null) {//未登陆
             Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-        }else {//已登陆
+        } else {//已登陆
             BmobUser.logOut();
-            currentUser= BmobUser.getCurrentUser(MPTUser.class);//更新当前用户
+            currentUser = BmobUser.getCurrentUser(MPTUser.class);//更新当前用户
             tv_header_userName.setText(getResources().getString(R.string.drawer_header_username_default));
             setUserHeadImg();
-            Toast.makeText(this,"您已退出登陆" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "您已退出登陆", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,21 +1,26 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ACache;
 import com.dh.exam.mpt.Utils.FirstThingListener;
@@ -23,8 +28,6 @@ import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.Question;
-
-import junit.framework.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,6 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 
 public class TestActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
@@ -49,6 +51,8 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
     private int answerInt=0;
 //    private int testResult[]={0,0};//对题数,错题数
 
+
+    private Toolbar toolbar;
     private FloatingActionButton fab_commit;
     private TextView tv_question_num;
     private TextView tv_question_title;
@@ -74,6 +78,13 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
     }
 
     private void init(){
+        toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){//设置导航按钮，打开滑动菜单
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         Toast.makeText(this, "向左滑,下一题;向右滑,上一题", Toast.LENGTH_LONG).show();
         tv_question_title= findViewById(R.id.tv_question_title);
         tv_question_num= findViewById(R.id.tv_question_num);
@@ -147,7 +158,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
                 return false;
             }
         });
-
         getQuestionData();
 
     }
@@ -162,20 +172,16 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
         Paper paper=new Paper();
         paper.setObjectId(paperObjectId);
         query.addWhereEqualTo("paper",new BmobPointer(paper));
-        boolean isCacheExisted=query.hasCachedResult(Question.class);
-        if(isCacheExisted){
-            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ONLY);//只从缓存获取数据
-        }else {
-            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
-        }
-        if(!isCacheExisted&&!NetworkUtil.isNetworkAvailable()){
+        if(!NetworkUtil.isNetworkAvailable()){
             Toast.makeText(TestActivity.this, "网络不可用,请连接网络后返回重进", Toast.LENGTH_SHORT).show();
             return;
         }
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
         query.findObjects(new FindListener<Question>() {
             @Override
             public void done(List<Question> list, BmobException e) {
                 if(e==null){
+                    toolbar.setTitle(list.get(0).getPaper().getPaperName());
                     questionList.addAll(list);
                     questionCount=questionList.size();
                     showQuestion(questionNum);
@@ -257,18 +263,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
         });
     }
 
-//    /**
-//     * 给指定题评分
-//     */
-//    public void judge(int num){
-//        answerInt=getAnswer();
-//        if(answerInt==questionList.get(num).getAnswer()){
-//            testResult[0]++;
-//        }else{
-//            testResult[1]++;
-//        }
-//    }
-
     public void clearCheckBox(){
         if(cb_a.isChecked())cb_a.setChecked(false);
         if(cb_b.isChecked())cb_b.setChecked(false);
@@ -277,7 +271,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
     }
 
     /**
-     * 结束考试,提交:先评分,再缓存当前题答案,最后提交
+     * 结束考试,提交:先缓存当前题答案,最后提交
      */
     private void fabAction(){
         answerInt=getAnswer();
@@ -293,6 +287,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
                         .setPositiveButton("确定", (dialog, which) -> {
                             TestResultActivity.activityStart(TestActivity.this,TestResultActivity.class,
                                     paperObjectId,null,null);
+                            finish();
                         })
                         .create().show();
             }
@@ -302,14 +297,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
 
             }
         });
-
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return mDetector.onTouchEvent(event);
-    }
-
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -464,6 +452,49 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
         cb_b.setChecked(b);
         cb_c.setChecked(c);
         cb_d.setChecked(d);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {//Toolbar上的Action按钮是菜单Item
+        switch(item.getItemId()){
+            case android.R.id.home:
+                showBackAlertDialog(R.string.test_back_alert_content);
+                break;
+            default:
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                showBackAlertDialog(R.string.test_back_alert_content);
+                break;
+            default:
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return mDetector.onTouchEvent(event);
+    }
+
+    /**
+     * 不继续向下分发TouchEvent，解决mDetector被DrawerLayout手势屏蔽的问题
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(mDetector.onTouchEvent(ev)){
+            return mDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
 

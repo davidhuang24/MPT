@@ -1,19 +1,23 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.MPTApplication;
+import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
@@ -50,6 +54,14 @@ public class BaseActivity extends AppCompatActivity {
         //Bmob初始化,从StartActivity移到BaseActivity
         Bmob.initialize(this, ConStant.BMOB_APP_KEY);
         ActivityCollector.addActivity(this);
+        //解决没有toolbar时状态栏字体颜色为白色的问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
     }
 
@@ -136,11 +148,11 @@ public class BaseActivity extends AppCompatActivity {
         MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
         int headImgType=0;
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户未设置头像，用户头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     currentUser.getHeadImg().getFilename());
             headImgType=1;
         }else{//未登陆或者用户头像为空，默认头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
             headImgType=0;
         }
@@ -161,7 +173,6 @@ public class BaseActivity extends AppCompatActivity {
     public static void cachePapers(){
         BmobQuery<Paper> query=new BmobQuery<>();
         query.include("paperAuthor");
-//        boolean isCacheExisted=query.hasCachedResult(Paper.class);
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//先访问网络获取数据,后将数据存入缓存
         if(!NetworkUtil.isNetworkAvailable()){
             Toast.makeText(MPTApplication.getContext(), "网络不可用,缓存Paper失败", Toast.LENGTH_SHORT).show();
@@ -177,8 +188,20 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-
+    /**
+     * showBackAlertDialog
+     * @param messageId Dialog Message String Id
+     */
+    public void showBackAlertDialog(int messageId){
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.is_back)
+                .setIcon(R.drawable.icon_back)
+                .setMessage(messageId)
+                .setPositiveButton(R.string.label_ok, (dialog, which) -> finish())
+                .setNegativeButton(R.string.label_cancel, null)
+                .create().show();
     }
 
     /**

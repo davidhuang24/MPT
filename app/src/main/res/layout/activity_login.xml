@@ -97,7 +97,6 @@
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp">
-
                     <EditText
                         android:id="@+id/et_password"
                         android:layout_width="0dp"

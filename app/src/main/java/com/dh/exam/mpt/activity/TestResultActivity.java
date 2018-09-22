@@ -1,14 +1,12 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,9 +40,12 @@ public class TestResultActivity extends BaseActivity {
     private int correctCount=0;
     private List<Question> questionList=new ArrayList<>();
     private List<Result> resultList=new ArrayList<>();
+
+    private Toolbar toolbar;
     private TestResultAdapter adapter;
     private TextView tv_candidate;
     private TextView tv_score;
+
     private MPTUser currentUser;
     private Paper currentPaper;
     private int score;
@@ -58,6 +59,13 @@ public class TestResultActivity extends BaseActivity {
     }
 
     private void init(){
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){//设置导航按钮，打开滑动菜单
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         paperObjectId=getIntent().getStringExtra("param1");
         tv_candidate=findViewById(R.id.tv_candidate);
         tv_score=findViewById(R.id.tv_score);
@@ -82,16 +90,11 @@ public class TestResultActivity extends BaseActivity {
         Paper paper=new Paper();
         paper.setObjectId(paperObjectId);
         query.addWhereEqualTo("paper",new BmobPointer(paper));
-        boolean isCacheExisted=query.hasCachedResult(Question.class);
-        if(isCacheExisted){
-            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ONLY);//只从缓存获取数据
-        }else {
-            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
-        }
-        if(!isCacheExisted&&!NetworkUtil.isNetworkAvailable()){
+        if(!NetworkUtil.isNetworkAvailable()){
             Toast.makeText(TestResultActivity.this, "网络不可用,请连接网络后返回重进", Toast.LENGTH_SHORT).show();
             return;
         }
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
         query.findObjects(new FindListener<Question>() {
             @Override
             public void done(List<Question> list, BmobException e) {
@@ -123,12 +126,15 @@ public class TestResultActivity extends BaseActivity {
             String userAnswerStr=readCache(answerKey);
             Result result=new Result();
             result.setQuestionNum(question.getQuestionNum());
-            result.setUserAnswer(Integer.valueOf(userAnswerStr));
-            if(question.getAnswer()==Integer.valueOf(userAnswerStr)&&userAnswerStr!=null
-                    ||question.getAnswer()==0){//判对
+            if(userAnswerStr!=null){
+                result.setUserAnswer(Integer.valueOf(userAnswerStr));
+            }else {
+                result.setUserAnswer(-1);//提前交卷导致提交题后的所有题目没有缓存,用-1表示
+            }
+            if(question.getAnswer()==result.getUserAnswer()||question.getAnswer()==0){//判卷规则
                 result.setResult(true);
                 correctCount++;
-            }else {//判错
+            }else{
                 result.setResult(false);
             }
             resultList.add(result);
@@ -194,6 +200,18 @@ public class TestResultActivity extends BaseActivity {
      */
     public String readCache(String questionCacheKey){
         return mCache.getAsString(questionCacheKey);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {//Toolbar上的Action按钮是菜单Item
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+        }
+        return true;
     }
 
     @Override

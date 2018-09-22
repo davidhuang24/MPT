@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -32,10 +31,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".avtivity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/title_activity_main" />
         <activity
-            android:name=".avtivity.StartActivity"
+            android:name=".activity.StartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -44,22 +43,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".avtivity.LoginActivity" />
-        <activity android:name=".avtivity.RegisterActivity" />
-        <activity android:name=".avtivity.ResetPasswordActivity" />
-        <activity android:name=".avtivity.BindPhoneActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity android:name=".activity.BindPhoneActivity" />
         <activity
-            android:name=".avtivity.UserImageActivity"
+            android:name=".activity.UserImageActivity"
             android:label="@string/title_activity_user_img" />
-        <activity android:name=".avtivity.UnbindChangePhoneActivity" />
-        <activity android:name=".avtivity.CropResultActivity" />
-        <activity android:name=".avtivity.NewQuestionActivity" />
-        <activity android:name=".avtivity.PaperInfoActivity" />
-        <activity android:name=".avtivity.TestActivity" />
-        <activity android:name=".avtivity.TestResultActivity" />
-        <activity android:name=".avtivity.TestRecordActivity" />
+        <activity android:name=".activity.UnbindChangePhoneActivity" />
+        <activity android:name=".activity.CropResultActivity" />
         <activity
-            android:name=".avtivity.FeedbackActivity"
+            android:name=".activity.NewQuestionActivity"
+            android:label="@string/new_question" />
+        <activity
+            android:name=".activity.PaperInfoActivity"
+            android:label="@string/paper_info" />
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="@string/testing" />
+        <activity
+            android:name=".activity.TestResultActivity"
+            android:label="@string/test_result" />
+        <activity
+            android:name=".activity.TestRecordActivity"
+            android:label="@string/drawer_title_test_record" />
+        <activity
+            android:name=".activity.FeedbackActivity"
             android:label="@string/feedback" />
 
         <provider
@@ -72,7 +81,7 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
-
+        <activity android:name=".activity.Main2Activity"></activity>
     </application>
 
 </manifest>

@@ -1,11 +1,12 @@
 
-package com.dh.exam.mpt.avtivity.Fragment;
+package com.dh.exam.mpt.activity.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.NetworkUtil;
-import com.dh.exam.mpt.avtivity.MainActivity;
+import com.dh.exam.mpt.activity.MainActivity;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.PaperAdapter;
 
@@ -31,6 +32,7 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class PaperLibraryFragment extends Fragment implements View.OnClickListener{
 
+    private static final String TAG = "PaperLibraryFragment";
     private List<Paper> paperList=new ArrayList<>();
     private PaperAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -43,6 +45,7 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_paper_library, container, false);
+        Log.e(TAG, "onCreateView: --------------------->PaperLibraryFragment");
         init(view);
         return view;
     }
@@ -57,17 +60,15 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
     public void init(View view){
         currentActivity=(MainActivity)getActivity();
 
-        swipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout= view.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);//设置刷新进度条颜色=
         swipeRefreshLayout.setOnRefreshListener(this::refreshPapers);//下拉刷新
 
-        RecyclerView recyclerView=(RecyclerView) swipeRefreshLayout.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView= swipeRefreshLayout.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager=new  LinearLayoutManager(MPTApplication.getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter=new PaperAdapter(paperList);
         recyclerView.setAdapter(adapter);
-
-
     }
 
     /**
@@ -88,12 +89,12 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
         paperList.clear();
         BmobQuery<Paper> query=new BmobQuery<>();
         query.include("paperAuthor");
-        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
         if(!NetworkUtil.isNetworkAvailable()){
             Toast.makeText(currentActivity, "网络不可用,请连接网络后重新下拉刷新", Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);//隐藏刷新进度条
             return;
         }
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
         query.findObjects(new FindListener<Paper>() {
             @Override
             public void done(List<Paper> list, BmobException e) {
@@ -122,17 +123,11 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
         //必须设置,不然paper.getPaperAuthor().getUsername()为空;
         // 想在查询内获取Pointer类型的关联对象,就该这么设置,体现了数据关联性
         query.include("paperAuthor");
-        boolean isCacheExisted=query.hasCachedResult(Paper.class);
-        //
-        if(isCacheExisted){
-            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ONLY);//只从缓存获取数据
-        }else {
-            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
-        }
-        if(!isCacheExisted&&!NetworkUtil.isNetworkAvailable()){
+        if(!NetworkUtil.isNetworkAvailable()){
             Toast.makeText(currentActivity, "网络不可用,请连接网络后下拉刷新", Toast.LENGTH_SHORT).show();
             return;
         }
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//只从网络获取数据，同时会在本地缓存数据
         query.findObjects(new FindListener<Paper>() {
             @Override
             public void done(List<Paper> list, BmobException e) {
@@ -151,5 +146,11 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
     }
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: ---------------->Fragment" );
     }
 }

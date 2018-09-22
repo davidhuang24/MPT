@@ -13,9 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
-import com.dh.exam.mpt.avtivity.BaseActivity;
-import com.dh.exam.mpt.avtivity.MainActivity;
-import com.dh.exam.mpt.avtivity.PaperInfoActivity;
+import com.dh.exam.mpt.activity.BaseActivity;
+import com.dh.exam.mpt.activity.PaperInfoActivity;
 
 import java.util.List;
 
@@ -70,9 +69,6 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
             Paper paper=paperList.get(position);
             PaperInfoActivity.activityStart(context,PaperInfoActivity.class,
                     paper.getObjectId(),null,null);
-
-            MainActivity mainActivity=(MainActivity)context;
-            mainActivity.finish();
 
         });
         holder.iv_love.setOnClickListener(v -> {

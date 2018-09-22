@@ -1,13 +1,14 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.entity.Paper;
@@ -18,6 +19,7 @@ import cn.bmob.v3.listener.QueryListener;
 
 public class PaperInfoActivity extends BaseActivity implements View.OnClickListener {
 
+    private Toolbar toolbar;
     private TextView tv_paper_name;
     private TextView tv_paper_kind;
     private TextView tv_paper_author;
@@ -35,6 +37,13 @@ public class PaperInfoActivity extends BaseActivity implements View.OnClickListe
 
     @SuppressLint("SetTextI18n")
     private void init(){
+        toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){//设置导航按钮，打开滑动菜单
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         tv_paper_name=(TextView) findViewById(R.id.tv_paper_name);
         tv_paper_kind=(TextView) findViewById(R.id.tv_paper_kind);
         tv_paper_author=(TextView) findViewById(R.id.tv_paper_author);
@@ -67,11 +76,25 @@ public class PaperInfoActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_begin_test:
-                TestActivity.activityStart(PaperInfoActivity.this,TestActivity.class,
-                        paperObjectId,null,null);
-                finish();
+                if(currentPaper.getQuestionCount()!=0){
+                    TestActivity.activityStart(PaperInfoActivity.this,TestActivity.class,
+                            paperObjectId,null,null);
+                }else {
+                    Toast.makeText(this, getString(R.string.question_num_zero), Toast.LENGTH_SHORT).show();
+                }
                 break;
                 default:
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {//Toolbar上的Action按钮是菜单Item
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+        }
+        return true;
     }
 }

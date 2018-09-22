@@ -1,4 +1,4 @@
-package com.dh.exam.mpt.avtivity;
+package com.dh.exam.mpt.activity;
 
 import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
@@ -112,7 +112,7 @@ public class CropResultActivity extends BaseActivity {
         }else{//未登陆时的文件名
             fileName=ConStant.CROP_CACHE_NAME+".png";
         }
-        File file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+        File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                 fileName);
         if(file.exists()){
             file.delete();

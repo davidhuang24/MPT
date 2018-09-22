@@ -26,10 +26,12 @@ public class CacheManager {
     public static void writeHeadImgToCache(int fileType,final FirstThingListener listener){
         if(fileType==1){//缓存用户头像
             BmobFileManager.downloadFile
-                    (BmobUser.getCurrentUser(MPTUser.class).getHeadImg(),listener);
+                    (BmobUser.getCurrentUser(MPTUser.class).getHeadImg(),
+                            ConStant.APP_Public_Dir_ROOT+"/HeadImages",listener);
         }else {//缓存默认头像
             BmobFileManager.downloadFile(new BmobFile(
-                    ConStant.DEFAULT_HEAD_IMG_NAME,"",ConStant.DEFAULT_HEAD_IMG_URL),listener);
+                    ConStant.DEFAULT_HEAD_IMG_NAME,"",ConStant.DEFAULT_HEAD_IMG_URL),
+                    ConStant.APP_Public_Dir_ROOT+"/HeadImages",listener);
         }
     }
 
@@ -40,10 +42,10 @@ public class CacheManager {
         File file;
         MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//用户头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     BmobUser.getCurrentUser(MPTUser.class).getHeadImg().getFilename());
         }else {//默认头像
-            file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
         }
         return file;
@@ -52,11 +54,11 @@ public class CacheManager {
     /**
      * 判断多级目录是否存在，不存在则创建
      *
-     * @param dirsPath 目录路径
+     * @param dirPath 目录路径
      * @return 目录
      */
-    public static File DirsExistedOrCreat(String dirsPath) {
-        File file = new File(dirsPath);
+    public static File DirsExistedOrCreate(String dirPath) {
+        File file = new File(dirPath);
         try {
             if (!file.exists()) {
                 if (file.mkdirs()) {
@@ -75,8 +77,6 @@ public class CacheManager {
      * 复制文件
      * @param fromFile
      * @param toFile
-     * <br/>
-     * 2016年12月19日  下午3:31:50
      * @throws IOException
      */
     public static void copyFile(File fromFile,File toFile) throws IOException {

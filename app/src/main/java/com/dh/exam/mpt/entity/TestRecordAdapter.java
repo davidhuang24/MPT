@@ -35,7 +35,7 @@ public class TestRecordAdapter extends RecyclerView.Adapter <TestRecordAdapter.V
         TextView tv_score;
         ViewHolder(View view) {
             super(view);
-            tv_paper_name = view.findViewById(R.id.tv_paper_name);;
+            tv_paper_name = view.findViewById(R.id.tv_paper_name);
             tv_user_name= view.findViewById(R.id.tv_username);
             tv_score= view.findViewById(R.id.tv_score);
         }
@@ -48,7 +48,6 @@ public class TestRecordAdapter extends RecyclerView.Adapter <TestRecordAdapter.V
             context=parent.getContext();
         }
         View view= LayoutInflater.from(context).inflate(R.layout.test_record_item,parent,false);
-        Log.e(TAG, "onCreateViewHolder: ----------------->");
         return new ViewHolder(view);
     }
 
@@ -58,7 +57,6 @@ public class TestRecordAdapter extends RecyclerView.Adapter <TestRecordAdapter.V
         holder.tv_paper_name.setText(record.getPaper().getPaperName());
         holder.tv_user_name.setText(record.getUser().getUsername());
         holder.tv_score.setText(String.valueOf(record.getScore()));
-        Log.e(TAG, "onBindViewHolder: ---------------------->"+record.getUser().getUsername());
     }
 
     @Override

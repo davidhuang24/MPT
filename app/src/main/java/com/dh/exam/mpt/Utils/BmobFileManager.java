@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.MPTApplication;
-import com.dh.exam.mpt.avtivity.MainActivity;
+import com.dh.exam.mpt.activity.MainActivity;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class BmobFileManager extends BmobFile{
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null){
             String fileName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId()+".png";
-            File file=new File(CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
                     fileName);
             if(file.exists()){
                 uploadDeleteUpdateFile(file.getPath(),progressDialog);
@@ -148,13 +148,13 @@ public class BmobFileManager extends BmobFile{
      *下载文件
      *调用此方法之前先获取BmobFile对象实例，可以是查询数据时
      * 返回的BmobFile，也可以通过url自行构建BmobFile对象
-     * Uri可以是bmob服务器的url，也可以是任意url
+     * Url可以是bmob服务器的url，也可以是任意url
      *
      * @param bmobFile
      */
-    public static void downloadFile(BmobFile bmobFile,final FirstThingListener listener){
+    public static void downloadFile(BmobFile bmobFile,String saveDirPath,final FirstThingListener listener){
         File saveFile=new File(
-                CacheManager.DirsExistedOrCreat(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+                CacheManager.DirsExistedOrCreate(saveDirPath),
                 bmobFile.getFilename());
 
         bmobFile.download(saveFile, new DownloadFileListener() {
