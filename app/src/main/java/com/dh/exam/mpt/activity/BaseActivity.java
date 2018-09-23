@@ -136,8 +136,13 @@ public class BaseActivity extends AppCompatActivity {
      *
      */
     public void cacheFiles(){
-        cacheHeadImage();
-        cachePapers();
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(MPTApplication.getContext(), "网络不可用,缓存失败！", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            cacheHeadImage();
+            cachePapers();
+        }
     }
 
     /**
@@ -184,7 +189,7 @@ public class BaseActivity extends AppCompatActivity {
                 if(e==null){
                 }else{
                     Toast.makeText(MPTApplication.getContext(),
-                            "缓存Paper失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            "缓存Paper失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });

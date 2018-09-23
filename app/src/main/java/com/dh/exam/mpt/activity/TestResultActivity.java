@@ -104,7 +104,7 @@ public class TestResultActivity extends BaseActivity {
                     judge();
                 }else{
                     Toast.makeText(TestResultActivity.this,
-                            "获取题目数据失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(),
+                            "获取题目数据失败！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -177,14 +177,13 @@ public class TestResultActivity extends BaseActivity {
                                         Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(TestResultActivity.this,
-                                        "上传得分记录失败，错误信息："+e.getMessage()+"，错误码："
-                                                +e.getErrorCode(), Toast.LENGTH_SHORT).show();
+                                        "上传得分记录失败！", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }else{
                     Toast.makeText(TestResultActivity.this,
-                            "查询Paper("+paperObjectId+")失败,错误信息： "+ e.getMessage(),
+                            "查询Paper("+paperObjectId+")失败！",
                             Toast.LENGTH_SHORT).show();
                 }
             }

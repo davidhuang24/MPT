@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import cn.bmob.v3.BmobSMS;
@@ -69,10 +70,10 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
         currentUser=BmobUser.getCurrentUser(MPTUser.class);
         Intent intent=getIntent();
         handleType=intent.getStringExtra("param1");
-        if(handleType.equals("1")){
+        if("1".equals(handleType)){
             btn_unbind_phone.setVisibility(View.VISIBLE);
             btn_change_phone_number.setVisibility(View.GONE);
-        }else if(handleType.equals("2")){
+        }else if("2".equals(handleType)){
             btn_change_phone_number.setVisibility(View.VISIBLE);
             btn_unbind_phone.setVisibility(View.GONE);
         }
@@ -80,18 +81,24 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tv_request_code:
-                requestSMSCode();
-                break;
-            case R.id.btn_unbind_phone: //验证手机号成功后解绑
-                verifyCode(1);
-                break;
-            case R.id.btn_next_change_phone: //验证旧手机号成功后绑定新手机号
-                verifyCode(2);
-                break;
-            default:
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(UnbindChangePhoneActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            switch (v.getId()){
+                case R.id.tv_request_code:
+                    requestSMSCode();
+                    break;
+                case R.id.btn_unbind_phone: //验证手机号成功后解绑
+                    verifyCode(1);
+                    break;
+                case R.id.btn_next_change_phone: //验证旧手机号成功后绑定新手机号
+                    verifyCode(2);
+                    break;
+                default:
+            }
         }
+
     }
 
     /**
@@ -111,7 +118,7 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
                         Toast.makeText(UnbindChangePhoneActivity.this, "验证码已发送", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(UnbindChangePhoneActivity.this,
-                                "验证码发送失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                                "验证码发送失败！",
                                 Toast.LENGTH_SHORT).show();
                         timer.cancel();
                     }
@@ -153,10 +160,11 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
                         unBindPhone(phoneNum);
                     }else if(type==2){//修改手机号
                         BindPhoneActivity.activityStart(UnbindChangePhoneActivity.this,BindPhoneActivity.class,"2",null,null);
+                        finish();
                     }
                 }else{
                     Toast.makeText(UnbindChangePhoneActivity.this,
-                            "验证失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                            "验证失败！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -189,9 +197,10 @@ public class UnbindChangePhoneActivity extends BaseActivity implements View.OnCl
                     if(ex==null){
                         Toast.makeText(UnbindChangePhoneActivity.this,
                                 "手机号解绑成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else {
                         Toast.makeText(UnbindChangePhoneActivity.this,
-                                "手机号解绑失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
+                                "手机号解绑失败！",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }

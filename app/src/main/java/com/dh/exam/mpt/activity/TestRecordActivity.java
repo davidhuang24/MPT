@@ -74,7 +74,7 @@ public class TestRecordActivity extends BaseActivity {
                     adapter.notifyDataSetChanged();
                 }else {
                     Toast.makeText(TestRecordActivity.this,
-                            "获取考试记录数据失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(),
+                            "获取考试记录数据失败!",
                             Toast.LENGTH_SHORT).show();
                 }
             }

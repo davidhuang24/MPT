@@ -187,7 +187,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
                     showQuestion(questionNum);
                 }else{
                     Toast.makeText(TestActivity.this,
-                            "获取题目数据失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(),
+                            "获取题目数据失败！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -274,6 +274,10 @@ public class TestActivity extends BaseActivity implements View.OnClickListener,C
      * 结束考试,提交:先缓存当前题答案,最后提交
      */
     private void fabAction(){
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(TestActivity.this, "网络不可用,请连接网络后重新提交！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         answerInt=getAnswer();
         saveAnswerToCache(new FirstThingListener() {
 

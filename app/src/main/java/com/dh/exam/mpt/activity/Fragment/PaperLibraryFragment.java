@@ -45,7 +45,6 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_paper_library, container, false);
-        Log.e(TAG, "onCreateView: --------------------->PaperLibraryFragment");
         init(view);
         return view;
     }
@@ -107,7 +106,7 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
                     adapter.notifyDataSetChanged();//显示新数据
                 }else {
                     Toast.makeText(currentActivity,
-                            "刷新失败,错误码:"+e.getErrorCode()+",错误信息:"+e.getMessage(),
+                            "刷新失败!",
                             Toast.LENGTH_SHORT).show();
                 }
                 swipeRefreshLayout.setRefreshing(false);

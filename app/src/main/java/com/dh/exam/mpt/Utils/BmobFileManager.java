@@ -89,8 +89,7 @@ public class BmobFileManager extends BmobFile{
 
                                 } else {
                                     Toast.makeText(MPTApplication.getContext(),
-                                            "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
-                                                    + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            "更新头像失败！" +e.getErrorCode()+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                     MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
                                             null,null,null);
@@ -99,7 +98,7 @@ public class BmobFileManager extends BmobFile{
                         });
                     }
                 }else{
-                    Toast.makeText(MPTApplication.getContext(),"文件上传失败："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MPTApplication.getContext(),"文件上传失败：", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                     MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
                             null,null,null);
@@ -169,7 +168,7 @@ public class BmobFileManager extends BmobFile{
                         listener.onError(e);
                     }
                     Toast.makeText(MPTApplication.getContext(),
-                            "下载失败，错误码："+e.getErrorCode()+";错误描述： "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            "下载失败！", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -211,8 +210,7 @@ public class BmobFileManager extends BmobFile{
                                 MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
                                         null,null,null);
                                 Toast.makeText(MPTApplication.getContext(),
-                                        "更新头像失败！错误码:" + e.getErrorCode() + ";错误描述："
-                                                + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        "更新头像失败！" , Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -221,7 +219,7 @@ public class BmobFileManager extends BmobFile{
                     MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
                             null,null,null);
                     Toast.makeText(MPTApplication.getContext(),
-                            "删除失败，错误码："+e.getErrorCode()+";错误描述： "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            "删除失败！", Toast.LENGTH_SHORT).show();
                 }
             }
         });

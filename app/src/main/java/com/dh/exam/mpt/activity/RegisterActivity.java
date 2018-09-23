@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import cn.bmob.v3.exception.BmobException;
@@ -32,10 +33,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void init(){
-        et_username=(EditText) findViewById(R.id.et_username);
-        et_password=(EditText) findViewById(R.id.et_pwd);
-        et_repeat_pwd=(EditText) findViewById(R.id.et_repeat_pwd);
-        btn_register=(Button) findViewById(R.id.btn_register);
+        et_username= findViewById(R.id.et_username);
+        et_password= findViewById(R.id.et_pwd);
+        et_repeat_pwd= findViewById(R.id.et_repeat_pwd);
+        btn_register= findViewById(R.id.btn_register);
         btn_register.setOnClickListener(this);
     }
 
@@ -43,7 +44,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.btn_register:
-                registerUser();
+                if(!NetworkUtil.isNetworkAvailable()){
+                    Toast.makeText(RegisterActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    registerUser();
+                }
                 break;
             default:
         }
@@ -86,7 +92,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     finish();
                 }else{
                     Toast.makeText(RegisterActivity.this,
-                            "注册失败: code="+ ex.getErrorCode()+" , 错误描述： "+ ex.getLocalizedMessage(),
+                            "注册失败！",
                             Toast.LENGTH_SHORT).show();
 
                 }

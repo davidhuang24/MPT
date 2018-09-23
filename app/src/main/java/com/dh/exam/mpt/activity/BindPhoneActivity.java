@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 
 import cn.bmob.v3.BmobSMS;
@@ -53,9 +54,9 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
         btn_bind.setOnClickListener(this);
         Intent intent=getIntent();
         handleType=intent.getStringExtra("param1");
-        if(handleType.equals("1")){
+        if("1".equals(handleType)){
             btn_bind.setText(getResources().getText(R.string.bind_phone));
-        }else if(handleType.equals("2")){
+        }else if("2".equals(handleType)){
             btn_bind.setText(getResources().getText(R.string.update_phone_num));
         }
     }
@@ -83,15 +84,21 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.tv_request_code:
-                requestSMSCode();
-                break;
-            case R.id.btn_bind_phone:
-                verifyCode();
-                break;
-            default:
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(BindPhoneActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            switch(v.getId()){
+                case R.id.tv_request_code:
+                    requestSMSCode();
+                    break;
+                case R.id.btn_bind_phone:
+                    verifyCode();
+                    break;
+                default:
+            }
         }
+
     }
 
     /**
@@ -110,7 +117,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
                         Toast.makeText(BindPhoneActivity.this, "验证码已发送", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(BindPhoneActivity.this,
-                                "验证码发送失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                                "验证码发送失败！",
                                 Toast.LENGTH_SHORT).show();
                         timer.cancel();
                     }
@@ -150,7 +157,7 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
                     bindMobilePhone(phoneNum);
                 }else{
                     Toast.makeText(BindPhoneActivity.this,
-                            "验证失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                            "验证失败！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -178,9 +185,10 @@ public class BindPhoneActivity extends BaseActivity implements View.OnClickListe
                     if(ex==null){
                         Toast.makeText(BindPhoneActivity.this,
                                 "手机号绑定成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else {
                         Toast.makeText(BindPhoneActivity.this,
-                                "手机号绑定失败，code="+ex.getErrorCode()+",错误原因："+ex.getLocalizedMessage(),
+                                "手机号绑定失败！",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }

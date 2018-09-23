@@ -29,6 +29,7 @@ import com.dh.exam.mpt.Utils.ActivityCollector;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
 import com.dh.exam.mpt.Utils.FirstThingListener;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.activity.Fragment.NewPaperFragment;
 import com.dh.exam.mpt.activity.Fragment.PaperLibraryFragment;
 import com.dh.exam.mpt.entity.MPTUser;
@@ -61,7 +62,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e(TAG, "onCreate: ------------------------->mainActivity");
         init();
     }
 
@@ -102,6 +102,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         }else{
             tv_header_userName.setText(currentUser.getUsername());
         }
+
         setUserHeadImg();
     }
 
@@ -167,8 +168,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.user_image   ://设置头像
                 if(currentUser!=null){
-                    UserImageActivity.activityStart(MainActivity.this,
-                            UserImageActivity.class,null,null,userHeadImgUri);
+                    if(!NetworkUtil.isNetworkAvailable()){
+                        Toast.makeText(MainActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else{
+                        UserImageActivity.activityStart(MainActivity.this,
+                                UserImageActivity.class,null,null,userHeadImgUri);
+                    }
+
                 }else{//未登陆
                     LoginActivity.activityStart(MainActivity.this,LoginActivity.class,
                             null,null,null);
@@ -300,6 +307,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
                     }
                 })
+                .addMenu(getString(R.string.reset_pwd), (dialog, which) -> {//修改密码
+                    dialog.dismiss();
+                    ResetPasswordActivity.activityStart(MainActivity.this,ResetPasswordActivity.class
+                    ,null,null,null);
+                })
                 .addMenu(getString(R.string.update_phone_num), (dialog, which) -> {//修改手机号
                     dialog.dismiss();
                     if(currentUser!=null){
@@ -334,7 +346,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
                             Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
                         }else {
-                            BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,null,null,null);
+                            BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,"1",null,null);
                         }
                     }else{
                         Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
@@ -349,19 +361,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
      * @param currentUser
      */
     public void updateUsername(String newUsername,MPTUser currentUser){
-        MPTUser user=new MPTUser();
-        user.setUsername(newUsername);
-        user.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if(e==null){
-                    Toast.makeText(MainActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    tv_header_userName.setText(newUsername);
-                }else{
-                    Toast.makeText(MainActivity.this, "修改失败:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(MainActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            MPTUser user=new MPTUser();
+            user.setUsername(newUsername);
+            user.update(currentUser.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if(e==null){
+                        Toast.makeText(MainActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                        tv_header_userName.setText(newUsername);
+                    }else{
+                        Toast.makeText(MainActivity.this, "修改失败!", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+
+        }
 
     }
 

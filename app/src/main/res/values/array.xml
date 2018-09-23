@@ -12,6 +12,10 @@
         <item >土木</item>
         <item >医学</item>
         <item >会计</item>
+        <item >计算机</item>
+        <item >驾考</item>
+        <item >历史</item>
+        <item >常识</item>
         <item >其他</item>
     </string-array>
 </resources>

@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.activity.MainActivity;
 import com.dh.exam.mpt.activity.NewQuestionActivity;
+import com.dh.exam.mpt.activity.ResetPasswordActivity;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 
@@ -66,7 +69,12 @@ public class NewPaperFragment extends Fragment implements View.OnClickListener,A
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_new_paper:
-                newPaper();
+                if(!NetworkUtil.isNetworkAvailable()){
+                    Toast.makeText(MPTApplication.getContext(), "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    newPaper();
+                }
                 break;
                 default:
         }

@@ -65,7 +65,7 @@ public class PaperInfoActivity extends BaseActivity implements View.OnClickListe
                     tv_question_count.setText("题目数: "+currentPaper.getQuestionCount());
                 }else{
                     Toast.makeText(PaperInfoActivity.this,
-                            "查询Paper("+paperObjectId+")失败,错误信息： "+ e.getMessage(),
+                            "查询Paper("+paperObjectId+")失败！ ",
                             Toast.LENGTH_SHORT).show();
                 }
             }

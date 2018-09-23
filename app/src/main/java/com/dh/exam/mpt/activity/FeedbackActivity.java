@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.Feedback;
 import com.dh.exam.mpt.entity.MPTUser;
 
@@ -59,14 +60,20 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_commit_feedback:
-            String contact=et_contact.getText().toString().trim();
-            String content=et_content.getText().toString().trim();
-            saveFeedback(contact,content);
-                break;
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(FeedbackActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+            return;
+        }else{
+            switch (v.getId()){
+                case R.id.btn_commit_feedback:
+                    String contact=et_contact.getText().toString().trim();
+                    String content=et_content.getText().toString().trim();
+                    saveFeedback(contact,content);
+                    break;
                 default:
+            }
         }
+
     }
 
     /**

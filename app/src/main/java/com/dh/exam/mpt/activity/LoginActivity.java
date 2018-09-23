@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.InputLeagalCheck;
@@ -95,7 +96,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 ResetPasswordActivity.activityStart(LoginActivity.this,ResetPasswordActivity.class,null,null,null);
                 break;
             case R.id.tv_request_code://请求验证码
-                requestSMSCode();
+                if(!NetworkUtil.isNetworkAvailable()){
+                    Toast.makeText(LoginActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    requestSMSCode();
+                }
                 break;
             case R.id.tv_login_mode_switch://切换登陆模式
                 switchLoginMode();
@@ -141,6 +147,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             Toast.makeText(this, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(LoginActivity.this, "网络不可用,请连接网络后重新登录！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final ProgressDialog progress = new ProgressDialog(LoginActivity.this);
         progress.setMessage("正在登录中...");
         progress.setCanceledOnTouchOutside(false);
@@ -163,7 +173,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     MainActivity.activityStart(LoginActivity.this,MainActivity.class,"","",null);
                 }else{
                     Toast.makeText(LoginActivity.this,
-                            "登录失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                            "登录失败,账号或者密码错误！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -186,6 +196,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
             Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        if(!NetworkUtil.isNetworkAvailable()){
+            Toast.makeText(LoginActivity.this, "网络不可用,请连接网络后重新登录！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final ProgressDialog progress = new ProgressDialog(LoginActivity.this);
         progress.setMessage("验证中...");
         progress.setCanceledOnTouchOutside(false);
@@ -203,7 +217,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                     finish();
                 }else{
                     Toast.makeText(LoginActivity.this,
-                            "登录失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(),
+                            "登录失败，手机号或者验证码不正确！",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -262,7 +276,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         Toast.makeText(LoginActivity.this, "验证码已发送", Toast.LENGTH_SHORT).show();
                     }else{
                         timer.cancel();
-                        Toast.makeText(LoginActivity.this, "验证码发送失败：code="+ex.getErrorCode()+"，错误描述："+ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "验证码发送失败！", Toast.LENGTH_SHORT).show();
                     }
 
                 }

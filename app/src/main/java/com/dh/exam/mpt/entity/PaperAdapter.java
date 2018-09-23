@@ -12,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dh.exam.mpt.MPTApplication;
 import com.dh.exam.mpt.R;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.activity.BaseActivity;
+import com.dh.exam.mpt.activity.NewQuestionActivity;
 import com.dh.exam.mpt.activity.PaperInfoActivity;
 
 import java.util.List;
@@ -67,32 +70,40 @@ public class PaperAdapter extends RecyclerView.Adapter <PaperAdapter.ViewHolder>
         holder.cardView.setOnClickListener(v -> {
             int position=holder.getAdapterPosition();
             Paper paper=paperList.get(position);
-            PaperInfoActivity.activityStart(context,PaperInfoActivity.class,
-                    paper.getObjectId(),null,null);
-
+            if(!NetworkUtil.isNetworkAvailable()){
+                Toast.makeText(MPTApplication.getContext(), "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                return ;
+            }else {
+                PaperInfoActivity.activityStart(context,PaperInfoActivity.class,
+                        paper.getObjectId(),null,null);
+            }
         });
         holder.iv_love.setOnClickListener(v -> {
-            int position=holder.getAdapterPosition();
-            Paper paper=paperList.get(position);
-            if(paper.getLove()){
-                holder.iv_love.setImageResource(R.drawable.love0);
-                paper.setLove(false);
-            }else{
-                holder.iv_love.setImageResource(R.drawable.love1);
-                paper.setLove(true);
-            }
-            paper.update(new UpdateListener() {//同步更新数据库
-                @Override
-                public void done(BmobException e) {
-                    if(e==null){
-                    }else{
-                        Toast.makeText(context,
-                                "更新数据失败,错误码:"+e.getErrorCode()+",错误信息:"+
-                                        e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+            if(!NetworkUtil.isNetworkAvailable()){
+                Toast.makeText(MPTApplication.getContext(), "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                return ;
+            }else {
+                int position=holder.getAdapterPosition();
+                Paper paper=paperList.get(position);
+                if(paper.getLove()){
+                    holder.iv_love.setImageResource(R.drawable.love0);
+                    paper.setLove(false);
+                }else{
+                    holder.iv_love.setImageResource(R.drawable.love1);
+                    paper.setLove(true);
                 }
-            });
-            BaseActivity.cachePapers();//同步更新缓存
+                paper.update(new UpdateListener() {//同步更新数据库
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                        }else{
+                            Toast.makeText(context,
+                                    "更新数据失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                BaseActivity.cachePapers();//同步更新缓存
+            }
         });
         return holder;
     }

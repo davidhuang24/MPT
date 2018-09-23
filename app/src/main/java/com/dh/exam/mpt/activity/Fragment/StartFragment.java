@@ -95,7 +95,6 @@ public class StartFragment extends Fragment implements View.OnClickListener{
             handler = null;
         }
         super.onDestroy();
-        Log.e(TAG, "onDestroy:-------------->startFragment ");
     }
 
 

@@ -16,6 +16,7 @@ import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.BmobFileManager;
 import com.dh.exam.mpt.Utils.CacheManager;
 import com.dh.exam.mpt.Utils.ConStant;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.yalantis.ucrop.view.UCropView;
 
@@ -76,7 +77,12 @@ public class CropResultActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_use_save) {
-            SaveUploadUseImg(imgUri);
+            if(!NetworkUtil.isNetworkAvailable()){
+                Toast.makeText(CropResultActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                return true;
+            }else{
+                SaveUploadUseImg(imgUri);
+            }
         } else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }

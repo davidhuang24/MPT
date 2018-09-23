@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.dh.exam.mpt.R;
 import com.dh.exam.mpt.Utils.ACache;
 import com.dh.exam.mpt.Utils.FirstThingListener;
+import com.dh.exam.mpt.Utils.NetworkUtil;
 import com.dh.exam.mpt.entity.MPTUser;
 import com.dh.exam.mpt.entity.Paper;
 import com.dh.exam.mpt.entity.Question;
@@ -87,7 +88,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                             currentPaper=paper;//获取当前paper
                         }else{
                             Toast.makeText(NewQuestionActivity.this,
-                                    "查询Paper("+paperObjectId+")失败,错误信息： "+ e.getMessage(),
+                                    "查询Paper("+paperObjectId+")失败！",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -188,7 +189,12 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                 nextQuestion();
                 break;
             case R.id.btn_commit:
-                commitQuestions();
+                if(!NetworkUtil.isNetworkAvailable()){
+                    Toast.makeText(NewQuestionActivity.this, "网络不可用,请连接网络后再操作！", Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    commitQuestions();
+                }
                 break;
                 default:
         }
@@ -363,8 +369,7 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                                 if(ex==null){
                                 }else{
                                     Toast.makeText(NewQuestionActivity.this,
-                                            "第"+i+"个数据批量添加失败："+ex.getMessage()+","+
-                                                    ex.getErrorCode(), Toast.LENGTH_SHORT).show();
+                                            "第"+i+"个数据批量添加失败！", Toast.LENGTH_SHORT).show();
                                     count--;
                                 }
                             }
@@ -381,16 +386,14 @@ public class NewQuestionActivity extends BaseActivity implements View.OnClickLis
                                         finish();
                                     }else{
                                         Toast.makeText(NewQuestionActivity.this,
-                                                "questionCount更新失败，"+e.getErrorCode()
-                                                        +e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                "questionCount更新失败！", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
 
                         }else{
                             Toast.makeText(NewQuestionActivity.this,
-                                    "批量添加题目数据失败，错误码："+e.getErrorCode()+
-                                            "，错误信息："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    "批量添加题目数据失败！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
