@@ -150,6 +150,5 @@ public class PaperLibraryFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ---------------->Fragment" );
     }
 }

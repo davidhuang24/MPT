@@ -171,6 +171,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         return;
                     }
                     MainActivity.activityStart(LoginActivity.this,MainActivity.class,"","",null);
+                    finish();
+
                 }else{
                     Toast.makeText(LoginActivity.this,
                             "登录失败,账号或者密码错误！",

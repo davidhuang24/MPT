@@ -41,7 +41,7 @@ public class BmobFileManager extends BmobFile{
         MPTUser currentUser = BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null){
             String fileName= ConStant.HEAD_IMG_NAME_Header+currentUser.getObjectId()+".png";
-            File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     fileName);
             if(file.exists()){
                 uploadDeleteUpdateFile(file.getPath(),progressDialog);
@@ -149,11 +149,12 @@ public class BmobFileManager extends BmobFile{
      * 返回的BmobFile，也可以通过url自行构建BmobFile对象
      * Url可以是bmob服务器的url，也可以是任意url
      *
-     * @param bmobFile
+     * @param saveDirPath 下载文件存储目录
      */
     public static void downloadFile(BmobFile bmobFile,String saveDirPath,final FirstThingListener listener){
+        File file=CacheManager.DirsExistedOrCreate(saveDirPath);
         File saveFile=new File(
-                CacheManager.DirsExistedOrCreate(saveDirPath),
+                file,
                 bmobFile.getFilename());
 
         bmobFile.download(saveFile, new DownloadFileListener() {
@@ -201,25 +202,21 @@ public class BmobFileManager extends BmobFile{
                         @Override
                         public void done(BmobException e) {
                             progressDialog.dismiss();
-                            MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
-                                    null,null,null);
                             if (e == null) {
-
                             } else {
-                                progressDialog.dismiss();
-                                MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
-                                        null,null,null);
                                 Toast.makeText(MPTApplication.getContext(),
                                         "更新头像失败！" , Toast.LENGTH_SHORT).show();
                             }
+                            MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                                    null,null,null);
                         }
                     });
                 }else {
                     progressDialog.dismiss();
-                    MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
-                            null,null,null);
                     Toast.makeText(MPTApplication.getContext(),
                             "删除失败！", Toast.LENGTH_SHORT).show();
+                    MainActivity.activityStart(MPTApplication.getContext(),MainActivity.class,
+                            null,null,null);
                 }
             }
         });

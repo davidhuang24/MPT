@@ -114,11 +114,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         File file;
         int headImgType;
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户头像不为空，用户头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     currentUser.getHeadImg().getFilename());
             headImgType=1;
         }else{//未登陆或者用户头像为空，默认头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
             headImgType=0;
         }
@@ -386,7 +386,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: --------->MainActivity");
     }
 
     /**

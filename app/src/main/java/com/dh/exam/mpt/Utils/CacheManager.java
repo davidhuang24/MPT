@@ -27,11 +27,11 @@ public class CacheManager {
         if(fileType==1){//缓存用户头像
             BmobFileManager.downloadFile
                     (BmobUser.getCurrentUser(MPTUser.class).getHeadImg(),
-                            ConStant.APP_Public_Dir_ROOT+"/HeadImages",listener);
+                            ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages",listener);
         }else {//缓存默认头像
             BmobFileManager.downloadFile(new BmobFile(
                     ConStant.DEFAULT_HEAD_IMG_NAME,"",ConStant.DEFAULT_HEAD_IMG_URL),
-                    ConStant.APP_Public_Dir_ROOT+"/HeadImages",listener);
+                    ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages",listener);
         }
     }
 
@@ -42,10 +42,10 @@ public class CacheManager {
         File file;
         MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//用户头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     BmobUser.getCurrentUser(MPTUser.class).getHeadImg().getFilename());
         }else {//默认头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
         }
         return file;

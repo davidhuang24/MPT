@@ -44,8 +44,7 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
-    protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
+
     private AlertDialog mAlertDialog;
 
     @Override
@@ -99,13 +98,6 @@ public class BaseActivity extends AppCompatActivity {
                     Toast.makeText(this, "您拒绝了申请读写手机存储的权限，请到权限中心授权", Toast.LENGTH_SHORT).show();
                 }
                 break;
-//            case 2:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {//授权
-//
-//                } else {//拒绝授权
-//                    Toast.makeText(this, "您拒绝了申请读手机状态的权限，请到权限中心授权", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
             default:
         }
     }
@@ -114,21 +106,13 @@ public class BaseActivity extends AppCompatActivity {
      * 动态申请权限
      */
     public void requestPermissions(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE
+        if (ContextCompat.checkSelfPermission(this, ConStant.PERMISSIONS_STORAGE[1]
             ) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    ConStant.PERMISSIONS_STORAGE, 1);
         } else {
             cacheFiles();
         }
-
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE
-//                ) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{ Manifest.permission.READ_PHONE_STATE}, 2);
-//        } else {
-//
-//        }
     }
 
     /**
@@ -153,11 +137,11 @@ public class BaseActivity extends AppCompatActivity {
         MPTUser currentUser=BmobUser.getCurrentUser(MPTUser.class);
         int headImgType=0;
         if(currentUser!=null&&currentUser.getHeadImg()!=null){//已登陆并且用户未设置头像，用户头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     currentUser.getHeadImg().getFilename());
             headImgType=1;
         }else{//未登陆或者用户头像为空，默认头像
-            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+            file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                     ConStant.DEFAULT_HEAD_IMG_NAME);
             headImgType=0;
         }
@@ -179,10 +163,6 @@ public class BaseActivity extends AppCompatActivity {
         BmobQuery<Paper> query=new BmobQuery<>();
         query.include("paperAuthor");
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ONLY);//先访问网络获取数据,后将数据存入缓存
-        if(!NetworkUtil.isNetworkAvailable()){
-            Toast.makeText(MPTApplication.getContext(), "网络不可用,缓存Paper失败", Toast.LENGTH_SHORT).show();
-            return;
-        }
         query.findObjects(new FindListener<Paper>() {
             @Override
             public void done(List<Paper> list, BmobException e) {

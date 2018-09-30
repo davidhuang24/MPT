@@ -34,8 +34,6 @@ public class CropResultActivity extends BaseActivity {
 
 
     private static final String TAG = "ResultActivity";
-    private static final String CHANNEL_ID = "3000";
-    private static final int DOWNLOAD_NOTIFICATION_ID_DONE = 911;
     private Uri imgUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +116,7 @@ public class CropResultActivity extends BaseActivity {
         }else{//未登陆时的文件名
             fileName=ConStant.CROP_CACHE_NAME+".png";
         }
-        File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+"/HeadImages"),
+        File file=new File(CacheManager.DirsExistedOrCreate(ConStant.APP_Public_Dir_ROOT+File.separator+"HeadImages"),
                 fileName);
         if(file.exists()){
             file.delete();

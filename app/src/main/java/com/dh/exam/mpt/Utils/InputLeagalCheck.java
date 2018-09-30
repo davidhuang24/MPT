@@ -54,4 +54,23 @@ public class InputLeagalCheck {
             return input.matches(regex);
         }
     }
+
+    /**
+     * Ipv4地址检测
+     * @param input
+     * @return
+     */
+    public static boolean isIpv4(String input){
+        String regex=   "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+                        +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                        +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                        +"(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)$";
+        if(TextUtils.isEmpty(input)){
+            return false;
+        }else {
+            return input.matches(regex);
+        }
+
+    }
+
 }
