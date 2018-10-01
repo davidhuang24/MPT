@@ -218,7 +218,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 return true;
             //NavigationView
             case R.id.nav_account://账户编辑
-                showAccountSheetDialog();
+                if(currentUser!=null){
+                    showAccountSheetDialog();
+                }else{
+                    Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.test_record://考试记录
                 TestRecordActivity.activityStart(MainActivity.this,TestRecordActivity.class,
@@ -276,7 +280,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                         FeedbackActivity.activityStart(MainActivity.this,FeedbackActivity.class,
                                 null,null,null);
                     }
-
                 })
                 .create().show();
     }
@@ -290,22 +293,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         new SheetDialog.Builder(MainActivity.this).setTitle(getString(R.string.drawer_title_account))
                 .addMenu(getString(R.string.update_username), (dialog, which) -> {
                     dialog.dismiss();
-                    if(currentUser!=null){
-                        final EditText username_edit=new EditText(this);
-                        username_edit.setText(currentUser.getUsername());
-                        new AlertDialog.Builder(this)
-                                .setTitle(R.string.update_username)
-                                .setView(username_edit)
-                                .setPositiveButton(R.string.label_ok, (dialog1, which1) -> {
+                    final EditText username_edit=new EditText(this);
+                    username_edit.setText(currentUser.getUsername());
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.update_username)
+                            .setView(username_edit)
+                            .setPositiveButton(R.string.label_ok, (dialog1, which1) -> {
                                 String newUsername=username_edit.getText().toString();
                                 updateUsername(newUsername,currentUser);
-                                })
-                                .setNegativeButton(R.string.label_cancel,null)
-                                .show();
-
-                    }else{
-                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
-                    }
+                            })
+                            .setNegativeButton(R.string.label_cancel,null)
+                            .show();
                 })
                 .addMenu(getString(R.string.reset_pwd), (dialog, which) -> {//修改密码
                     dialog.dismiss();
@@ -314,42 +312,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 })
                 .addMenu(getString(R.string.update_phone_num), (dialog, which) -> {//修改手机号
                     dialog.dismiss();
-                    if(currentUser!=null){
-                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                            UnbindChangePhoneActivity.activityStart
-                                    (MainActivity.this,UnbindChangePhoneActivity.class,
-                                            "2",null,null);
-                        }else {
-                            Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        UnbindChangePhoneActivity.activityStart
+                                (MainActivity.this,UnbindChangePhoneActivity.class,
+                                        "2",null,null);
+                    }else {
+                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addMenu(getString(R.string.unbind_phone), (dialog, which) -> {//解绑手机号
                     dialog.dismiss();
-                    if(currentUser!=null){
-                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                            UnbindChangePhoneActivity.activityStart
-                                    (MainActivity.this,UnbindChangePhoneActivity.class,
-                                            "1",null,null);
-                        }else {
-                            Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        UnbindChangePhoneActivity.activityStart
+                                (MainActivity.this,UnbindChangePhoneActivity.class,
+                                        "1",null,null);
+                    }else {
+                        Toast.makeText(this, "请先绑定手机号", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addMenu(getString(R.string.bind_phone), (dialog, which) -> {//绑定手机号
                     dialog.dismiss();
-                    if(currentUser!=null){
-                        if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
-                            Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
-                        }else {
-                            BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,"1",null,null);
-                        }
-                    }else{
-                        Toast.makeText(this, "您还未登陆", Toast.LENGTH_SHORT).show();
+                    if(currentUser.getMobilePhoneNumber()!=null&&currentUser.getMobilePhoneNumberVerified()){//已经绑定手机号
+                        Toast.makeText(this, "您已绑定手机号！", Toast.LENGTH_SHORT).show();
+                    }else {
+                        BindPhoneActivity.activityStart(MainActivity.this,BindPhoneActivity.class,"1",null,null);
                     }
                 })
                 .create().show();
