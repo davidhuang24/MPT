@@ -56,13 +56,13 @@ build.gradle(APP)
 ## 1.6项目运行截图
 
 <center class="capture1">
-    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%872.png" width="250" height="445"/>
-    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG10.jpeg" width="250" height="445"/>
-    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%872.png" width="200" height="355"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG10.jpeg" width="200" height="355"//>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png" width="200" height="355"//>
 </center>
 <center class="capture2">
-    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg" width="250" height="445"/>
-    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png" width="250" height="445"/>
-    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg" width="200" height="355"//>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png" width="200" height="355"//>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png" width="200" height="355"//>
 </center>
 
