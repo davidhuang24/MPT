@@ -61,7 +61,7 @@ build.gradle(APP)
     <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png" width="200" height="355"//>
 </center>
 <center class="capture2">
-    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg" width="200" height="355"//>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG8.jpeg" width="200" height="355"//>
     <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png" width="200" height="355"//>
     <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png" width="200" height="355"//>
 </center>
