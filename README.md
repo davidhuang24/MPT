@@ -1,7 +1,11 @@
 # 1.项目简介部分
+
 ## 1.1项目简介
+
 &emsp;&emsp;《MakePaperTest》是一款出题制作试卷并且能进行考试判卷的APP，旨在为老师、教育机构、学生等用户提供较为方便的出题考试服务。 后台使用的是Bmob。这个demo是作者学完Android基础知识后的第一个较为完整的小项目，主要目的是练手和熟悉Bmob SDK以及数据库，目前Bmob Android SDK开发文档的大部分要点已在本demo中体现。这就是一个新手的第一个demo，可能还有一些bug，请佛系参考学习，欢迎反馈交流，大神请绕道！
+
 ## 1.2项目功能详细介绍
+
 1. 基于Bmob SDK的一系列账户功能实现，包括：账户注册登录、手机号一键登录、请求验证码、重置密码、修改用户名、修改手机号、解绑手机号、绑定手机号等；
 2. 更换头像：显示头像-选择照片（拍照）-裁剪照片（UCrop支持圆形方形裁剪、旋转、缩放）-保存上传头像；
 3. 第一次启动app显示滑动slider介绍页，非第一次启动倒计时进入应用；
@@ -10,7 +14,9 @@
 6. 多种缓存策略；
 7. UI:滑动菜单，沉浸式状态栏、MaterialDesign；
 8. 用户反馈。
+
 ## 1.4 项目配置
+
 修改AppKey为你自己的Bmob Application ID:
 Constat.DEFAULT_HEAD_IMG_URL也要修改成你自己的。
 
@@ -21,7 +27,9 @@ public class ConStant {
     public static final String DEFAULT_HEAD_IMG_URL ="your url";
 }
 ```
+
 ## 1.5项目依赖库
+
 build.gradle(project)
 
 ```java
@@ -35,6 +43,7 @@ build.gradle(project)
     }
 }
 ```
+
 build.gradle(APP)
 
 ```java
@@ -45,7 +54,15 @@ build.gradle(APP)
 ```
 
 ## 1.6项目运行截图
-![pic1](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%872.png)![pic2](http://pg0dgjunx.bkt.clouddn.com/WechatIMG10.jpeg)![pic3](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png)
-![pic4](http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg)![pic5](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png)
-![pic6](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%875.png)![pic7](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png)
+
+<center class="capture1">
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%872.png" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG10.jpeg" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png" width="250" height="445"/>
+</center>
+<center class="capture2">
+    <img src="http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png" width="250" height="445"/>
+    <img src="http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png" width="250" height="445"/>
+</center>
 
