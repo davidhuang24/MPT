@@ -45,4 +45,7 @@ build.gradle(APP)
 ```
 
 ## 1.6项目运行截图
+![pic1](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%872.png)![pic2](http://pg0dgjunx.bkt.clouddn.com/WechatIMG10.jpeg)![pic3](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%871.png)
+![pic4](http://pg0dgjunx.bkt.clouddn.com/WechatIMG11.jpeg)![pic5](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%873.png)
+![pic6](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%875.png)![pic7](http://pg0dgjunx.bkt.clouddn.com/%E5%9B%BE%E7%89%874.png)
 
