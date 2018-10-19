@@ -32,7 +32,7 @@ public class ConStant {
 
 build.gradle(project)
 
-```java
+```gradle
     repositories {
         google()
         jcenter()
@@ -46,7 +46,7 @@ build.gradle(project)
 
 build.gradle(APP)
 
-```java
+```gradle
     implementation 'cn.bmob.android:bmob-sdk:3.6.0'
     implementation 'com.daimajia.slider:library:1.1.5@aar'
     implementation('com.github.yalantis:ucrop:2.2.2')
